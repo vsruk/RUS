@@ -23,13 +23,13 @@ Kratko opisati cilj Vašeg projekta. Vaša motivacija?  (Napomena: odgovor nije 
 
 #Instalcija
 # Članovi tima 
-> Ivan Gulubić ivan.golubic@fer.unizg.hr - Voditelj projekta
-> Marin Rossini marin.rossini@fer.unizg.hr
-> Sara Lazarušić sara.lazarusic@fer.unizg.hr
-> Kristian Lovey kristian.lovey@fer.unizg.hr
-> Vedran Vrabec vedran.vrabec@fer.unizg.hr
-> Dino Dervišević dino.dervisevic@fer.unizg.hr
-> Lovro Nidogon lovro.nidogon@fer.unizg.hr
+> Ivan Gulubić ivan.golubic@fer.unizg.hr - Voditelj projekta <br />
+> Marin Rossini marin.rossini@fer.unizg.hr <br />
+> Sara Lazarušić sara.lazarusic@fer.unizg.hr <br />
+> Kristian Lovey kristian.lovey@fer.unizg.hr <br />
+> Vedran Vrabec vedran.vrabec@fer.unizg.hr <br />
+> Dino Dervišević dino.dervisevic@fer.unizg.hr <br />
+> Lovro Nidogon lovro.nidogon@fer.unizg.hr <br />
 
 # Kontribucije
 >Pravila ovise o organizaciji tima i su često izdvojena u CONTRIBUTING.md
