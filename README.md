@@ -20,8 +20,15 @@ Kratko opisati cilj Vašeg projekta. Vaša motivacija?  (Napomena: odgovor nije 
 
 
 # Tehnologije
+> Dizajn -  <br />
+> Frontend -  <br />
+> Backend -  <br />
+> Development -  <br />
+> Baze podataka -  <br />
+> Testiranje - <br />
+> Dokumentacija - <br />
 
-#Instalcija
+
 # Članovi tima 
 > Ivan Gulubić ivan.golubic@fer.unizg.hr - Voditelj projekta <br />
 > Marin Rossini marin.rossini@fer.unizg.hr <br />
