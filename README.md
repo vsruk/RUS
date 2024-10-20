@@ -13,6 +13,8 @@ Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Progra
 Kratko opisati cilj Vašeg projekta. Vaša motivacija?  (Napomena: odgovor nije »Zato što je to bio zadatak i nismo imali ideje za drugo.«). Koji problem rješavate?
 > Obzirom da je ovo zadani projekt navedite i što želite/jeste novo  naučili.
 
+> Cilj eZgrade jest kreiraiti jedinstvenu web-aplikaciju koja olakšava svakodnevne dogovore i organiziciju suživota u stambenim objektima. Prestavnici stanara i suvlasnici bit će u mogućnosti brzo i jednostavno kreirati i najaviti sastanke stanara koji će olakšati svekodnevni život. Problemi od jednostavnih točaka dnevnog reda pa sve do riješavanja većih nedoumica od sada je jednostavno uz sve pogodnosti koje nudi naša aplikacija. O sastancima pojedine zgrade upravljati će suvlasnik, a sastanci će biti vidljivi svim sadašnjim i budućim stanarima i suvlasnicima stambenog objekta.
+
 > Dobro izrađen opis omogućuje vam da pokažete svoj rad drugim programerima, kao i potencijalnim poslodavcima. Ne samo da prvi dojam na stranici opisa često razlikuje dobar projekt od lošeg projekta već i predstavlja dobru praksu koju morate savladati.
 
 # Funkcijski zahtjevi
