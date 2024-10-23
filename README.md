@@ -23,12 +23,12 @@ Cilj eZgrade jest kreiraiti jedinstvenu web-aplikaciju koja olakšava svakodnevn
 
 # Tehnologije
 > Dizajn - Figma <br />
-> Frontend -  <br />
-> Backend -  <br />
+> Frontend - React <br />
+> Backend - .Net Core <br />
 > Development -  <br />
-> Baze podataka -  <br />
+> Baze podataka - PostgreSQL <br />
 > Testiranje - <br />
-> Dokumentacija - <br />
+> Dokumentacija -  <br />
 
 
 # Članovi tima 
