@@ -18,7 +18,34 @@ Cilj eZgrade jest kreiraiti jedinstvenu web-aplikaciju koja olakšava svakodnevn
 > Dobro izrađen opis omogućuje vam da pokažete svoj rad drugim programerima, kao i potencijalnim poslodavcima. Ne samo da prvi dojam na stranici opisa često razlikuje dobar projekt od lošeg projekta već i predstavlja dobru praksu koju morate savladati.
 
 # Funkcijski zahtjevi
-> Navedite ključne zahtjeve Vašeg projekta.
+> Aplikacija mora omogućiti predstavniku kreiranje novog sastanka.
+> Prilikom kreiranja sastanka, aplikacija mora omogućiti dodavanje naslova, sažetak namjere sastanka, vrijeme, mjesto i niz točaka dnevnog reda. <br />
+> Aplikacija mora omogućiti predstavniku prevođenje kreiranog sastanka u stanje "Objavljen", osim ako sastanak nema definiranu nijednu točku dnevnog reda. <br />
+> Aplikacija predstavniku mora omogućiti dodavanje novih točaka dnevnog reda za sastanke u stanju "Objavljen". <br />
+> Za sastanak u stanju "Objavljen" aplikacija mora poslati obavijest na e-mail suvlasnicima i prikazati ga na oglasnoj ploči aplikacije. <br />
+> Za sastanak u stanju "Objavljen" aplikacija mora omogućiti označavanje sudjelovanja suvlasnicima. <br />
+> Aplikacija mora prikazivati broj potvrđenih sudjelovanja na početnom prikazu sastanka.<br />
+> Aplikacija mora omogućiti predstavniku prevođenje sastanka iz stanja "Objavljen" u stanje "Obavljen" nakon isteka termina sastanka.<br />
+> Aplikacija mora omogućiti predstavniku dodavanje zaključka svakoj točki dnevnog reda za sastanke u stanju "Objavljen".<br />
+> Aplikacija mora omogućiti predstavniku svrstavanje pojedinog zaključka u onaj s pravnim učinkom ili onaj bez pravnog učinka.<br />
+> Aplikacija mora omogućiti predstavniku svrstavanje zaključka s pravnim učinkom u "Izglasan" ili "Odbijen".<br />
+> Aplikacija mora omogućiti predstavniku prevođenje sastanka iz stanja "Objavljen" u stanje "Arhiviran", osim ako nisu dodani zaključci na točke dnevnog reda koje imaju pravni učinak.<br />
+> Za sastanak u stanju "Arhiviran" aplikacija mora poslati obavijest na e-mail suvlasnicima.<br />
+> Aplikacija mora omogućiti suvlasnicima pregledavanje zaključaka arhiviranih sastanaka.<br />
+> Aplikacija se mora moći spojiti kao klijent na aplikacijsko sučelje aplikacije StanBlog, preuzeti listu diskusija i njihove poveznice.<br />
+> Aplikacija mora moći postaviti poveznicu na diskusiju u aplikaciji StanBlog za neku točku dnevnog reda.<br />
+> Aplikacija mora omogućiti administratoru kreiranje profila predstavnika i suvlasnika.<br />
+> Aplikacija za svaki profil omogućuje kreiranje korisničkog imena, lozinke i e-mail adrese.<br />
+> Aplikacija mora korisnicima omogućiti promjenu lozinke koristeći prethodnu lozinku.<br />
+> Aplikacija realizira aplikacijsko sučelje koje će koristiti aplikacija StanBlog, a preko kojegje moguće kreirati sastanak kriran iz specifične diskusije.<br />
+> Proces registracije i prijave bit će pojednostavljen korištenjem vanjskih servisa za autentifikaciju.<br />
+
+# Nefunkcijski zahtjevi
+> Osigurani su podaci o korisnicima. <br />
+> Omogućiti korisnicim da kreiraju najmanje jedan sastanak. <br />
+> Usluga će biti dostupna 24 sata na dan. <br />
+> Svi podaci o korisnicima i sastanicma biti će zaštićeni. <br />
+
 
 
 # Tehnologije
