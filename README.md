@@ -18,7 +18,7 @@ Cilj eZgrade jest kreiraiti jedinstvenu web-aplikaciju koja olakšava svakodnevn
 > Dobro izrađen opis omogućuje vam da pokažete svoj rad drugim programerima, kao i potencijalnim poslodavcima. Ne samo da prvi dojam na stranici opisa često razlikuje dobar projekt od lošeg projekta već i predstavlja dobru praksu koju morate savladati.
 
 # Funkcijski zahtjevi
-> Aplikacija mora omogućiti predstavniku kreiranje novog sastanka.
+> Aplikacija mora omogućiti predstavniku kreiranje novog sastanka.<br />
 > Prilikom kreiranja sastanka, aplikacija mora omogućiti dodavanje naslova, sažetak namjere sastanka, vrijeme, mjesto i niz točaka dnevnog reda. <br />
 > Aplikacija mora omogućiti predstavniku prevođenje kreiranog sastanka u stanje "Objavljen", osim ako sastanak nema definiranu nijednu točku dnevnog reda. <br />
 > Aplikacija predstavniku mora omogućiti dodavanje novih točaka dnevnog reda za sastanke u stanju "Objavljen". <br />
