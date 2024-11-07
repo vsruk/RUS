@@ -1,7 +1,6 @@
 import { Flex, Heading, Image, Box } from "@chakra-ui/react";
 import logoImage from "../../../../public/logo.png";
 export const AuthHeader = () => {
-  console.log(logoImage);
   return (
     <Box height="15%" width="100%">
       <Flex

@@ -12,12 +12,12 @@ import {
 } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
-import { useForm } from "react-hook-form";
 import { register } from "module";
 import { error } from "console";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, Radio } from "@/components/ui/radio";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 interface ICreateForm {
   email: string;
@@ -44,11 +44,7 @@ export function CreateForm() {
   }
 
   const onCreate = async (data: ICreateForm) => {
-    console.log(isSubmitting);
     await delay(2000);
-    console.log(data);
-    console.log(errors);
-    console.log(isSubmitting);
     reset();
   };
 
