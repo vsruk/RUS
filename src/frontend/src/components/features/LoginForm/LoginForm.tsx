@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Flex, Text, Input, Heading } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
 interface ILoginForm {
   email: string;
   password: string;
@@ -71,9 +70,7 @@ export const LoginForm = () => {
         <Text> ili </Text>
         <GoogleLogin
           onSuccess={(credentialResponse) => {
-            if (credentialResponse.credential) {
-              console.log(credentialResponse);
-            }
+            console.log(credentialResponse);
           }}
           onError={() => {
             console.log("Login Failed");
@@ -83,6 +80,3 @@ export const LoginForm = () => {
     </>
   );
 };
-function delay(arg0: number) {
-  throw new Error("Function not implemented.");
-}
