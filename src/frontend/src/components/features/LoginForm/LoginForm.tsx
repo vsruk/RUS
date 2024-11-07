@@ -4,7 +4,8 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { Flex, Text, Input, Heading } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 interface ILoginForm {
   email: string;
   password: string;
@@ -67,6 +68,17 @@ export const LoginForm = () => {
         >
           Log In
         </Button>
+        <Text> ili </Text>
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            if (credentialResponse.credential) {
+              console.log(credentialResponse);
+            }
+          }}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
       </Flex>
     </>
   );
