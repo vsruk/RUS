@@ -1,5 +1,6 @@
 import { Button, Flex, Heading, Image } from "@chakra-ui/react";
 import logoImage from "../../../../public/logo.png";
+import Link from "next/link";
 export const HomeHeader = () => {
   return (
     <>
@@ -23,9 +24,11 @@ export const HomeHeader = () => {
           </Heading>
         </Flex>
         <Flex direction="row">
-          <Button borderRadius="full" bg="orange" height="30px">
-            Log In
-          </Button>
+          <Link href="/login">
+            <Button borderRadius="full" bg="orange" height="30px">
+              Log In
+            </Button>
+          </Link>
         </Flex>
       </Flex>
     </>
