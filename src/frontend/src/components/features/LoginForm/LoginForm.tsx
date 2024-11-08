@@ -69,6 +69,7 @@ export const LoginForm = () => {
         </Button>
         <Text> ili </Text>
         <GoogleLogin
+          text="signin_with"
           onSuccess={(credentialResponse) => {
             console.log(credentialResponse);
           }}
