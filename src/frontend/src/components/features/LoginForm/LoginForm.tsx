@@ -4,7 +4,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { Flex, Text, Input, Heading } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-
+import { GoogleLogin } from "@react-oauth/google";
 interface ILoginForm {
   email: string;
   password: string;
@@ -67,10 +67,17 @@ export const LoginForm = () => {
         >
           Log In
         </Button>
+        <Text> ili </Text>
+        <GoogleLogin
+          text="signin_with"
+          onSuccess={(credentialResponse) => {
+            console.log(credentialResponse);
+          }}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
       </Flex>
     </>
   );
 };
-function delay(arg0: number) {
-  throw new Error("Function not implemented.");
-}
