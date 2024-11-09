@@ -1,3 +1,4 @@
+"use client";
 import { Field } from "@/components/ui/field";
 import { InputGroup } from "@/components/ui/input-group";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -8,12 +9,15 @@ import { GoogleLogin } from "@react-oauth/google";
 import useSWRMutation from "swr/mutation";
 import { loginMutator } from "@/fetchers/mutators";
 import { swrKeys } from "@/typings/swrKeys";
+import { useRouter } from "next/navigation";
+
 interface ILoginForm {
   email: string;
   password: string;
 }
 
 export const LoginForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -31,6 +35,8 @@ export const LoginForm = () => {
       };
       localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
       console.log("info: ", loginInfo);
+
+      if (loginInfo.role == "Administrator") router.push("/create");
     },
     onError: (err) => {
       console.log("Ovaj error ", err);
