@@ -1,6 +1,6 @@
-const backend = "localhost:3050";
+const backend = "http://localhost:5157";
 
-const swrKeys = {
+export const swrKeys = {
    login: `${backend}/login/normal`,
    createUser: `${backend}/admin/create`
 }

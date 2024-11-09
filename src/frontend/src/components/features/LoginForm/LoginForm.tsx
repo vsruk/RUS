@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Flex, Text, Input, Heading } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { GoogleLogin } from "@react-oauth/google";
+import useSWRMutation from "swr/mutation";
+import { loginMutator } from "@/fetchers/mutators";
+import { swrKeys } from "@/typings/swrKeys";
 interface ILoginForm {
   email: string;
   password: string;
@@ -20,10 +23,23 @@ export const LoginForm = () => {
   function delay(time: number) {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
+  const { trigger } = useSWRMutation(swrKeys.login, loginMutator, {
+    onSuccess: (data) => {
+      const loginInfo = {
+        token: data.token,
+        role: data.role,
+      };
+      localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+      console.log("info: ", loginInfo);
+    },
+    onError: (err) => {
+      console.log("Ovaj error ", err);
+    },
+  });
   const onCreate = async (data: ILoginForm) => {
-    await delay(2000);
-    reset();
+    await trigger(data);
   };
+
   return (
     <>
       <Flex

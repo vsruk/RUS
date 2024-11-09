@@ -4,7 +4,8 @@ export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
   const response = await fetch(url, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
     },
     body: JSON.stringify(arg),
   });
@@ -13,13 +14,11 @@ export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
   }
 
   const responseData = await response.json();
-  /*
-  TODO:
-  kreirati user objekt
-  */
-  localStorage.setItem("ezgrada-header", JSON.stringify({}));
+  
   return {
-    data: responseData,
+    ...responseData,
+    /* token: response.headers.get("token"),
+    role: response.headers.get("role") */
   };
 }
 
