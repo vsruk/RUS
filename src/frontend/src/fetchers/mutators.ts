@@ -10,7 +10,8 @@ export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
     body: JSON.stringify(arg),
   });
   if (!response.ok) {
-    throw new Error(`Dogodila se greška kod mutiranja na url: ${url}`);
+    const error = await response.json();
+		throw error;
   }
 
   const responseData = await response.json();
