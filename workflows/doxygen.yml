@@ -3,10 +3,10 @@ name: Doxygen Documentation
 on:
   push:
     branches:
-      - main    # or the branch you want to trigger it from
+      - main  # Or specify the branch you want to trigger it from
   pull_request:
     branches:
-      - main    # or the branch you want to trigger it from
+      - main  # Or specify the branch you want to trigger it from
 
 jobs:
   doxygen:
@@ -22,12 +22,13 @@ jobs:
 
     - name: Generate Documentation
       run: |
-        doxygen Doxyfile  # Runs Doxygen to generate documentation
-        mkdir docs
-        mv html/* docs/    # Move generated docs to docs folder
+        cd Lab1  # Navigate into the Lab1 folder
+        doxygen Doxyfile  # Run Doxygen from within the Lab1 folder
+        mkdir -p Lab1/docs
+        mv Lab1/html/* Lab1/docs/    # Move generated docs to the docs folder inside Lab1
 
     - name: Deploy Documentation to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         personal_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs
+        publish_dir: Lab1/docs  # Specify the docs folder within Lab1 to publish
