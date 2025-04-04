@@ -1,15 +1,15 @@
 # Doxygen konfiguracijska datoteka za C jezik ugradbeni sustav
 
 # Ime i verzija projekta
-PROJECT_NAME           = Lab1               # Ime vašeg projekta
+PROJECT_NAME           = RUS_Lab1_prekid               # Ime vašeg projekta
 PROJECT_BRIEF          = "Lab1: Ugradbeni sustav s prekidima u C jeziku"  # Kratki opis projekta
 PROJECT_LOGO           =                     # Putanja do logotipa projekta (ako postoji)
-OUTPUT_DIRECTORY       = ./Lab1/docs           # Lokacija gdje će se spremiti generirana dokumentacija
+OUTPUT_DIRECTORY       = ./docs               # Lokacija gdje će se spremiti generirana dokumentacija
 CREATE_SUBDIRS         = YES                 # Kreiraj poddirektorije za izlazne datoteke
 DOXYFILE_ENCODING      = UTF-8               # Kodiranje za Doxyfile datoteku
 
 # Izvorne datoteke i direktoriji
-INPUT                  = Lab1                # Direktorij koji sadrži izvorni kod (Lab1)
+INPUT                  = ./Lab1              # Direktorij koji sadrži izvorni kod (Lab1)
 FILE_PATTERNS          = *.c *.h  *.ino      # Ekstenzije datoteka koje će biti uključene u dokumentaciju
 
 # Izlazni format
@@ -21,11 +21,10 @@ GENERATE_RTF           = NO                  # Isključi generiranje RTF dokumen
 # Dodatne postavke za HTML generaciju
 HTML_HEADER            =                     # Putanja do prilagođene HTML zaglavlja (ako postoji)
 HTML_FOOTER            =                     # Putanja do prilagođene HTML podnožja (ako postoji)
-HTML_COLORSTYLE        = AUTOMATIC           # Automatski odabir boja za stilove
+HTML_COLORSTYLE        = AUTO_LIGHT          # Automatski odabir boja za stilove
 
 # Grafički elementi (za poboljšanje vizualizacije)
-CLASS_DIAGRAMS         = YES                 # Generiraj dijagrame klasa (ako su primjenjivi)
-GRAPHVIZ_DOT           = YES                 # Generiraj Graphviz dijagrame (ako su primjenjivi)
+GRAPHVIZ_DOT           = YES                 # Ensure Graphviz is installed and DOT_PATH is set correctly
 TEMPLATE_RELATIONS     = YES                 # Generiraj relacije između datoteka (npr. naslijeđivanje, suradnja)
 
 # Postavke za generiranje dokumentacije
