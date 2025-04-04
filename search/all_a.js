@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['prekida_0',['Dijagram prioriteta prekida',['../de/d99/RUS__Lab1__prekidi_8ino.html#diagrami',1,'']]],
-  ['prioriteta_20prekida_1',['Dijagram prioriteta prekida',['../de/d99/RUS__Lab1__prekidi_8ino.html#diagrami',1,'']]],
-  ['programa_2',['Tok kontrole programa',['../de/d99/RUS__Lab1__prekidi_8ino.html#cfg_tok',1,'']]]
+  ['rus_5flab1_5fprekidi_2eino_0',['RUS_Lab1_prekidi.ino',['../de/d99/RUS__Lab1__prekidi_8ino.html',1,'']]]
 ];
