@@ -27,6 +27,8 @@ HTML_COLORSTYLE        = AUTO_LIGHT          # Automatski odabir boja za stilove
 # Grafički elementi (za poboljšanje vizualizacije)
 GRAPHVIZ_DOT           = YES                 # Ensure Graphviz is installed and DOT_PATH is set correctly
 TEMPLATE_RELATIONS     = YES                 # Generiraj relacije između datoteka (npr. naslijeđivanje, suradnja)
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
 
 # Postavke za generiranje dokumentacije
 RECURSIVE              = YES                 # Traži izvorne datoteke i u poddirektorijima
