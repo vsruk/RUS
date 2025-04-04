@@ -32,11 +32,54 @@
  * @author Vlado Sruk
  * @date 20. ožujak 2025.
  * @version 1.0
- * @license MIT Licenca - Slobodno korištenje, modifikacija i distribucija.
+ * @note @license MIT Licenca - Slobodno korištenje, modifikacija i distribucija.
  * 
- * @dependencies prekidi AVR avr/interrupt.h
+ * @note @dependencies prekidi AVR avr/interrupt.h
  */
-
+/** 
+ * @dot
+ * digraph cfg {
+ *     // Nodes
+ *     setup [label="setup()", shape=box];
+ *     loop [label="loop()", shape=box];
+ *     measureDistance [label="measureDistance()", shape=box];
+ *     handleInterrupts [label="handleInterrupts()", shape=box];
+ *     handleInterrupt [label="handleInterrupt()", shape=box];
+ *     triggerDistanceAlert [label="triggerDistanceAlert()", shape=box];
+ *     handleTimerInterrupt [label="handleTimerInterrupt()", shape=box];
+ *     ISR_INT0 [label="ISR_INT0", shape=box];
+ *     ISR_INT1 [label="ISR_INT1", shape=box];
+ *     ISR_INT2 [label="ISR_INT2", shape=box];
+ *     
+ *     // Edges (Control Flow)
+ *     setup -> loop;
+ *     loop -> measureDistance;
+ *     loop -> handleInterrupts;
+ *     loop -> handleInterrupt;
+ *     loop -> triggerDistanceAlert;
+ *     loop -> handleTimerInterrupt;
+ *     
+ *     measureDistance -> handleInterrupts;
+ *     handleInterrupts -> handleInterrupt;
+ *     
+ *     handleInterrupt -> handleInterrupts;
+ *     handleInterrupts -> triggerDistanceAlert;
+ *     
+ *     handleTimerInterrupt -> handleInterrupts;
+ *     
+ *     ISR_INT0 -> handleInterrupts;
+ *     ISR_INT1 -> handleInterrupts;
+ *     ISR_INT2 -> handleInterrupts;
+ *     
+ *     handleInterrupts -> triggerDistanceAlert;
+ *     
+ *     // Special handling for conditions (arrows point to actions)
+ *     loop -> measureDistance [label="distance check", color=blue];
+ *     loop -> handleTimerInterrupt [label="timerFlag", color=red];
+ *     handleInterrupts -> triggerDistanceAlert [label="distanceAlert", color=green];
+ * }
+ * @enddot
+ */
 /**
  * @section diagrami Dijagram prioriteta prekida
  * 
