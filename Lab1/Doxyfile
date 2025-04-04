@@ -1,54 +1,101 @@
-# Doxygen konfiguracijska datoteka za C jezik ugradbeni sustav
+#=============================================================================
+# Doxygen konfiguracijska datoteka za C jezik — ugradbeni sustav s prekidima
+#=============================================================================
 
-# Ime i verzija projekta
-PROJECT_NAME           = RUS_Lab1_prekid               # Ime vašeg projekta
-PROJECT_BRIEF          = "Lab1: Ugradbeni sustav s prekidima u C jeziku"  # Kratki opis projekta
-PROJECT_LOGO           =                     # Putanja do logotipa projekta (ako postoji)
-OUTPUT_DIRECTORY       = docs               # Lokacija gdje će se spremiti generirana dokumentacija
-CREATE_SUBDIRS         = YES                 # Kreiraj poddirektorije za izlazne datoteke
-DOXYFILE_ENCODING      = UTF-8               # Kodiranje za Doxyfile datoteku
+#-----------------------------------------------------------------------------
+# Opći podaci o projektu
+#-----------------------------------------------------------------------------
+PROJECT_NAME           = "RUS_Lab1_prekid"           # Ime projekta
+PROJECT_BRIEF          = "Lab1: Ugradbeni sustav s prekidima u C jeziku"  # Kratak opis
+PROJECT_LOGO           =                             # Putanja do logotipa (opcionalno)
+OUTPUT_DIRECTORY       = docs                        # Izlazni direktorij za dokumentaciju
+CREATE_SUBDIRS         = YES                         # Stvori poddirektorije za HTML/graph datoteke
+DOXYFILE_ENCODING      = UTF-8                       # Kodna stranica konfiguracijske datoteke
 
-# Izvorne datoteke i direktoriji
-INPUT                  = .              # Direktorij koji sadrži izvorni kod (Lab1)
-FILE_PATTERNS          = *.c *.h  *.ino      # Ekstenzije datoteka koje će biti uključene u dokumentaciju
-EXTENSION_MAPPING      = ino=c
+#-----------------------------------------------------------------------------
+# Glavna stranica dokumentacije
+#-----------------------------------------------------------------------------
+USE_MDFILE_AS_MAINPAGE = README.md                   # Koristi README.md kao početnu stranicu dokumentacije (ili .dox)
 
-# Izlazni format
-GENERATE_HTML          = YES                 # Generiraj HTML dokumentaciju
-HTML_OUTPUT            = html                # Direktorij za pohranu HTML dokumenata (relativno prema OUTPUT_DIRECTORY)
-GENERATE_LATEX         = NO                  # Isključi generiranje LaTeX dokumentacije (opcionalno)
-GENERATE_RTF           = NO                  # Isključi generiranje RTF dokumentacije (opcionalno)
+#-----------------------------------------------------------------------------
+# Izvorne datoteke
+#-----------------------------------------------------------------------------
+INPUT                  = .                           # Traži u trenutnom direktoriju
+RECURSIVE              = YES                         # Uključi sve poddirektorije
+FILE_PATTERNS          = *.c *.h *.ino               # Priznate ekstenzije (uključuju Arduino .ino)
+EXTENSION_MAPPING      = ino=c                       # Mapiraj .ino kao C datoteke (sintaksno)
 
-# Dodatne postavke za HTML generaciju
-HTML_HEADER            =                     # Putanja do prilagođene HTML zaglavlja (ako postoji)
-HTML_FOOTER            =                     # Putanja do prilagođene HTML podnožja (ako postoji)
-HTML_COLORSTYLE        = AUTO_LIGHT          # Automatski odabir boja za stilove
+#-----------------------------------------------------------------------------
+# Izlazni formati
+#-----------------------------------------------------------------------------
+GENERATE_HTML          = YES                         # Generiraj HTML dokumentaciju
+HTML_OUTPUT            = html                        # HTML izlazni direktorij (unutar OUTPUT_DIRECTORY)
+GENERATE_LATEX         = NO                          # Ne generiraj LaTeX dokumentaciju
+GENERATE_RTF           = NO                          # Ne generiraj RTF dokumentaciju
 
-# Grafički elementi (za poboljšanje vizualizacije)
-GRAPHVIZ_DOT           = YES                 # Ensure Graphviz is installed and DOT_PATH is set correctly
-TEMPLATE_RELATIONS     = YES                 # Generiraj relacije između datoteka (npr. naslijeđivanje, suradnja)
-CALL_GRAPH             = YES
-CALLER_GRAPH           = YES
+#-----------------------------------------------------------------------------
+# HTML izgled i ponašanje
+#-----------------------------------------------------------------------------
+HTML_COLORSTYLE        = AUTO_LIGHT                  # Automatski odabir boje (svijetla)
+HTML_DYNAMIC_SECTIONS  = YES                         # Omogući proširive odjeljke
+GENERATE_TREEVIEW      = YES                         # Bočna struktura stabla datoteka
+DISABLE_INDEX          = NO                          # Prikaži glavni indeks
+SHOW_USED_FILES        = YES                         # Prikaži popis analiziranih datoteka
+SHOW_FILES             = YES                         # Prikaži sekciju datoteka u dokumentaciji
 
-# Postavke za generiranje dokumentacije
-RECURSIVE              = YES                 # Traži izvorne datoteke i u poddirektorijima
-EXTRACT_ALL            = YES                 # Izvuci dokumentaciju iz svih datoteka, čak i ako nemaju dokumentacijske komentare
-EXTRACT_PRIVATE        = YES                 # Uključi privatne članove u dokumentaciju (opcionalno)
-EXTRACT_STATIC         = YES                 # Uključi statičke članove u dokumentaciju (opcionalno)
+#-----------------------------------------------------------------------------
+# Izvlačenje dokumentacije iz koda
+#-----------------------------------------------------------------------------
+EXTRACT_ALL            = YES                         # Generiraj i za nekomentirani kod (radi cjelovitosti)
+EXTRACT_PRIVATE        = YES                         # Uključi i "static" funkcije/varijable
+EXTRACT_STATIC         = YES                         # Uključi statičke članove u datotekama
+EXTRACT_LOCAL_CLASSES  = YES                         # Uključi lokalne strukture i unutar funkcija
+OPTIMIZE_OUTPUT_FOR_C  = YES                         # Stil prikaza prilagođen za C (ne za C++)
 
-# Postavke za dokumentaciju datoteka
-FILE_VERSION_FILTER    =                     # Filtriraj uklanjanje verzija iz datoteka (opcionalno)
-OPTIMIZE_OUTPUT_FOR_C  = YES                 # Optimiziraj izlaz za C stil (ne za C++ klase)
+#-----------------------------------------------------------------------------
+# Dijagrami i grafički prikazi (Graphviz/DOT)
+#-----------------------------------------------------------------------------
+HAVE_DOT               = YES                         # Omogući korištenje Graphviz alata
+DOT_PATH               = /usr/bin/dot                # Putanja do `dot` programa (ovisno o sustavu)
+DOT_NUM_THREADS        = 2                           # Paralelno generiranje dijagrama
+DOT_FONTNAME           = Helvetica                   # Font u dijagramima
+DOT_FONTSIZE           = 10                          # Veličina fonta
 
-# Upozorenja
-WARNINGS               = YES                 # Omogući upozorenja u slučaju bilo kakvih problema
-WARN_IF_UNDOCUMENTED   = YES                 # Upozori ako postoje ne-dokumentirani članovi ili funkcije
-WARN_IF_INCOMPLETE_DOC = YES                 # Upozori ako postoje nedovršeni dokumentacijski komentari
+CLASS_DIAGRAMS         = YES                         # Prikaži dijagrame struktura
+CALL_GRAPH             = YES                         # Dijagram toka funkcijskih poziva
+CALLER_GRAPH           = YES                         # Dijagram funkcija koje pozivaju ovu funkciju
+COLLABORATION_GRAPH    = YES                         # Suradnički dijagrami među strukturama
+INCLUDE_GRAPH          = YES                         # Dijagrami uključenih datoteka (#include)
+INCLUDED_BY_GRAPH      = YES                         # Tko uključuje ovu datoteku?
+DIRECTORY_GRAPH        = YES                         # Hijerarhija direktorija
+GRAPHICAL_HIERARCHY    = YES                         # Stablo nasljeđivanja za strukture (ako ih ima)
+TEMPLATE_RELATIONS     = YES                         # Prikaži odnose među generičkim tipovima (nije relevantno za C)
+INTERACTIVE_SVG        = YES                         # Interaktivni SVG dijagrami (zumiranje, klikanje)
 
-# Opcionalne postavke (za prilagodbe)
-ENABLE_PREPROCESSING   = YES                 # Omogući preprocesiranje izvornog koda
-MACRO_EXPANSION        = YES                 # Proširi sve makroe
-EXCLUDE_SYMLINKS       = YES                 # Isključi simboličke linkove iz ulaznih datoteka
+#-----------------------------------------------------------------------------
+# Upozorenja i provjera kvalitete
+#-----------------------------------------------------------------------------
+WARNINGS               = YES                         # Omogući upozorenja tijekom generiranja
+WARN_IF_UNDOCUMENTED   = YES                         # Upozori ako funkcija nije dokumentirana
+WARN_IF_INCOMPLETE_DOC = YES                         # Upozori ako komentar nije potpun (npr. nedostaje opis parametara)
 
-# Prilagodbe izlaza
-OUTPUT_LANGUAGE        = English             # Jezik izlazne dokumentacije
+#-----------------------------------------------------------------------------
+# Obrada preprocesiranog koda
+#-----------------------------------------------------------------------------
+ENABLE_PREPROCESSING   = YES                         # Omogući razumijevanje #define i #ifdef
+MACRO_EXPANSION        = YES                         # Proširi sve makroe
+EXPAND_ONLY_PREDEF     = NO                          # Nemoj ograničiti samo na predefinirane makroe
+SKIP_FUNCTION_MACROS   = NO                          # Nemoj preskočiti funkcijske makroe
+
+#-----------------------------------------------------------------------------
+# Ostale postavke
+#-----------------------------------------------------------------------------
+OUTPUT_LANGUAGE        = English                     # Jezik dokumentacije
+EXCLUDE_SYMLINKS       = YES                         # Preskoči simboličke poveznice
+TAB_SIZE               = 4                           # Širina tabulatora
+QUIET                  = NO                          # Prikaži tijek obrade u konzoli
+
+#-----------------------------------------------------------------------------
+# Završno
+#-----------------------------------------------------------------------------
+# Za @dot dijagrame u komentarima (npr. tokove prekida), Doxygen će ih također generirati ako je GRAPHVIZ instaliran u workflow.
