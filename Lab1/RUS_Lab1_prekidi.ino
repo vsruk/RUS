@@ -1,38 +1,89 @@
 /**
  * @file RUS_Lab1_prekidi.ino
- * @brief Generiranje PWM signala, rad s prekidima i ugnježđeni prekidi za tipkala.
+ * @brief Primjer rada s prekidima i ugnježđeni prekidi za tipkala.
  *
- * Ovaj program generira PWM signale, mjeri udaljenost pomoću HC-SR04 senzora,
+ * Ovaj program prikazuje mogućnosti rada s prekidima, mjeri udaljenost pomoću HC-SR04 senzora, 
  * obrađuje prekide s ugnježđenim prioritetima za tipkala i upravlja odgovarajućim LED indikatorskim lampicama
  * koje trepere tijekom aktivnih prekida.
  * 
  * @section led_indikatori LED indikatori:
- * - LED_INT0 (pin 13): Visoki prioritet (INT0)
- * - LED_INT1 (pin 12): Srednji prioritet (INT1)
- * - LED_INT2 (pin 11): Niski prioritet (INT2)
- * - LED_ALERT (pin 10): Alarm udaljenosti
- * - LED_Timer (pin 9): Alarm tajmera
+ * 
+ * | Pin        | Funkcija                 | Prioritet         |
+ * |------------|--------------------------|-------------------|
+ * | LED_INT0   | Visoki prioritet (INT0)   | Najviši           |
+ * | LED_INT1   | Srednji prioritet (INT1)  | Srednji           |
+ * | LED_INT2   | Niski prioritet (INT2)    | Niski             |
+ * | LED_ALERT  | Alarm udaljenosti         | -                 |
+ * | LED_Timer  | Alarm tajmera             | -                 |
  *
  * @section tipkala Tipkala:
- * - BUTTON0 (pin 2), BUTTON1 (pin 3), BUTTON2 (pin 21)
+ * 
+ * | Pin        | Tipka  | Funkcija      |
+ * |------------|--------|---------------|
+ * | BUTTON0    | Tipka 0 | Ulazni signal |
+ * | BUTTON1    | Tipka 1 | Ulazni signal |
+ * | BUTTON2    | Tipka 2 | Ulazni signal |
  *
  * @note
  * AVR arhitektura (ATmega2560) ne podržava preempciju, tj. automatsko preklapanje prekida višeg prioriteta unutar ISR-a ni ugnježđene prioritete. 
  * Iako je implementirana programska prioritizacija prekida, stvarni ugnježđeni prekidi nisu podržani na razini sklopovlja.
- * Prekidi su prioritetizirani programski, ali ne stvarno ugnježđeni:
- *
- * - ISR rutine za INT0, INT1, INT2 samo postavljaju zastavicu (intFlag[index] = true;).
- * - Glavna petlja (loop()) kasnije obrađuje te zastavice i uključuje odgovarajuće LED diode.
- * - Prekid tajmera ima najviši prioritet jer AVR arhitektura uvijek daje prednost tajmerskim prekidima.
+ * Prekidi su prioritetizirani programski, ali ne stvarno ugnježđeni.
  *
  * @author Vlado Sruk
  * @date 20. ožujak 2025.
  * @version 1.0
  * @license MIT Licenca - Slobodno korištenje, modifikacija i distribucija.
- *
+ * 
  * @dependencies prekidi AVR avr/interrupt.h
  */
 
+/**
+ * @section diagrami Dijagram prioriteta prekida
+ * 
+ * Dijagram prioriteta prekida prikazuje raspored prioriteta za prekide u sustavu:
+ * - INT0 ima najviši prioritet.
+ * - INT1 ima srednji prioritet.
+ * - INT2 ima najniži prioritet.
+ *
+ * @dot
+ * digraph G {
+ *   rankdir=TB;
+ *   LED_INT0 [label="INT0\nVisoki prioritet" shape=box style=filled color=red];
+ *   LED_INT1 [label="INT1\nSrednji prioritet" shape=box style=filled color=yellow];
+ *   LED_INT2 [label="INT2\nNiski prioritet" shape=box style=filled color=green];
+ *   LED_ALERT [label="Alarm udaljenosti" shape=ellipse];
+ *   LED_Timer [label="Alarm tajmera" shape=ellipse];
+ *   BUTTON0 [label="Tipka 0" shape=ellipse];
+ *   BUTTON1 [label="Tipka 1" shape=ellipse];
+ *   BUTTON2 [label="Tipka 2" shape=ellipse];
+ * }
+ * @enddot
+ *
+ * Ovaj dijagram prikazuje prioritet prekida (INT0, INT1, INT2) i njihove povezane LED indikatore. 
+ * Također uključuje tipke za aktiviranje prekida i alarme za udaljenost i tajmer.
+ */
+
+/**
+ * @section funkcije Dijagram toka funkcija
+ * 
+ * Dijagram toka funkcija prikazuje povezanost između funkcija za upravljanje prekidima i LED indikatorima:
+ * - Prekidi (ISR) pozivaju funkcije za obradu prekida.
+ * - Glavna petlja (loop) obrađuje zastavice postavljene ISR funkcijama.
+ *
+ * @dot
+ * digraph G {
+ *   rankdir=LR;
+ *   ISR_INT0 -> handleInterrupt;
+ *   ISR_INT1 -> handleInterrupt;
+ *   ISR_INT2 -> handleInterrupt;
+ *   handleInterrupt -> handleInterrupts;
+ *   handleInterrupts -> handleTimerInterrupt;
+ *   handleTimerInterrupt -> blinkLed;
+ * }
+ * @enddot
+ *
+ * Ovaj dijagram prikazuje tok poziva između prekidnih funkcija, obrade prekida, upravljanja timerom i bljeskanja LED dioda.
+ */
 #include <avr/interrupt.h>
 
 // LED pinovi
@@ -188,6 +239,34 @@ void ISR_INT2() {
     }
 }
 
+/**
+ * @brief Obrada prekida s prioritetima
+ * 
+ * Ova funkcija obrađuje prekide postavljanjem odgovarajuće zastavice (`intFlag`) na temelju indeksa prekida i ispisuje poruku na serijski monitor.
+ * Funkcija također implementira zaštitu od "debounce" efekta, čime se sprječava višestruko prepoznavanje prekida unutar kratkog vremenskog perioda.
+ * 
+ * @param index Indeks prekida (0 za INT0, 1 za INT1, 2 za INT2)
+ * @param message Poruka koja se ispisuje na serijski monitor kada se prekid obradi
+ * 
+ * @note Funkcija koristi globalnu varijablu `lastInterruptTime` za praćenje vremena posljednjeg prekida i sprječavanje "debounce" efekta.
+ * 
+ * @see handleInterrupts() Za daljnju obradu prekida prema prioritetima.
+ * 
+ * @dot
+ * digraph G {
+ *   rankdir=LR;
+ *   handleInterrupt [label="handleInterrupt\nObrada prekida" shape=box style=filled color=lightblue];
+ *   debounceCheck [label="Debounce provjera\n(millis() - lastInterruptTime[index] < DEBOUNCE_DELAY)" shape=ellipse];
+ *   setFlag [label="Postavljanje intFlag[index] = true" shape=ellipse];
+ *   serialPrint [label="Ispis poruke na serijski monitor" shape=ellipse];
+ *   
+ *   handleInterrupt -> debounceCheck;
+ *   debounceCheck -> setFlag [label="Ako je debounce prošao"];
+ *   setFlag -> serialPrint;
+ * }
+ * @enddot
+ */
+ 
 void handleInterrupt(int index, const char* message) {
     if (millis() - lastInterruptTime[index] < DEBOUNCE_DELAY) return;
     lastInterruptTime[index] = millis();
@@ -199,6 +278,7 @@ void handleInterrupt(int index, const char* message) {
  * @brief Obrada svih prekida prema prioritetu.
  * 
  * Funkcija koja provjerava i obrađuje prekide prema prioritetu.
+																 
  */
 void handleInterrupts() {
     if (intFlag[0]) {
