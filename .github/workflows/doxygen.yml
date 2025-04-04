@@ -24,8 +24,8 @@ jobs:
       run: |
         cd Lab1  # Navigate into the Lab1 folder
         doxygen Doxyfile  # Run Doxygen from within the Lab1 folder
-        mkdir -p Lab1/docs
-        mv Lab1/docs/html/* Lab1/docs/    # Move generated docs to the docs folder inside Lab1
+#        mkdir -p Lab1/docs
+#        mv Lab1/docs/html/* Lab1/docs/    # Move generated docs to the docs folder inside Lab1
 
     - name: Deploy Documentation to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
