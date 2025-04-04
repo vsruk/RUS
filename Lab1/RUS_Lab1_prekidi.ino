@@ -1,12 +1,20 @@
 /**
  * @file RUS_Lab1_prekidi.ino
- * @brief Primjer rada s prekidima i programska prioritizacija prekida za tipkala.
+ * @mainpage RUS - Rad s Ugradbenim Sustavima
+ * @section overview Pregled modula
  *
- * Ovaj program demonstrira rad s vanjskim prekidima (INT0, INT1, INT2) aktiviranim pritiskom tipkala,
- * te implementira programsku prioritizaciju tih prekida. Također, program mjeri udaljenost pomoću
- * HC-SR04 ultrazvučnog senzora i aktivira LED alarm ako je udaljenost manja od definiranog praga.
- * Dodatno, koristi se Timer1 za generiranje vremenskog prekida koji također ima najviši prioritet.
- * LED indikatori trepere tijekom obrade odgovarajućih prekida.
+ * Ovaj projekt demonstrira rad s vanjskim prekidima, uključujući prioritizaciju prekida na AVR mikroprocesoru.
+ * Program omogućuje upravljanje prekidima putem tipkala (INT0, INT1, INT2) i koristi Timer1 za generiranje vremenskih prekida.
+ * Također se koristi HC-SR04 ultrazvučni senzor za mjerenje udaljenosti, pri čemu se aktivira LED alarm ako je udaljenost manja od definiranog praga.
+ * U ovom programu implementirana je programska prioritizacija prekida, pri čemu Timer1 ima najviši prioritet, a prekidi INT0, INT1 i INT2 su obrađeni u skladu s definiranom hijerarhijom.
+ *
+ * @section modules Pregled funkcionalnosti
+ * - @ref group_prekidi "Funkcije za upravljanje prekidima"
+ * - Shema spajanja
+ *
+ * @section links Projekt i simulacija
+ * Projekt i simulacija dostupni su na Wokwi platformi: [Wokwi projekt](https://wokwi.com/)@brief Primjer rada s prekidima i programska prioritizacija prekida za tipkala.
+ *
  *
  * @section led_indikatori LED indikatori
  *
@@ -53,7 +61,11 @@
 /**
  * @section cfg_tok Dijagram toka programa
  * @brief Prikazuje kontrolni tok glavnih funkcija programa.
+ * 
+ * Ovaj dijagram prikazuje
+ *
  * @dot
+ *
  * digraph cfg {
  * node [shape=box];
  * setup -> loop [label="Jednom pri pokretanju"];
@@ -85,6 +97,7 @@
  * }
  * @enddot
  */
+ 
  
 /**
  * @section priority_diagram Dijagram prioriteta prekida
