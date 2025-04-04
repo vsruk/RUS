@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['prekida_0',['Dijagram prioriteta prekida',['../de/d99/RUS__Lab1__prekidi_8ino.html#diagrami',1,'']]],
-  ['prioriteta_20prekida_1',['Dijagram prioriteta prekida',['../de/d99/RUS__Lab1__prekidi_8ino.html#diagrami',1,'']]]
+  ['measuredistance_0',['measureDistance',['../de/d99/RUS__Lab1__prekidi_8ino.html#a24db61917b9da8bb4b87af136cbd345f',1,'RUS_Lab1_prekidi.ino']]]
 ];

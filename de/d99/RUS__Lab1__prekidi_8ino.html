@@ -95,7 +95,7 @@ Include dependency graph for RUS_Lab1_prekidi.ino:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a75495c16513fed4c9f042421b3dcb882" id="r_a75495c16513fed4c9f042421b3dcb882"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d99/RUS__Lab1__prekidi_8ino.html#a75495c16513fed4c9f042421b3dcb882">LED_INT0</a>&#160;&#160;&#160;11</td></tr>
-<tr class="memdesc:a75495c16513fed4c9f042421b3dcb882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visoki prioritet (INT0)  <br /></td></tr>
+<tr class="memdesc:a75495c16513fed4c9f042421b3dcb882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dijagram kontrole toka glavnih funkcija.  <br /></td></tr>
 <tr class="separator:a75495c16513fed4c9f042421b3dcb882"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a492306edd2e03bbaa3b740163d23ce68" id="r_a492306edd2e03bbaa3b740163d23ce68"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d99/RUS__Lab1__prekidi_8ino.html#a492306edd2e03bbaa3b740163d23ce68">LED_INT1</a>&#160;&#160;&#160;12</td></tr>
 <tr class="memdesc:a492306edd2e03bbaa3b740163d23ce68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Srednji prioritet (INT1)  <br /></td></tr>
@@ -240,11 +240,8 @@ Tipkala:</h1>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Licenca: MIT Licenca - Slobodno korištenje, modifikacija i distribucija.</dd>
 <dd>
-Zavisnosti: prekidi AVR avr/interrupt.h</dd></dl>
-<div class="dotgraph">
-<img src="../../dot_inline_dotgraph_1.png" alt="dot_inline_dotgraph_1.png" border="0" usemap="#dot_inline_dotgraph_1.map"/>
-</div>
- </div><h2 class="groupheader">Macro Definition Documentation</h2>
+Zavisnosti: prekidi AVR avr/interrupt.h </dd></dl>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ac3c25392012bbb1b3dc72e9c8847c806" name="ac3c25392012bbb1b3dc72e9c8847c806"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac3c25392012bbb1b3dc72e9c8847c806">&#9670;&#160;</a></span>BUTTON0</h2>
 
@@ -338,8 +335,13 @@ Zavisnosti: prekidi AVR avr/interrupt.h</dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Visoki prioritet (INT0) </p>
-<h1><a class="anchor" id="diagrami"></a>
+<p>Dijagram kontrole toka glavnih funkcija. </p>
+<h1><a class="anchor" id="cfg_tok"></a>
+Tok kontrole programa</h1>
+<div class="dotgraph">
+<img src="../../dot_inline_dotgraph_1.png" alt="dot_inline_dotgraph_1.png" border="0" usemap="#dot_inline_dotgraph_1.map"/>
+</div>
+ <h1><a class="anchor" id="diagrami"></a>
 Dijagram prioriteta prekida</h1>
 <p>Dijagram prioriteta prekida prikazuje raspored prioriteta za prekide u sustavu:</p><ul>
 <li>INT0 ima najviši prioritet.</li>
@@ -359,7 +361,7 @@ Dijagram toka funkcija</h1>
 <div class="dotgraph">
 <img src="../../dot_inline_dotgraph_3.png" alt="dot_inline_dotgraph_3.png" border="0" usemap="#dot_inline_dotgraph_3.map"/>
 </div>
-<p>Ovaj dijagram prikazuje tok poziva između prekidnih funkcija, obrade prekida, upravljanja timerom i bljeskanja LED dioda. Pinovi za LED indikatore </p>
+<p>Ovaj dijagram prikazuje tok poziva između prekidnih funkcija, obrade prekida, upravljanja timerom i bljeskanja LED dioda. Pinovi za LED indikatore Visoki prioritet (INT0) </p>
 
 </div>
 </div>
