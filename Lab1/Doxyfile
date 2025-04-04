@@ -4,7 +4,7 @@
 PROJECT_NAME           = RUS_Lab1_prekid               # Ime vašeg projekta
 PROJECT_BRIEF          = "Lab1: Ugradbeni sustav s prekidima u C jeziku"  # Kratki opis projekta
 PROJECT_LOGO           =                     # Putanja do logotipa projekta (ako postoji)
-OUTPUT_DIRECTORY       = ./docs               # Lokacija gdje će se spremiti generirana dokumentacija
+OUTPUT_DIRECTORY       = docs               # Lokacija gdje će se spremiti generirana dokumentacija
 CREATE_SUBDIRS         = YES                 # Kreiraj poddirektorije za izlazne datoteke
 DOXYFILE_ENCODING      = UTF-8               # Kodiranje za Doxyfile datoteku
 
@@ -14,7 +14,7 @@ FILE_PATTERNS          = *.c *.h  *.ino      # Ekstenzije datoteka koje će biti
 
 # Izlazni format
 GENERATE_HTML          = YES                 # Generiraj HTML dokumentaciju
-HTML_OUTPUT            = ./docs/html                # Direktorij za pohranu HTML dokumenata (relativno prema OUTPUT_DIRECTORY)
+HTML_OUTPUT            = html                # Direktorij za pohranu HTML dokumenata (relativno prema OUTPUT_DIRECTORY)
 GENERATE_LATEX         = NO                  # Isključi generiranje LaTeX dokumentacije (opcionalno)
 GENERATE_RTF           = NO                  # Isključi generiranje RTF dokumentacije (opcionalno)
 
