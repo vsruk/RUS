@@ -11,6 +11,7 @@ DOXYFILE_ENCODING      = UTF-8               # Kodiranje za Doxyfile datoteku
 # Izvorne datoteke i direktoriji
 INPUT                  = .              # Direktorij koji sadrži izvorni kod (Lab1)
 FILE_PATTERNS          = *.c *.h  *.ino      # Ekstenzije datoteka koje će biti uključene u dokumentaciju
+EXTENSION_MAPPING      = ino=c
 
 # Izlazni format
 GENERATE_HTML          = YES                 # Generiraj HTML dokumentaciju
