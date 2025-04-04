@@ -5,7 +5,7 @@
  * Ovaj program generira PWM signale, mjeri udaljenost pomoću HC-SR04 senzora,
  * obrađuje prekide s ugnježđenim prioritetima za tipkala i upravlja odgovarajućim LED indikatorskim lampicama
  * koje trepere tijekom aktivnih prekida.
- *
+ * 
  * @section led_indikatori LED indikatori:
  * - LED_INT0 (pin 13): Visoki prioritet (INT0)
  * - LED_INT1 (pin 12): Srednji prioritet (INT1)
