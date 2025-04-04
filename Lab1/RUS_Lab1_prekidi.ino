@@ -32,11 +32,10 @@
  * @author Vlado Sruk
  * @date 20. ožujak 2025.
  * @version 1.0
- * @note @license MIT Licenca - Slobodno korištenje, modifikacija i distribucija.
+ * @note Licenca: MIT Licenca - Slobodno korištenje, modifikacija i distribucija.
  * 
- * @note @dependencies prekidi AVR avr/interrupt.h
- */
-/** 
+ * @note Zavisnosti: prekidi AVR avr/interrupt.h
+ *
  * @dot
  * digraph cfg {
  *     // Nodes
