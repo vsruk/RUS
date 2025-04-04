@@ -78,7 +78,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Generiranje PWM signala, rad s prekidima i ugnježđeni prekidi za tipkala.  
+<p>Primjer rada s prekidima i ugnježđeni prekidi za tipkala.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;avr/interrupt.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -150,6 +150,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a470520bf5d52fc484f287e9631c50920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prekidna funkcija za INT2.  <br /></td></tr>
 <tr class="separator:a470520bf5d52fc484f287e9631c50920"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c96831ab3c332483a603f129028f35c" id="r_a4c96831ab3c332483a603f129028f35c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d99/RUS__Lab1__prekidi_8ino.html#a4c96831ab3c332483a603f129028f35c">handleInterrupt</a> (int index, const char *message)</td></tr>
+<tr class="memdesc:a4c96831ab3c332483a603f129028f35c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obrada prekida s prioritetima.  <br /></td></tr>
 <tr class="separator:a4c96831ab3c332483a603f129028f35c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5c5aa6ac9677fce5ac2020e921bd47b" id="r_ac5c5aa6ac9677fce5ac2020e921bd47b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d99/RUS__Lab1__prekidi_8ino.html#ac5c5aa6ac9677fce5ac2020e921bd47b">handleInterrupts</a> ()</td></tr>
 <tr class="memdesc:ac5c5aa6ac9677fce5ac2020e921bd47b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obrada svih prekida prema prioritetu.  <br /></td></tr>
@@ -198,28 +199,37 @@ Variables</h2></td></tr>
 <tr class="separator:a5acc10c3564194085240b37ed8bcf613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Generiranje PWM signala, rad s prekidima i ugnježđeni prekidi za tipkala. </p>
-<p>Ovaj program generira PWM signale, mjeri udaljenost pomoću HC-SR04 senzora, obrađuje prekide s ugnježđenim prioritetima za tipkala i upravlja odgovarajućim LED indikatorskim lampicama koje trepere tijekom aktivnih prekida.</p>
+<div class="textblock"><p>Primjer rada s prekidima i ugnježđeni prekidi za tipkala. </p>
+<p>Ovaj program prikazuje mogućnosti rada s prekidima, mjeri udaljenost pomoću HC-SR04 senzora, obrađuje prekide s ugnježđenim prioritetima za tipkala i upravlja odgovarajućim LED indikatorskim lampicama koje trepere tijekom aktivnih prekida.</p>
 <h1><a class="anchor" id="led_indikatori"></a>
 LED indikatori:</h1>
-<ul>
-<li>LED_INT0 (pin 13): Visoki prioritet (INT0)</li>
-<li>LED_INT1 (pin 12): Srednji prioritet (INT1)</li>
-<li>LED_INT2 (pin 11): Niski prioritet (INT2)</li>
-<li>LED_ALERT (pin 10): Alarm udaljenosti</li>
-<li>LED_Timer (pin 9): Alarm tajmera</li>
-</ul>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Pin   </th><th class="markdownTableHeadNone">Funkcija   </th><th class="markdownTableHeadNone">Prioritet    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LED_INT0   </td><td class="markdownTableBodyNone">Visoki prioritet (INT0)   </td><td class="markdownTableBodyNone">Najviši    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LED_INT1   </td><td class="markdownTableBodyNone">Srednji prioritet (INT1)   </td><td class="markdownTableBodyNone">Srednji    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LED_INT2   </td><td class="markdownTableBodyNone">Niski prioritet (INT2)   </td><td class="markdownTableBodyNone">Niski    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LED_ALERT   </td><td class="markdownTableBodyNone">Alarm udaljenosti   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LED_Timer   </td><td class="markdownTableBodyNone">Alarm tajmera   </td><td class="markdownTableBodyNone">-   </td></tr>
+</table>
 <h1><a class="anchor" id="tipkala"></a>
 Tipkala:</h1>
-<ul>
-<li>BUTTON0 (pin 2), BUTTON1 (pin 3), BUTTON2 (pin 21)</li>
-</ul>
-<dl class="section note"><dt>Note</dt><dd>AVR arhitektura (ATmega2560) ne podržava preempciju, tj. automatsko preklapanje prekida višeg prioriteta unutar ISR-a ni ugnježđene prioritete. Iako je implementirana programska prioritizacija prekida, stvarni ugnježđeni prekidi nisu podržani na razini sklopovlja. Prekidi su prioritetizirani programski, ali ne stvarno ugnježđeni:</dd></dl>
-<ul>
-<li>ISR rutine za INT0, INT1, INT2 samo postavljaju zastavicu (intFlag[index] = true;).</li>
-<li>Glavna petlja (<a class="el" href="../../de/d99/RUS__Lab1__prekidi_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Glavna petlja koja obrađuje sve funkcionalnosti uređaja.">loop()</a>) kasnije obrađuje te zastavice i uključuje odgovarajuće LED diode.</li>
-<li>Prekid tajmera ima najviši prioritet jer AVR arhitektura uvijek daje prednost tajmerskim prekidima.</li>
-</ul>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Pin   </th><th class="markdownTableHeadNone">Tipka   </th><th class="markdownTableHeadNone">Funkcija    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">BUTTON0   </td><td class="markdownTableBodyNone">Tipka 0   </td><td class="markdownTableBodyNone">Ulazni signal    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">BUTTON1   </td><td class="markdownTableBodyNone">Tipka 1   </td><td class="markdownTableBodyNone">Ulazni signal    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">BUTTON2   </td><td class="markdownTableBodyNone">Tipka 2   </td><td class="markdownTableBodyNone">Ulazni signal   </td></tr>
+</table>
+<dl class="section note"><dt>Note</dt><dd>AVR arhitektura (ATmega2560) ne podržava preempciju, tj. automatsko preklapanje prekida višeg prioriteta unutar ISR-a ni ugnježđene prioritete. Iako je implementirana programska prioritizacija prekida, stvarni ugnježđeni prekidi nisu podržani na razini sklopovlja. Prekidi su prioritetizirani programski, ali ne stvarno ugnježđeni.</dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Vlado Sruk </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>20. ožujak 2025. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 @license MIT Licenca - Slobodno korištenje, modifikacija i distribucija.</dd></dl>
@@ -319,7 +329,25 @@ Tipkala:</h1>
 </div><div class="memdoc">
 
 <p>Visoki prioritet (INT0) </p>
-<p>Pinovi za LED indikatore </p>
+<h1><a class="anchor" id="diagrami"></a>
+Dijagram prioriteta prekida</h1>
+<p>Dijagram prioriteta prekida prikazuje raspored prioriteta za prekide u sustavu:</p><ul>
+<li>INT0 ima najviši prioritet.</li>
+<li>INT1 ima srednji prioritet.</li>
+<li>INT2 ima najniži prioritet.</li>
+</ul>
+<div class="dotgraph">
+</div>
+<p>Ovaj dijagram prikazuje prioritet prekida (INT0, INT1, INT2) i njihove povezane LED indikatore. Također uključuje tipke za aktiviranje prekida i alarme za udaljenost i tajmer. </p>
+<h1><a class="anchor" id="funkcije"></a>
+Dijagram toka funkcija</h1>
+<p>Dijagram toka funkcija prikazuje povezanost između funkcija za upravljanje prekidima i LED indikatorima:</p><ul>
+<li>Prekidi (ISR) pozivaju funkcije za obradu prekida.</li>
+<li>Glavna petlja (loop) obrađuje zastavice postavljene ISR funkcijama.</li>
+</ul>
+<div class="dotgraph">
+</div>
+<p>Ovaj dijagram prikazuje tok poziva između prekidnih funkcija, obrade prekida, upravljanja timerom i bljeskanja LED dioda. Pinovi za LED indikatore </p>
 
 </div>
 </div>
@@ -478,6 +506,20 @@ Tipkala:</h1>
       </table>
 </div><div class="memdoc">
 
+<p>Obrada prekida s prioritetima. </p>
+<p>Ova funkcija obrađuje prekide postavljanjem odgovarajuće zastavice (<code>intFlag</code>) na temelju indeksa prekida i ispisuje poruku na serijski monitor. Funkcija također implementira zaštitu od "debounce" efekta, čime se sprječava višestruko prepoznavanje prekida unutar kratkog vremenskog perioda.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Indeks prekida (0 za INT0, 1 za INT1, 2 za INT2) </td></tr>
+    <tr><td class="paramname">message</td><td>Poruka koja se ispisuje na serijski monitor kada se prekid obradi</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Funkcija koristi globalnu varijablu <code>lastInterruptTime</code> za praćenje vremena posljednjeg prekida i sprječavanje "debounce" efekta.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../de/d99/RUS__Lab1__prekidi_8ino.html#ac5c5aa6ac9677fce5ac2020e921bd47b" title="Obrada svih prekida prema prioritetu.">handleInterrupts()</a> Za daljnju obradu prekida prema prioritetima.</dd></dl>
+<div class="dotgraph">
+</div>
+ 
 </div>
 </div>
 <a id="ac5c5aa6ac9677fce5ac2020e921bd47b" name="ac5c5aa6ac9677fce5ac2020e921bd47b"></a>
