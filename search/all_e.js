@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['za_20prekide_0',['Tipkala za prekide',['../de/d99/RUS__Lab1__prekidi_8ino.html#tipkala',1,'']]]
+  ['ugradbenim_20sustavima_0',['RUS - Rad s Ugradbenim Sustavima',['../index.html',1,'']]],
+  ['ultrazvučni_20senzor_1',['HC-SR04 Ultrazvučni senzor',['../index.html#hcsr04',1,'']]]
 ];

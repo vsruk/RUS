@@ -25,6 +25,7 @@
 var NAVTREE =
 [
   [ "RUS_Lab1_prekid", "index.html", [
+    [ "RUS - Rad s Ugradbenim Sustavima", "index.html", "index" ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "Globals", "globals.html", [

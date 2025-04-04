@@ -97,9 +97,6 @@ $(document).ready(function(){initNavTree('de/d99/RUS__Lab1__prekidi_8ino.html','
   <div class="headertitle"><div class="title">RUS_Lab1_prekidi.ino File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Primjer rada s prekidima i programska prioritizacija prekida za tipkala.  
-<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;avr/interrupt.h&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Include dependency graph for RUS_Lab1_prekidi.ino:</div>
@@ -108,7 +105,7 @@ $(document).ready(function(){initNavTree('de/d99/RUS__Lab1__prekidi_8ino.html','
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../dc/dbf/RUS__Lab1__prekidi_8ino__incl.png" border="0" usemap="#aRUS__Lab1__prekidi_8ino" alt=""/></div>
 <map name="aRUS__Lab1__prekidi_8ino" id="aRUS__Lab1__prekidi_8ino">
-<area shape="rect" title="Primjer rada s prekidima i programska prioritizacija prekida za tipkala." alt="" coords="5,5,168,31"/>
+<area shape="rect" title=" " alt="" coords="5,5,168,31"/>
 <area shape="rect" title=" " alt="" coords="29,79,144,104"/>
 <area shape="poly" title=" " alt="" coords="89,31,89,65,84,65,84,31"/>
 </map>
@@ -225,51 +222,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:a5acc10c3564194085240b37ed8bcf613"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zastavica koja sprječava obradu prekida nižeg prioriteta tijekom obrade višeg.  <br /></td></tr>
 <tr class="separator:a5acc10c3564194085240b37ed8bcf613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Primjer rada s prekidima i programska prioritizacija prekida za tipkala. </p>
-<p>Ovaj program demonstrira rad s vanjskim prekidima (INT0, INT1, INT2) aktiviranim pritiskom tipkala, te implementira programsku prioritizaciju tih prekida. Također, program mjeri udaljenost pomoću HC-SR04 ultrazvučnog senzora i aktivira LED alarm ako je udaljenost manja od definiranog praga. Dodatno, koristi se Timer1 za generiranje vremenskog prekida koji također ima najviši prioritet. LED indikatori trepere tijekom obrade odgovarajućih prekida.</p>
-<h1><a class="anchor" id="led_indikatori"></a>
-LED indikatori</h1>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Pin   </th><th class="markdownTableHeadNone">Funkcija   </th><th class="markdownTableHeadNone">Prioritet    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">LED_INT0   </td><td class="markdownTableBodyNone">Indikator prekida INT0   </td><td class="markdownTableBodyNone">Najviši    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">LED_INT1   </td><td class="markdownTableBodyNone">Indikator prekida INT1   </td><td class="markdownTableBodyNone">Srednji    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">LED_INT2   </td><td class="markdownTableBodyNone">Indikator prekida INT2   </td><td class="markdownTableBodyNone">Niski    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">LED_ALERT   </td><td class="markdownTableBodyNone">Indikator alarma udaljenosti   </td><td class="markdownTableBodyNone">-    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">LED_Timer   </td><td class="markdownTableBodyNone">Indikator alarma tajmera   </td><td class="markdownTableBodyNone">Najviši (programski)   </td></tr>
-</table>
-<h1><a class="anchor" id="tipkala"></a>
-Tipkala za prekide</h1>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Pin   </th><th class="markdownTableHeadNone">Tipka   </th><th class="markdownTableHeadNone">Funkcija aktivacije prekida    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">BUTTON0   </td><td class="markdownTableBodyNone">Tipka 0   </td><td class="markdownTableBodyNone">Aktivira INT0 (najviši)    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">BUTTON1   </td><td class="markdownTableBodyNone">Tipka 1   </td><td class="markdownTableBodyNone">Aktivira INT1 (srednji)    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">BUTTON2   </td><td class="markdownTableBodyNone">Tipka 2   </td><td class="markdownTableBodyNone">Aktivira INT2 (niski)   </td></tr>
-</table>
-<h1><a class="anchor" id="hcsr04"></a>
-HC-SR04 Ultrazvučni senzor</h1>
-<p>Koristi se za mjerenje udaljenosti. Ako izmjerena udaljenost padne ispod definiranog praga, aktivira se LED indikator alarma udaljenosti (LED_ALERT).</p>
-<h1><a class="anchor" id="timer1"></a>
-Timer1 prekid</h1>
-<p>Timer1 je konfiguriran za generiranje periodičkog prekida. Ovaj prekid ima programski najviši prioritet i koristi se za demonstraciju prekida s najvišim prioritetom putem LED indikatora (LED_Timer).</p>
-<dl class="section note"><dt>Note</dt><dd>Iako je implementirana programska prioritizacija prekida, stvarni ugnježđeni prekidi (preemption) nisu podržani na AVR arhitekturi (ATmega2560) na razini sklopovlja. Program osigurava da se prekidi obrađuju prema definiranom prioritetu u glavnoj petlji. Prekid tajmera ima najviši prioritet, zatim INT0, INT1 i na kraju INT2.</dd></dl>
-<dl class="section author"><dt>Author</dt><dd>Vlado Sruk </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>20. ožujak 2025. </dd></dl>
-<dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Licenca: MIT Licenca - Slobodno korištenje, modifikacija i distribucija.</dd>
-<dd>
-Zavisnosti: &lt;avr/interrupt.h&gt; za rad s prekidima. </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ac3c25392012bbb1b3dc72e9c8847c806" name="ac3c25392012bbb1b3dc72e9c8847c806"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac3c25392012bbb1b3dc72e9c8847c806">&#9670;&#160;</a></span>BUTTON0</h2>
 
@@ -365,6 +318,7 @@ Zavisnosti: &lt;avr/interrupt.h&gt; za rad s prekidima. </dd></dl>
 <p>Prikazuje kontrolni tok glavnih funkcija programa. </p>
 <h1><a class="anchor" id="cfg_tok"></a>
 Dijagram toka programa</h1>
+<p>Ovaj dijagram prikazuje</p>
 <div class="dotgraph">
 </div>
  <h1><a class="anchor" id="priority_diagram"></a>
