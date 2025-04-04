@@ -3,10 +3,10 @@ name: Doxygen Documentation
 on:
   push:
     branches:
-      - main  # Or specify the branch you want to trigger it from
+      - main  # Pokreće workflow pri pushu na main granu
   pull_request:
     branches:
-      - main  # Or specify the branch you want to trigger it from
+      - main  # Pokreće workflow kod pull requesta prema main grani
 
 jobs:
   doxygen:
@@ -14,23 +14,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Doxygen
-      run: sudo apt-get install doxygen
+      - name: Set up Doxygen
+        run: sudo apt-get install doxygen
 
-    - name: Generate Documentation
-      run: |
-        cd Lab1  # Navigate into the Lab1 folder
-        doxygen Doxyfile  # Run Doxygen from within the Lab1 folder
-#        mkdir -p Lab1/docs
-#        mv Lab1/docs/html/* Lab1/docs/    # Move generated docs to the docs folder inside Lab1
+      - name: Generate Documentation
+        run: |
+          cd Lab1  # Uđi u Lab1 direktorij gdje je Doxyfile
+          doxygen Doxyfile  # Pokreni generiranje dokumentacije
 
-   - name: Deploy Documentation to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        personal_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: Lab1/docs/html  # Specify the generated HTML folder inside Lab1 to publish
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Set the GITHUB_TOKEN environment variable explicitly
+      - name: Deploy Documentation to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: Lab1/docs/html  # Lokacija generirane dokumentacije
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
