@@ -3,31 +3,43 @@ name: Doxygen Documentation
 on:
   push:
     branches:
-      - main  # Pokreće workflow pri pushu na main granu
+      - main  # Trigger workflow on push to the 'main' branch
   pull_request:
     branches:
-      - main  # Pokreće workflow kod pull requesta prema main grani
+      - main  # Trigger workflow for pull requests targeting the 'main' branch
+
+permissions:
+  contents: write  # Allow GitHub Actions to push changes to the 'gh-pages' branch
 
 jobs:
   doxygen:
     name: Generate Doxygen Documentation
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4  # Checkout the code from the repository
 
-      - name: Set up Doxygen
-        run: sudo apt-get install doxygen
+      - name: Cache Doxygen
+        uses: actions/cache@v3  # Cache Doxygen installation to speed up subsequent builds
+        with:
+          path: ~/.cache/doxygen  # Cache location
+          key: doxygen-${{ runner.os }}  # Cache key based on OS
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update  # Update package list
+          sudo apt-get install -y doxygen  # Install Doxygen
+          doxygen -v  # Verify that Doxygen is installed correctly
 
       - name: Generate Documentation
         run: |
-          cd Lab1  # Uđi u Lab1 direktorij gdje je Doxyfile
-          doxygen Doxyfile  # Pokreni generiranje dokumentacije
+          cd Lab1  # Change to the directory containing the Doxyfile
+          doxygen Doxyfile || { echo "Doxygen failed"; exit 1; }  # Run Doxygen, exit if it fails
+          if [ ! -d "docs/html" ]; then echo "Error: docs/html not found!"; exit 1; fi  # Check if the HTML output directory exists
 
       - name: Deploy Documentation to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3  # Use the 'actions-gh-pages' action to deploy documentation
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          #personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          publish_dir: Lab1/docs/html  # Lokacija generirane dokumentacije
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token for authentication
+          publish_dir: Lab1/docs/html  # Directory where the HTML documentation is generated
