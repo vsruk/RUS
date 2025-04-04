@@ -62,7 +62,7 @@
  * @section cfg_tok Dijagram toka programa
  * @brief Prikazuje kontrolni tok glavnih funkcija programa.
  * 
- * Ovaj dijagram prikazuje
+ * Ovaj dijagram prikazuje strukturu programa
  *
  * @dot
  *
@@ -84,16 +84,6 @@
  * ISR_INT2 -> handleInterrupt [label="prekid INT2"];
  * }
  *
- * style setup fillcolor=#CCEEFF, stroke=blue, strokewidth=2;
- * style loop fillcolor=#FFEECC, stroke=orange, strokewidth=2;
- * style measureDistance fillcolor=#DDFFDD, stroke=green, strokewidth=2;
- * style handleInterrupts fillcolor=#FFFFDD, stroke=purple, strokewidth=2;
- * style triggerDistanceAlert fillcolor=#FFDDDD, stroke=red, strokewidth=2;
- * style handleTimerInterruptCheck fillcolor=#DDDDFF, stroke=brown, strokewidth=2;
- * style handleTimerInterrupt fillcolor=#E0FFFF, stroke=cyan, strokewidth=2;
- * style ISR_INT0 fillcolor=#F0FFF0, stroke=gray;
- * style ISR_INT1 fillcolor=#F0FFF0, stroke=gray;
- * style ISR_INT2 fillcolor=#F0FFF0, stroke=gray;
  * }
  * @enddot
  */
