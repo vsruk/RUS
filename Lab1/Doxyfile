@@ -14,7 +14,7 @@ FILE_PATTERNS          = *.c *.h  *.ino      # Ekstenzije datoteka koje će biti
 
 # Izlazni format
 GENERATE_HTML          = YES                 # Generiraj HTML dokumentaciju
-HTML_OUTPUT            = html                # Direktorij za pohranu HTML dokumenata (relativno prema OUTPUT_DIRECTORY)
+HTML_OUTPUT            = docs/html                # Direktorij za pohranu HTML dokumenata (relativno prema OUTPUT_DIRECTORY)
 GENERATE_LATEX         = NO                  # Isključi generiranje LaTeX dokumentacije (opcionalno)
 GENERATE_RTF           = NO                  # Isključi generiranje RTF dokumentacije (opcionalno)
 
