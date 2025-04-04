@@ -35,7 +35,10 @@
  * @note Licenca: MIT Licenca - Slobodno korištenje, modifikacija i distribucija.
  * 
  * @note Zavisnosti: prekidi AVR avr/interrupt.h
- *
+ */
+/**
+ * @section cfg_tok Tok kontrole programa
+ * @brief Dijagram kontrole toka glavnih funkcija
  * @dot
  * digraph cfg {
  *     // Nodes
