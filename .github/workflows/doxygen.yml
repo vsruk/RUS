@@ -32,6 +32,9 @@ jobs:
           sudo apt-get install -y doxygen  # Install Doxygen
           doxygen -v  # Verify that Doxygen is installed correctly
 
+      - name: Install Graphviz
+        run: sudo apt-get install graphviz
+
       - name: Generate Documentation
         run: |
           cd Lab1  # Change to the directory containing the Doxyfile
