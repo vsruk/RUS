@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "author": "Vlado",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-mega", "id": "mega", "top": 125.4, "left": 34.8, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "led_red",
+      "top": -99.6,
+      "left": 224.6,
+      "attrs": { "color": "red", "flip": "" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_yellow",
+      "top": -99.6,
+      "left": 195.8,
+      "attrs": { "color": "yellow" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_green",
+      "top": -99.6,
+      "left": 157.4,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_blue",
+      "top": -99.6,
+      "left": 253.4,
+      "attrs": { "color": "blue" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_white",
+      "top": -99.6,
+      "left": 109.4,
+      "attrs": { "color": "magenta" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "button_red",
+      "top": -124.7,
+      "left": 44.7,
+      "rotate": 270,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "button_yellow",
+      "top": -124.7,
+      "left": -12.9,
+      "rotate": 270,
+      "attrs": { "color": "yellow" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "button_green",
+      "top": -124.7,
+      "left": -70.5,
+      "rotate": 270,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "ultrasonic1",
+      "top": -228.9,
+      "left": 303.1,
+      "attrs": { "distance": "292" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -24,
+      "left": 114.65,
+      "rotate": 90,
+      "attrs": { "value": "1000" }
+    },
+    {
+      "type": "wokwi-logic-analyzer",
+      "id": "logic1",
+      "top": -258.85,
+      "left": -38.4,
+      "attrs": { "channelNames": "INT0, L0", "triggerMode": "edge", "triggerLevel": "low" }
+    }
+  ],
+  "connections": [
+    [ "ultrasonic1:GND", "mega:GND", "black", [ "v0" ] ],
+    [ "ultrasonic1:VCC", "mega:5V", "red", [ "v1" ] ],
+    [ "ultrasonic1:Trig", "mega:12", "green", [ "v2" ] ],
+    [ "ultrasonic1:Echo", "mega:13", "yellow", [ "v3" ] ],
+    [ "led_red:A", "mega:13", "red", [ "v4" ] ],
+    [ "led_red:C", "mega:GND.1", "black", [ "v86.4", "h-114.8", "v105.6" ] ],
+    [ "led_yellow:A", "mega:12", "yellow", [ "v96", "h-48" ] ],
+    [ "led_yellow:C", "mega:GND.1", "black", [ "v86.4", "h-86", "v105.6" ] ],
+    [ "led_green:A", "mega:11", "green", [ "v96", "h-18.8" ] ],
+    [ "led_green:C", "mega:GND.1", "black", [ "v96", "h-47.6", "v105.6" ] ],
+    [ "led_blue:A", "mega:10", "blue", [ "v96", "h-86.1" ] ],
+    [ "led_blue:C", "mega:GND.1", "black", [ "v86.4", "h-143.6", "v105.6" ] ],
+    [ "led_white:A", "r1:1", "white", [ "v7" ] ],
+    [ "led_white:C", "mega:GND.1", "black", [ "v18" ] ],
+    [ "button_red:1.l", "mega:2", "red", [ "v9" ] ],
+    [ "button_red:2.l", "mega:GND.2", "black", [ "v144", "h-105.4", "v233.1" ] ],
+    [ "button_yellow:1.l", "mega:3", "yellow", [ "v124.8", "h17.3" ] ],
+    [ "button_yellow:2.l", "mega:GND.2", "black", [ "v76.8", "v290.7" ] ],
+    [ "button_green:1.l", "mega:21", "green", [ "v182.4", "h154" ] ],
+    [ "button_green:2.l", "mega:GND.2", "black", [ "v144", "h-57.4", "v233.1" ] ],
+    [ "ultrasonic1:TRIG", "mega:4", "green", [ "v17" ] ],
+    [ "ultrasonic1:ECHO", "mega:5", "green", [ "v20" ] ],
+    [ "ultrasonic1:GND", "mega:GND.3", "black", [ "v0" ] ],
+    [ "r1:2", "mega:9", "white", [ "h-9.6", "v-1.2" ] ],
+    [ "r1:1", "led_white:A", "white", [ "h0" ] ],
+    [ "logic1:D0", "button_yellow:2.r", "green", [ "h-96", "v364.8" ] ],
+    [ "logic1:D1", "led_yellow:A", "purple", [ "h-57.6", "v201.6", "h316.8" ] ],
+    [ "logic1:D2", "led_blue:A", "green", [ "h-38.4", "v76.8", "h345.6" ] ]
+  ],
+  "dependencies": {}
+}
