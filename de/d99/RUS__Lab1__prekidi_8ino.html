@@ -9,6 +9,10 @@
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
 <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../search/searchdata.js"></script>
 <script type="text/javascript" src="../../search/search.js"></script>
@@ -47,6 +51,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('de/d99/RUS__Lab1__prekidi_8ino.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,7 +89,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
@@ -81,9 +101,11 @@ $(function() {
 <p>Primjer rada s prekidima i ugnježđeni prekidi za tipkala.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;avr/interrupt.h&gt;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for RUS_Lab1_prekidi.ino:</div>
-<div class="dyncontent">
+</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Include dependency graph for RUS_Lab1_prekidi.ino:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../dc/dbf/RUS__Lab1__prekidi_8ino__incl.png" border="0" usemap="#aRUS__Lab1__prekidi_8ino" alt=""/></div>
 <map name="aRUS__Lab1__prekidi_8ino" id="aRUS__Lab1__prekidi_8ino">
 <area shape="rect" title="Primjer rada s prekidima i ugnježđeni prekidi za tipkala." alt="" coords="5,5,168,31"/>
@@ -491,9 +513,11 @@ Dijagram toka funkcija</h1>
 <p>&lt; Bljeskanje LED-a</p>
 <p>&lt; Interval treptanja</p>
 <p>&lt; Gašenje LED-a</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_a15153d60a190ec12d0bdaf81cc0f939b_icgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_a15153d60a190ec12d0bdaf81cc0f939b_icgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_a15153d60a190ec12d0bdaf81cc0f939b_icgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_a15153d60a190ec12d0bdaf81cc0f939b_icgraph">
 <area shape="rect" title="Bljeskanje LED&#45;a na temelju vremena." alt="" coords="281,5,359,31"/>
@@ -546,9 +570,11 @@ Here is the caller graph for this function:</div>
 <div class="dotgraph">
 <img src="../../dot_inline_dotgraph_4.png" alt="dot_inline_dotgraph_4.png" border="0" usemap="#dot_inline_dotgraph_4.map"/>
 </div>
- <div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
+ <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_a4c96831ab3c332483a603f129028f35c_icgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_a4c96831ab3c332483a603f129028f35c_icgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_a4c96831ab3c332483a603f129028f35c_icgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_a4c96831ab3c332483a603f129028f35c_icgraph">
 <area shape="rect" title="Obrada prekida s prioritetima." alt="" coords="240,55,363,80"/>
@@ -587,9 +613,11 @@ Here is the caller graph for this function:</div>
 <p>&lt; LED za INT0 (najviši prioritet)</p>
 <p>&lt; LED za INT1 (srednji prioritet)</p>
 <p>&lt; LED za INT2 (niskim prioritetom)</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_ac5c5aa6ac9677fce5ac2020e921bd47b_cgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_ac5c5aa6ac9677fce5ac2020e921bd47b_cgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_ac5c5aa6ac9677fce5ac2020e921bd47b_cgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_ac5c5aa6ac9677fce5ac2020e921bd47b_cgraph">
 <area shape="rect" title="Obrada svih prekida prema prioritetu." alt="" coords="5,5,135,31"/>
@@ -597,9 +625,11 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="135,15,169,15,169,21,135,21"/>
 </map>
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_ac5c5aa6ac9677fce5ac2020e921bd47b_icgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_ac5c5aa6ac9677fce5ac2020e921bd47b_icgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_ac5c5aa6ac9677fce5ac2020e921bd47b_icgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_ac5c5aa6ac9677fce5ac2020e921bd47b_icgraph">
 <area shape="rect" title="Obrada svih prekida prema prioritetu." alt="" coords="104,5,233,31"/>
@@ -634,9 +664,11 @@ Here is the caller graph for this function:</div>
 <p>&lt; Gašenje LED-a</p>
 <p>&lt; Resetiranje zastavice za tajmer</p>
 <p>&lt; Završetak obrade</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_a1fe6e42f17e1c3a667d8642dd2df1ed7_icgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_a1fe6e42f17e1c3a667d8642dd2df1ed7_icgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_a1fe6e42f17e1c3a667d8642dd2df1ed7_icgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_a1fe6e42f17e1c3a667d8642dd2df1ed7_icgraph">
 <area shape="rect" title="Obrada prekida od Timer1." alt="" coords="104,5,264,31"/>
@@ -688,9 +720,11 @@ Here is the caller graph for this function:</div>
 <p>Prekidna funkcija za INT0. </p>
 <p>Funkcija koja se poziva kada je pritisnuta tipka 0 (INT0). </p>
 <p>&lt; Obrada prekida INT0 s visokim prioritetom</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_ac821426bbbcc53b574e0fceb0523be84_cgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_ac821426bbbcc53b574e0fceb0523be84_cgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_ac821426bbbcc53b574e0fceb0523be84_cgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_ac821426bbbcc53b574e0fceb0523be84_cgraph">
 <area shape="rect" title="Prekidna funkcija za INT0." alt="" coords="5,5,85,31"/>
@@ -698,9 +732,11 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="86,15,120,15,120,21,86,21"/>
 </map>
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_ac821426bbbcc53b574e0fceb0523be84_icgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_ac821426bbbcc53b574e0fceb0523be84_icgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_ac821426bbbcc53b574e0fceb0523be84_icgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_ac821426bbbcc53b574e0fceb0523be84_icgraph">
 <area shape="rect" title="Prekidna funkcija za INT0." alt="" coords="112,5,192,31"/>
@@ -729,9 +765,11 @@ Here is the caller graph for this function:</div>
 <p>Prekidna funkcija za INT1. </p>
 <p>Funkcija koja se poziva kada je pritisnuta tipka 1 (INT1). </p>
 <p>&lt; Obrada prekida INT1 sa srednjim prioritetom</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_a0ef31787dca1428623757604c4d1ab7d_cgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_a0ef31787dca1428623757604c4d1ab7d_cgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_a0ef31787dca1428623757604c4d1ab7d_cgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_a0ef31787dca1428623757604c4d1ab7d_cgraph">
 <area shape="rect" title="Prekidna funkcija za INT1." alt="" coords="5,5,85,31"/>
@@ -739,9 +777,11 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="86,15,120,15,120,21,86,21"/>
 </map>
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_a0ef31787dca1428623757604c4d1ab7d_icgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_a0ef31787dca1428623757604c4d1ab7d_icgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_a0ef31787dca1428623757604c4d1ab7d_icgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_a0ef31787dca1428623757604c4d1ab7d_icgraph">
 <area shape="rect" title="Prekidna funkcija za INT1." alt="" coords="112,5,192,31"/>
@@ -770,9 +810,11 @@ Here is the caller graph for this function:</div>
 <p>Prekidna funkcija za INT2. </p>
 <p>Funkcija koja se poziva kada je pritisnuta tipka 2 (INT2). </p>
 <p>&lt; Obrada prekida INT2 s niskim prioritetom</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-10-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-10-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_a470520bf5d52fc484f287e9631c50920_cgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_a470520bf5d52fc484f287e9631c50920_cgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_a470520bf5d52fc484f287e9631c50920_cgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_a470520bf5d52fc484f287e9631c50920_cgraph">
 <area shape="rect" title="Prekidna funkcija za INT2." alt="" coords="5,5,85,31"/>
@@ -780,9 +822,11 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="86,15,120,15,120,21,86,21"/>
 </map>
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-11-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-11-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_a470520bf5d52fc484f287e9631c50920_icgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_a470520bf5d52fc484f287e9631c50920_icgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_a470520bf5d52fc484f287e9631c50920_icgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_a470520bf5d52fc484f287e9631c50920_icgraph">
 <area shape="rect" title="Prekidna funkcija za INT2." alt="" coords="112,5,192,31"/>
@@ -816,9 +860,11 @@ Here is the caller graph for this function:</div>
 <p>&lt; Ako je u tijeku prekid s visokim prioritetom, preskoči ostatak petlje</p>
 <p>&lt; Obrada tajmera</p>
 <p>&lt; Pokretanje alarma udaljenosti</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-12-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-12-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_afe461d27b9c48d5921c00d521181f12f_cgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_afe461d27b9c48d5921c00d521181f12f_cgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_afe461d27b9c48d5921c00d521181f12f_cgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_afe461d27b9c48d5921c00d521181f12f_cgraph">
 <area shape="rect" title="Glavna petlja koja obrađuje sve funkcionalnosti uređaja." alt="" coords="5,80,56,105"/>
@@ -862,9 +908,11 @@ Here is the call graph for this function:</div>
 <p>&lt; Zaustavljanje signala</p>
 <p>&lt; Mjerenje trajanja ECHO signala</p>
 <p>&lt; Izračunavanje udaljenosti</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-13-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-13-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_a24db61917b9da8bb4b87af136cbd345f_icgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_a24db61917b9da8bb4b87af136cbd345f_icgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_a24db61917b9da8bb4b87af136cbd345f_icgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_a24db61917b9da8bb4b87af136cbd345f_icgraph">
 <area shape="rect" title="Mjerenje udaljenosti pomoću HC&#45;SR04 senzora." alt="" coords="104,5,240,31"/>
@@ -892,9 +940,11 @@ Here is the caller graph for this function:</div>
 
 <p>Inicijalizacija svih pinova, prekida, timer-a i serijske komunikacije. </p>
 <p>Ova funkcija postavlja sve pinove, aktivira prekide na tipkama, postavlja timer i omogućava serijsku komunikaciju. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-14-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-14-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-14-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_a4fc01d736fe50cf5b977f755b675f11d_cgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_a4fc01d736fe50cf5b977f755b675f11d_cgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_a4fc01d736fe50cf5b977f755b675f11d_cgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_a4fc01d736fe50cf5b977f755b675f11d_cgraph">
 <area shape="rect" title="Inicijalizacija svih pinova, prekida, timer&#45;a i serijske komunikacije." alt="" coords="5,55,64,80"/>
@@ -934,9 +984,11 @@ Here is the call graph for this function:</div>
 <p>&lt; Ispis na serijskom monitoru</p>
 <p>&lt; Kratka pauza</p>
 <p>&lt; Gašenje LED-a</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
+<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-15-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-15-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d99/RUS__Lab1__prekidi_8ino_ab32cbbcb609a39343585330f9509888b_icgraph.png" border="0" usemap="#ade/d99/RUS__Lab1__prekidi_8ino_ab32cbbcb609a39343585330f9509888b_icgraph" alt=""/></div>
 <map name="ade/d99/RUS__Lab1__prekidi_8ino_ab32cbbcb609a39343585330f9509888b_icgraph" id="ade/d99/RUS__Lab1__prekidi_8ino_ab32cbbcb609a39343585330f9509888b_icgraph">
 <area shape="rect" title="Pokretanje alarma udaljenosti." alt="" coords="104,5,257,31"/>
@@ -1110,9 +1162,13 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../de/d99/RUS__Lab1__prekidi_8ino.html">RUS_Lab1_prekidi.ino</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>
