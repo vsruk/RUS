@@ -1,0 +1,13 @@
+<map id="loop" name="loop">
+<area shape="rect" id="Node000001" title="Glavna petlja koja obrađuje sve funkcionalnosti uređaja." alt="" coords="5,80,56,105"/>
+<area shape="rect" id="Node000002" href="$de/d99/RUS__Lab1__prekidi_8ino.html#ac5c5aa6ac9677fce5ac2020e921bd47b" title="Obrada svih prekida prema prioritetu." alt="" coords="119,5,249,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="46,78,71,58,103,40,119,33,121,38,105,44,74,63,49,82"/>
+<area shape="rect" id="Node000004" href="$de/d99/RUS__Lab1__prekidi_8ino.html#a1fe6e42f17e1c3a667d8642dd2df1ed7" title="Obrada prekida od Timer1." alt="" coords="104,55,264,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="56,86,93,80,94,85,57,91"/>
+<area shape="rect" id="Node000005" href="$de/d99/RUS__Lab1__prekidi_8ino.html#a24db61917b9da8bb4b87af136cbd345f" title="Mjerenje udaljenosti pomoću HC&#45;SR04 senzora." alt="" coords="116,104,252,129"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="57,94,103,101,102,106,56,99"/>
+<area shape="rect" id="Node000006" href="$de/d99/RUS__Lab1__prekidi_8ino.html#ab32cbbcb609a39343585330f9509888b" title="Pokretanje alarma udaljenosti." alt="" coords="107,153,261,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="50,103,105,138,124,146,122,151,103,143,47,108"/>
+<area shape="rect" id="Node000003" href="$de/d99/RUS__Lab1__prekidi_8ino.html#a15153d60a190ec12d0bdaf81cc0f939b" title="Bljeskanje LED&#45;a na temelju vremena." alt="" coords="312,5,389,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="249,15,298,15,298,21,249,21"/>
+</map>
