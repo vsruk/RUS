@@ -1,388 +1,421 @@
 /**
  * @file RUS_Lab1_prekidi.ino
- * @brief Primjer rada s prekidima i ugnježđeni prekidi za tipkala.
+ * @brief Primjer rada s prekidima i programska prioritizacija prekida za tipkala.
  *
- * Ovaj program prikazuje mogućnosti rada s prekidima, mjeri udaljenost pomoću HC-SR04 senzora, 
- * obrađuje prekide s ugnježđenim prioritetima za tipkala i upravlja odgovarajućim LED indikatorskim lampicama
- * koje trepere tijekom aktivnih prekida.
- * 
- * @section led_indikatori LED indikatori:
- * 
- * | Pin        | Funkcija                 | Prioritet         |
- * |------------|--------------------------|-------------------|
- * | LED_INT0   | Visoki prioritet (INT0)   | Najviši           |
- * | LED_INT1   | Srednji prioritet (INT1)  | Srednji           |
- * | LED_INT2   | Niski prioritet (INT2)    | Niski             |
- * | LED_ALERT  | Alarm udaljenosti         | -                 |
- * | LED_Timer  | Alarm tajmera             | -                 |
+ * Ovaj program demonstrira rad s vanjskim prekidima (INT0, INT1, INT2) aktiviranim pritiskom tipkala,
+ * te implementira programsku prioritizaciju tih prekida. Također, program mjeri udaljenost pomoću
+ * HC-SR04 ultrazvučnog senzora i aktivira LED alarm ako je udaljenost manja od definiranog praga.
+ * Dodatno, koristi se Timer1 za generiranje vremenskog prekida koji također ima najviši prioritet.
+ * LED indikatori trepere tijekom obrade odgovarajućih prekida.
  *
- * @section tipkala Tipkala:
- * 
- * | Pin        | Tipka  | Funkcija      |
- * |------------|--------|---------------|
- * | BUTTON0    | Tipka 0 | Ulazni signal |
- * | BUTTON1    | Tipka 1 | Ulazni signal |
- * | BUTTON2    | Tipka 2 | Ulazni signal |
+ * @section led_indikatori LED indikatori
+ *
+ * | Pin        | Funkcija                     | Prioritet         |
+ * |------------|------------------------------|-------------------|
+ * | LED_INT0   | Indikator prekida INT0       | Najviši           |
+ * | LED_INT1   | Indikator prekida INT1       | Srednji           |
+ * | LED_INT2   | Indikator prekida INT2       | Niski             |
+ * | LED_ALERT  | Indikator alarma udaljenosti | -                 |
+ * | LED_Timer  | Indikator alarma tajmera     | Najviši (programski)|
+ *
+ * @section tipkala Tipkala za prekide
+ *
+ * | Pin        | Tipka   | Funkcija aktivacije prekida |
+ * |------------|---------|-----------------------------|
+ * | BUTTON0    | Tipka 0 | Aktivira INT0 (najviši)     |
+ * | BUTTON1    | Tipka 1 | Aktivira INT1 (srednji)     |
+ * | BUTTON2    | Tipka 2 | Aktivira INT2 (niski)       |
+ *
+ * @section hcsr04 HC-SR04 Ultrazvučni senzor
+ *
+ * Koristi se za mjerenje udaljenosti. Ako izmjerena udaljenost padne ispod definiranog praga,
+ * aktivira se LED indikator alarma udaljenosti (LED_ALERT).
+ *
+ * @section timer1 Timer1 prekid
+ *
+ * Timer1 je konfiguriran za generiranje periodičkog prekida. Ovaj prekid ima programski najviši
+ * prioritet i koristi se za demonstraciju prekida s najvišim prioritetom putem LED indikatora (LED_Timer).
  *
  * @note
- * AVR arhitektura (ATmega2560) ne podržava preempciju, tj. automatsko preklapanje prekida višeg prioriteta unutar ISR-a ni ugnježđene prioritete. 
- * Iako je implementirana programska prioritizacija prekida, stvarni ugnježđeni prekidi nisu podržani na razini sklopovlja.
- * Prekidi su prioritetizirani programski, ali ne stvarno ugnježđeni.
+ * Iako je implementirana programska prioritizacija prekida, stvarni ugnježđeni prekidi (preemption)
+ * nisu podržani na AVR arhitekturi (ATmega2560) na razini sklopovlja. Program osigurava da se
+ * prekidi obrađuju prema definiranom prioritetu u glavnoj petlji. Prekid tajmera ima najviši
+ * prioritet, zatim INT0, INT1 i na kraju INT2.
  *
  * @author Vlado Sruk
  * @date 20. ožujak 2025.
  * @version 1.0
  * @note Licenca: MIT Licenca - Slobodno korištenje, modifikacija i distribucija.
- * 
- * @note Zavisnosti: prekidi AVR avr/interrupt.h
+ *
+ * @note Zavisnosti: <avr/interrupt.h> za rad s prekidima.
  */
+
 /**
- * @section cfg_tok Tok kontrole programa
- * @brief Dijagram kontrole toka glavnih funkcija
+ * @section cfg_tok Dijagram toka programa
+ * @brief Prikazuje kontrolni tok glavnih funkcija programa.
  * @dot
  * digraph cfg {
- *     // Nodes
- *     setup [label="setup()", shape=box];
- *     loop [label="loop()", shape=box];
- *     measureDistance [label="measureDistance()", shape=box];
- *     handleInterrupts [label="handleInterrupts()", shape=box];
- *     handleInterrupt [label="handleInterrupt()", shape=box];
- *     triggerDistanceAlert [label="triggerDistanceAlert()", shape=box];
- *     handleTimerInterrupt [label="handleTimerInterrupt()", shape=box];
- *     ISR_INT0 [label="ISR_INT0", shape=box];
- *     ISR_INT1 [label="ISR_INT1", shape=box];
- *     ISR_INT2 [label="ISR_INT2", shape=box];
- *     
- *     // Edges (Control Flow)
- *     setup -> loop;
- *     loop -> measureDistance;
- *     loop -> handleInterrupts;
- *     loop -> handleInterrupt;
- *     loop -> triggerDistanceAlert;
- *     loop -> handleTimerInterrupt;
- *     
- *     measureDistance -> handleInterrupts;
- *     handleInterrupts -> handleInterrupt;
- *     
- *     handleInterrupt -> handleInterrupts;
- *     handleInterrupts -> triggerDistanceAlert;
- *     
- *     handleTimerInterrupt -> handleInterrupts;
- *     
- *     ISR_INT0 -> handleInterrupts;
- *     ISR_INT1 -> handleInterrupts;
- *     ISR_INT2 -> handleInterrupts;
- *     
- *     handleInterrupts -> triggerDistanceAlert;
- *     
- *     // Special handling for conditions (arrows point to actions)
- *     loop -> measureDistance [label="distance check", color=blue];
- *     loop -> handleTimerInterrupt [label="timerFlag", color=red];
- *     handleInterrupts -> triggerDistanceAlert [label="distanceAlert", color=green];
+ * node [shape=box];
+ * setup -> loop [label="Jednom pri pokretanju"];
+ * loop -> measureDistance [label="U svakoj iteraciji"];
+ * loop -> handleInterrupts [label="U svakoj iteraciji"];
+ * loop -> handleTimerInterruptCheck [label="U svakoj iteraciji"];
+ * handleTimerInterruptCheck -> handleTimerInterrupt [label="timerFlag == true"];
+ * measureDistance -> handleInterrupts [label="Nakon mjerenja"];
+ * handleInterrupts -> triggerDistanceAlert [label="distanceAlert == true"];
+ *
+ * subgraph cluster_interrupts {
+ * label = "Obrada prekida";
+ * handleInterrupts -> handleInterrupt [label="ako je intFlag[i] true"];
+ * ISR_INT0 -> handleInterrupt [label="prekid INT0"];
+ * ISR_INT1 -> handleInterrupt [label="prekid INT1"];
+ * ISR_INT2 -> handleInterrupt [label="prekid INT2"];
  * }
- * @enddot
- */
-/**
- * @section diagrami Dijagram prioriteta prekida
- * 
- * Dijagram prioriteta prekida prikazuje raspored prioriteta za prekide u sustavu:
- * - INT0 ima najviši prioritet.
- * - INT1 ima srednji prioritet.
- * - INT2 ima najniži prioritet.
  *
- * @dot
- * digraph G {
- *   rankdir=TB;
- *   LED_INT0 [label="INT0\nVisoki prioritet" shape=box style=filled color=red];
- *   LED_INT1 [label="INT1\nSrednji prioritet" shape=box style=filled color=yellow];
- *   LED_INT2 [label="INT2\nNiski prioritet" shape=box style=filled color=green];
- *   LED_ALERT [label="Alarm udaljenosti" shape=ellipse];
- *   LED_Timer [label="Alarm tajmera" shape=ellipse];
- *   BUTTON0 [label="Tipka 0" shape=ellipse];
- *   BUTTON1 [label="Tipka 1" shape=ellipse];
- *   BUTTON2 [label="Tipka 2" shape=ellipse];
- * }
- * @enddot
- *
- * Ovaj dijagram prikazuje prioritet prekida (INT0, INT1, INT2) i njihove povezane LED indikatore. 
- * Također uključuje tipke za aktiviranje prekida i alarme za udaljenost i tajmer.
- */
-
-/**
- * @section funkcije Dijagram toka funkcija
- * 
- * Dijagram toka funkcija prikazuje povezanost između funkcija za upravljanje prekidima i LED indikatorima:
- * - Prekidi (ISR) pozivaju funkcije za obradu prekida.
- * - Glavna petlja (loop) obrađuje zastavice postavljene ISR funkcijama.
- *
- * @dot
- * digraph G {
- *   rankdir=LR;
- *   ISR_INT0 -> handleInterrupt;
- *   ISR_INT1 -> handleInterrupt;
- *   ISR_INT2 -> handleInterrupt;
- *   handleInterrupt -> handleInterrupts;
- *   handleInterrupts -> handleTimerInterrupt;
- *   handleTimerInterrupt -> blinkLed;
- * }
- * @enddot
- *
- * Ovaj dijagram prikazuje tok poziva između prekidnih funkcija, obrade prekida, upravljanja timerom i bljeskanja LED dioda.
- */
-#include <avr/interrupt.h>
-
-// LED pinovi
-/** Pinovi za LED indikatore */
-#define LED_INT0 11   ///< Visoki prioritet (INT0)
-#define LED_INT1 12   ///< Srednji prioritet (INT1)
-#define LED_INT2 13   ///< Niski prioritet (INT2)
-#define LED_ALERT 10  ///< Alarm udaljenosti
-#define LED_Timer 9   ///< Alarm tajmera
-
-// Tipkala
-/** Pinovi za tipke */
-#define BUTTON0 2 ///< Tipka 0
-#define BUTTON1 3 ///< Tipka 1
-#define BUTTON2 21 ///< Tipka 2
-
-// HC-SR04 senzor
-/** Pinovi za HC-SR04 ultrazvučni senzor */
-#define TRIG_PIN 4  ///< Pin za TRIG signal
-#define ECHO_PIN 5  ///< Pin za ECHO signal
-
-// Timer1 konstante
-/** Timer konfiguracija za Timer1 */
-#define TIMER1_PRESCALER 1024 ///< Preskaler za Timer1
-#define TIMER1_COMPARE 15624 ///< Vrijednost za usporedbu timer-a
-
-// Globalne varijable za prekide
-/** Globalne varijable za upravljanje prekidima */
-volatile bool intFlag[3] = {false, false, false};  ///< Zastavice za prekide
-volatile unsigned long lastInterruptTime[3] = {0, 0, 0}; ///< Vrijeme zadnjih prekida
-volatile unsigned long lastTimerTime = 0; ///< Vrijeme zadnjeg tajmera
-const unsigned long BLINK_INTERVAL = 200; ///< Interval za treptanje LED-a
-const int DEBOUNCE_DELAY = 50; ///< Delay za debounce
-const int TIMER_DELAY = 1000; ///< Kašnjenje za timer
-const int ALARM_DISTANCE = 100; ///< Granica za alarm udaljenosti
-
-volatile bool distanceAlert = false; ///< Zastavica za alarm udaljenosti
-volatile bool timerFlag = false; ///< Zastavica za alarm tajmera
-volatile bool interruptInProgress = false; ///< Označava obradu prekida s visokim prioritetom
-
-/**
- * @brief Inicijalizacija svih pinova, prekida, timer-a i serijske komunikacije.
- * 
- * Ova funkcija postavlja sve pinove, aktivira prekide na tipkama, postavlja timer i omogućava serijsku komunikaciju.
- */
-void setup() {
-    pinMode(LED_INT0, OUTPUT);
-    pinMode(LED_INT1, OUTPUT);
-    pinMode(LED_INT2, OUTPUT);
-    pinMode(LED_ALERT, OUTPUT);
-    pinMode(LED_Timer, OUTPUT);
-
-    pinMode(BUTTON0, INPUT_PULLUP);
-    pinMode(BUTTON1, INPUT_PULLUP);
-    pinMode(BUTTON2, INPUT_PULLUP);
-
-    pinMode(TRIG_PIN, OUTPUT);
-    pinMode(ECHO_PIN, INPUT);
-
-    attachInterrupt(digitalPinToInterrupt(BUTTON0), ISR_INT0, FALLING);
-    attachInterrupt(digitalPinToInterrupt(BUTTON1), ISR_INT1, FALLING);
-    attachInterrupt(digitalPinToInterrupt(BUTTON2), ISR_INT2, FALLING);
-
-    TCCR1A = 0;
-    TCCR1B = (1 << WGM12) | (1 << CS12) | (1 << CS10);
-    OCR1A = TIMER1_COMPARE;
-    TIMSK1 = (1 << OCIE1A);
-
-    Serial.begin(9600);
-    sei(); // Omogućavanje globalnih prekida
-}
-
-/**
- * @brief Glavna petlja koja obrađuje sve funkcionalnosti uređaja.
- * 
- * Funkcija stalno mjeri udaljenost, upravlja prekidima i alarmima te pokreće odgovarajuće radnje.
- */
-void loop() {
-    float distance = measureDistance(); ///< Mjeri udaljenost s HC-SR04 senzorom
-    distanceAlert = (distance > 0 && distance < ALARM_DISTANCE); ///< Provjerava udaljenost za alarm
-
-    handleInterrupts(); ///< Obrada prekida sa višim prioritetom
-
-    if (interruptInProgress) {
-        return; ///< Ako je u tijeku prekid s visokim prioritetom, preskoči ostatak petlje
-    }
-
-    // Obrada najvišeg prioriteta (tajmer)
-    if (timerFlag) {
-        handleTimerInterrupt(); ///< Obrada tajmera
-    }
-
-    if (distanceAlert) {
-        triggerDistanceAlert(); ///< Pokretanje alarma udaljenosti
-    }
-}
-
-/**
- * @brief Prekidna funkcija za Timer1.
- * 
- * Funkcija koja se poziva kada Timer1 dostigne zadanu usporedbu.
- */
-ISR(TIMER1_COMPA_vect) {
-    timerFlag = true; ///< Postavljanje zastavice za obradu u petlji
-    lastTimerTime = millis(); ///< Snimanje vremena kada je prekid nastao
-}
-
-/**
- * @brief Obrada prekida od Timer1.
- * 
- * Funkcija koja obavlja radnje povezane s prekidom timer-a.
- */
-void handleTimerInterrupt() {
-    interruptInProgress = true; ///< Označavanje da je obrada tajmera u tijeku
-    digitalWrite(LED_Timer, HIGH); ///< Aktivacija LED za tajmer
-    Serial.println("TIMER INTERRUPT (HIGHEST PRIORITY)"); ///< Ispis na serijski monitor
-    delay(200); ///< Kratka pauza
-    digitalWrite(LED_Timer, LOW); ///< Gašenje LED-a
-    timerFlag = false; ///< Resetiranje zastavice za tajmer
-    interruptInProgress = false; ///< Završetak obrade
-}
-
-/**
- * @brief Prekidna funkcija za INT0.
- * 
- * Funkcija koja se poziva kada je pritisnuta tipka 0 (INT0).
- */
-void ISR_INT0() {
-    if (!interruptInProgress) {
-        handleInterrupt(0, "INT0 (HIGH priority) triggered"); ///< Obrada prekida INT0 s visokim prioritetom
-    }
-}
-
-/**
- * @brief Prekidna funkcija za INT1.
- * 
- * Funkcija koja se poziva kada je pritisnuta tipka 1 (INT1).
- */
-void ISR_INT1() {
-    if (!interruptInProgress) {
-        handleInterrupt(1, "INT1 (MEDIUM priority) triggered"); ///< Obrada prekida INT1 sa srednjim prioritetom
-    }
-}
-
-/**
- * @brief Prekidna funkcija za INT2.
- * 
- * Funkcija koja se poziva kada je pritisnuta tipka 2 (INT2).
- */
-void ISR_INT2() {
-    if (!interruptInProgress) {
-        handleInterrupt(2, "INT2 (LOW priority) triggered"); ///< Obrada prekida INT2 s niskim prioritetom
-    }
-}
-
-/**
- * @brief Obrada prekida s prioritetima
- * 
- * Ova funkcija obrađuje prekide postavljanjem odgovarajuće zastavice (`intFlag`) na temelju indeksa prekida i ispisuje poruku na serijski monitor.
- * Funkcija također implementira zaštitu od "debounce" efekta, čime se sprječava višestruko prepoznavanje prekida unutar kratkog vremenskog perioda.
- * 
- * @param index Indeks prekida (0 za INT0, 1 za INT1, 2 za INT2)
- * @param message Poruka koja se ispisuje na serijski monitor kada se prekid obradi
- * 
- * @note Funkcija koristi globalnu varijablu `lastInterruptTime` za praćenje vremena posljednjeg prekida i sprječavanje "debounce" efekta.
- * 
- * @see handleInterrupts() Za daljnju obradu prekida prema prioritetima.
- * 
- * @dot
- * digraph G {
- *   rankdir=LR;
- *   handleInterrupt [label="handleInterrupt\nObrada prekida" shape=box style=filled color=lightblue];
- *   debounceCheck [label="Debounce provjera\n(millis() - lastInterruptTime[index] < DEBOUNCE_DELAY)" shape=ellipse];
- *   setFlag [label="Postavljanje intFlag[index] = true" shape=ellipse];
- *   serialPrint [label="Ispis poruke na serijski monitor" shape=ellipse];
- *   
- *   handleInterrupt -> debounceCheck;
- *   debounceCheck -> setFlag [label="Ako je debounce prošao"];
- *   setFlag -> serialPrint;
+ * style setup fillcolor=#CCEEFF, stroke=blue, strokewidth=2;
+ * style loop fillcolor=#FFEECC, stroke=orange, strokewidth=2;
+ * style measureDistance fillcolor=#DDFFDD, stroke=green, strokewidth=2;
+ * style handleInterrupts fillcolor=#FFFFDD, stroke=purple, strokewidth=2;
+ * style triggerDistanceAlert fillcolor=#FFDDDD, stroke=red, strokewidth=2;
+ * style handleTimerInterruptCheck fillcolor=#DDDDFF, stroke=brown, strokewidth=2;
+ * style handleTimerInterrupt fillcolor=#E0FFFF, stroke=cyan, strokewidth=2;
+ * style ISR_INT0 fillcolor=#F0FFF0, stroke=gray;
+ * style ISR_INT1 fillcolor=#F0FFF0, stroke=gray;
+ * style ISR_INT2 fillcolor=#F0FFF0, stroke=gray;
  * }
  * @enddot
  */
  
-void handleInterrupt(int index, const char* message) {
-    if (millis() - lastInterruptTime[index] < DEBOUNCE_DELAY) return;
-    lastInterruptTime[index] = millis();
-    intFlag[index] = true;
-    Serial.println(message);
+/**
+ * @section priority_diagram Dijagram prioriteta prekida
+ * @brief Vizualizacija prioritetnog rasporeda prekida.
+ *
+ * Ovaj dijagram prikazuje relativni prioritet programski implementiranih prekida.
+ * Prekid tajmera ima najviši prioritet, zatim slijede vanjski prekidi INT0, INT1 i INT2.
+ *
+ * @dot
+ * digraph priority {
+ * rankdir=TB;
+ * Timer1 [shape=box, style=filled, fillcolor=red, label="Timer1\n(Najviši programski prioritet)"];
+ * subgraph cluster_external_interrupts {
+ * label = "Programski prioritet vanjskih prekida";
+ * style = rounded;
+ * INT0 [shape=box, style=filled, fillcolor=yellow, label="INT0"];
+ * INT1 [shape=box, style=filled, fillcolor=green, label="INT1"];
+ * INT2 [shape=box, style=filled, fillcolor=lightblue, label="INT2\n(Najniži programski prioritet)"];
+ * INT0 -> INT1 [label="ima viši prioritet od"];
+ * INT1 -> INT2 [label="ima viši prioritet od"];
+ * }
+ * Timer1 -> INT0 [label="ima najviši prioritet od"];
+ * }
+ * @enddot
+ */
+
+/**
+ * @section function_flow Dijagram toka obrade prekida
+ * @brief Prikazuje kako se prekidi detektiraju i obrađuju.
+ *
+ * Kada se aktivira prekid (tipka pritisnuta ili Timer1 istekne), odgovarajuća ISR funkcija postavlja
+ * zastavicu. Glavna petlja periodički provjerava te zastavice i poziva odgovarajuće funkcije za
+ * obradu prekida prema definiranom prioritetu.
+ *
+ * @dot
+ * digraph interrupt_flow {
+ * rankdir=LR;
+ * subgraph cluster_interrupt_service_routines {
+ * label = "Prekidne rutine (ISR)";
+ * ISR_INT0 [shape=ellipse];
+ * ISR_INT1 [shape=ellipse];
+ * ISR_INT2 [shape=ellipse];
+ * TIMER1_COMPA_vect [shape=ellipse, label="TIMER1_COMPA_vect\n(ISR)"];
+ * }
+ * handleInterrupts [shape=box];
+ * handleInterrupt [shape=box];
+ * blinkLed [shape=box];
+ * handleTimerInterrupt [shape=box];
+ *
+ * TIMER1_COMPA_vect -> handleTimerInterrupt;
+ * handleTimerInterrupt -> blinkLed [label="za LED_Timer"];
+ *
+ * ISR_INT0 -> handleInterrupt [label="index=0"];
+ * ISR_INT1 -> handleInterrupt [label="index=1"];
+ * ISR_INT2 -> handleInterrupt [label="index=2"];
+ *
+ * handleInterrupt -> handleInterrupts;
+ * handleInterrupts -> blinkLed [label="ako je intFlag[0] true,\nbljesni LED_INT0"];
+ * handleInterrupts -> blinkLed [label="ako je intFlag[1] true,\nbljesni LED_INT1"];
+ * handleInterrupts -> blinkLed [label="ako je intFlag[2] true,\nbljesni LED_INT2"];
+ * }
+ * @enddot
+ */
+
+#include <avr/interrupt.h>
+
+// Definiranje pinova za LED indikatore
+#define LED_INT0 11    ///< Pin za LED indikator prekida INT0 (visoki prioritet)
+#define LED_INT1 12    ///< Pin za LED indikator prekida INT1 (srednji prioritet)
+#define LED_INT2 13    ///< Pin za LED indikator prekida INT2 (niski prioritet)
+#define LED_ALERT 10   ///< Pin za LED indikator alarma udaljenosti
+#define LED_Timer 9    ///< Pin za LED indikator alarma tajmera
+
+// Definiranje pinova za tipkala
+#define BUTTON0 2      ///< Pin za tipkalo koje aktivira prekid INT0
+#define BUTTON1 3      ///< Pin za tipkalo koje aktivira prekid INT1
+#define BUTTON2 21     ///< Pin za tipkalo koje aktivira prekid INT2
+
+// Definiranje pinova za HC-SR04 senzor
+#define TRIG_PIN 4     ///< Pin za TRIG signal HC-SR04 senzora
+#define ECHO_PIN 5     ///< Pin za ECHO signal HC-SR04 senzora
+
+// Konstante za konfiguraciju Timer1
+#define TIMER1_PRESCALER 1024  ///< Preskaler za Timer1 (F_CPU / 1024)
+#define TIMER1_COMPARE 15624   ///< Vrijednost za usporedbu (za generiranje prekida svakih 1 sekundu pri 16MHz)
+
+// Globalne varijable za upravljanje prekidima i stanjima
+volatile bool intFlag[3] = {false, false, false};    ///< Zastavice koje signaliziraju aktivaciju prekida (INT0, INT1, INT2)
+volatile unsigned long lastInterruptTime[3] = {0, 0, 0}; ///< Vremenski žigovi posljednjih prekida za debounce
+volatile unsigned long lastTimerTime = 0;             ///< Vremenski žig posljednjeg prekida tajmera
+const unsigned long BLINK_INTERVAL = 200;             ///< Interval treptanja LED indikatora (u milisekundama)
+const int DEBOUNCE_DELAY = 50;                        ///< Vrijeme ignoriranja uzastopnih pritisaka tipke (u milisekundama)
+const int TIMER_DELAY = 1000;                         ///< Periodičnost Timer1 prekida (u milisekundama)
+const int ALARM_DISTANCE = 100;                       ///< Prag udaljenosti (u centimetrima) za aktivaciju alarma
+
+volatile bool distanceAlert = false;                 ///< Zastavica koja označava da je udaljenost ispod praga
+volatile bool timerFlag = false;                     ///< Zastavica koja označava da je Timer1 prekid nastupio
+volatile bool interruptInProgress = false;           ///< Zastavica koja sprječava obradu prekida nižeg prioriteta tijekom obrade višeg
+
+/**
+ * @brief Inicijalizacija pinova, konfiguracija prekida i Timer1.
+ *
+ * Ova funkcija postavlja smjer pinova za LED indikatore i tipkala, aktivira vanjske prekide
+ * na padajući brid signala s tipkala, konfigurira Timer1 za generiranje periodičkih prekida
+ * i inicijalizira serijsku komunikaciju za ispis poruka. Globalni prekidi su omogućeni na kraju.
+ */
+void setup() {
+  // Postavljanje pinova LED indikatora kao izlaze
+  pinMode(LED_INT0, OUTPUT);
+  pinMode(LED_INT1, OUTPUT);
+  pinMode(LED_INT2, OUTPUT);
+  pinMode(LED_ALERT, OUTPUT);
+  pinMode(LED_Timer, OUTPUT);
+
+  // Postavljanje pinova tipkala kao ulaze s internim pull-up otpornicima
+  pinMode(BUTTON0, INPUT_PULLUP);
+  pinMode(BUTTON1, INPUT_PULLUP);
+  pinMode(BUTTON2, INPUT_PULLUP);
+
+  // Postavljanje pinova HC-SR04 senzora
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+
+  // Povezivanje prekidnih rutina s odgovarajućim pinovima i načinom okidanja
+  attachInterrupt(digitalPinToInterrupt(BUTTON0), ISR_INT0, FALLING); // INT0 na pinu 2
+  attachInterrupt(digitalPinToInterrupt(BUTTON1), ISR_INT1, FALLING); // INT1 na pinu 3
+  attachInterrupt(digitalPinToInterrupt(BUTTON2), ISR_INT2, FALLING); // INT2 na pinu 21
+
+  // Konfiguracija Timer1 za generiranje prekida svakih 1 sekundu
+  TCCR1A = 0; // Resetiraj registar kontrole timera A
+  TCCR1B = (1 << WGM12) | (1 << CS12) | (1 << CS10); // CTC način rada (Clear Timer on Compare Match), preskaler 1024
+  OCR1A = TIMER1_COMPARE; // Postavi vrijednost za usporedbu
+  TIMSK1 = (1 << OCIE1A); // Omogući prekid kod usporedbe A
+
+  // Inicijalizacija serijske komunikacije
+  Serial.begin(9600);
+  Serial.println("Inicijalizacija zavrsena.");
+
+  sei(); // Omogući globalne prekide
 }
 
 /**
- * @brief Obrada svih prekida prema prioritetu.
- * 
- * Funkcija koja provjerava i obrađuje prekide prema prioritetu.
-																 
+ * @brief Glavna programska petlja.
+ *
+ * U ovoj petlji se periodički mjeri udaljenost, provjeravaju se i obrađuju aktivirani prekidi
+ * prema prioritetu, te se aktivira alarm udaljenosti ako je potrebno. Obrada prekida s
+ * najvišim prioritetom (tajmera) se provjerava na početku petlje.
+ */
+void loop() {
+  // Provjera i obrada prekida tajmera s najvišim prioritetom
+  if (timerFlag) {
+    handleTimerInterrupt();
+  }
+
+  // Mjerenje udaljenosti
+  float distance = measureDistance();
+  // Postavljanje zastavice alarma udaljenosti ako je udaljenost manja od praga
+  distanceAlert = (distance > 0 && distance < ALARM_DISTANCE);
+
+  // Obrada aktiviranih prekida prema prioritetu (INT0, INT1, INT2)
+  handleInterrupts();
+
+  // Ako je aktiviran alarm udaljenosti i nema prekida u tijeku, pokreni alarm
+  if (distanceAlert && !interruptInProgress) {
+    triggerDistanceAlert();
+  }
+}
+
+/**
+ * @brief Prekidna rutina za Timer1 Compare Match A.
+ *
+ * Ova funkcija se poziva kada Timer1 dosegne vrijednost usporedbe OCR1A. Postavlja zastavicu
+ * koja signalizira da je potrebno obraditi prekid tajmera u glavnoj petlji.
+ */
+ISR(TIMER1_COMPA_vect) {
+  timerFlag = true; // Postavi zastavicu za obradu prekida tajmera u glavnoj petlji
+  lastTimerTime = millis(); // Zabilježi vrijeme prekida
+}
+
+/**
+ * @brief Obrada prekida tajmera.
+ *
+ * Ova funkcija se poziva iz glavne petlje kada je postavljena zastavica `timerFlag`. Označava
+ * početak obrade prekida s najvišim prioritetom, aktivira LED indikator tajmera, ispisuje poruku
+ * na serijski monitor, kratko pauzira, gasi LED indikator i resetira zastavice.
+ */
+void handleTimerInterrupt() {
+  interruptInProgress = true; // Označi da je obrada prekida s visokim prioritetom u tijeku
+  digitalWrite(LED_Timer, HIGH); // Uključi LED indikator tajmera
+  Serial.println("TIMER INTERRUPT (NAJVIŠI PRIORITET)");
+  delay(200);
+  digitalWrite(LED_Timer, LOW); // Isključi LED indikator tajmera
+  timerFlag = false; // Resetiraj zastavicu prekida tajmera
+  interruptInProgress = false; // Završi obradu prekida s visokim prioritetom
+}
+
+/**
+ * @brief Prekidna rutina za vanjski prekid INT0.
+ *
+ * Ova funkcija se poziva kada se detektira padajući brid na pinu spojenom na BUTTON0.
+ * Ako trenutno nije u tijeku obrada prekida s višim prioritetom, poziva funkciju za obradu
+ * prekida s indeksom 0 (za INT0).
+ */
+void ISR_INT0() {
+  if (!interruptInProgress) {
+    handleInterrupt(0, "INT0 (VISOKI prioritet) aktiviran");
+  }
+}
+
+/**
+ * @brief Prekidna rutina za vanjski prekid INT1.
+ *
+ * Ova funkcija se poziva kada se detektira padajući brid na pinu spojenom na BUTTON1.
+ * Ako trenutno nije u tijeku obrada prekida s višim prioritetom, poziva funkciju za obradu
+ * prekida s indeksom 1 (za INT1).
+ */
+void ISR_INT1() {
+  if (!interruptInProgress) {
+    handleInterrupt(1, "INT1 (SREDNJI prioritet) aktiviran");
+  }
+}
+
+/**
+ * @brief Prekidna rutina za vanjski prekid INT2.
+ *
+ * Ova funkcija se poziva kada se detektira padajući brid na pinu spojenom na BUTTON2.
+ * Ako trenutno nije u tijeku obrada prekida s višim prioritetom, poziva funkciju za obradu
+ * prekida s indeksom 2 (za INT2).
+ */
+void ISR_INT2() {
+  if (!interruptInProgress) {
+    handleInterrupt(2, "INT2 (NISKI prioritet) aktiviran");
+  }
+}
+
+/**
+ * @brief Obrada pojedinačnog prekida.
+ *
+ * Ova funkcija provjerava debounce za pritisak tipke, postavlja odgovarajuću zastavicu
+ * prekida (`intFlag`) i ispisuje poruku o aktiviranom prekidu na serijski monitor.
+ *
+ * @param index Indeks prekida (0 za INT0, 1 za INT1, 2 za INT2).
+ * @param message Poruka koja se ispisuje prilikom aktivacije prekida.
+ *
+ * @note Koristi se za sprječavanje višestrukog okidanja prekida uslijed "debounce" efekta tipkala.
+ */
+void handleInterrupt(int index, const char* message) {
+  if (millis() - lastInterruptTime[index] < DEBOUNCE_DELAY) {
+    return; // Ignoriraj prekid ako je unutar debounce perioda
+  }
+  lastInterruptTime[index] = millis();
+  intFlag[index] = true;
+  Serial.println(message);
+}
+
+/**
+ * @brief Obrada svih aktiviranih prekida prema prioritetu.
+ *
+ * Ova funkcija provjerava zastavice prekida redom prioriteta (INT0, zatim INT1, zatim INT2).
+ * Ako je zastavica postavljena, poziva funkciju za bljeskanje odgovarajućeg LED indikatora
+ * i resetira zastavicu. Obrada prekida nižeg prioriteta se preskače ako je u tijeku obrada
+ * prekida višeg prioriteta (što se kontrolira globalnom varijablom `interruptInProgress`).
  */
 void handleInterrupts() {
-    if (intFlag[0]) {
-        blinkLed(LED_INT0); ///< LED za INT0 (najviši prioritet)
-        intFlag[0] = false;
-    }
-    else if (intFlag[1]) {
-        blinkLed(LED_INT1); ///< LED za INT1 (srednji prioritet)
-        intFlag[1] = false;
-    }
-    else if (intFlag[2]) {
-        blinkLed(LED_INT2); ///< LED za INT2 (niskim prioritetom)
-        intFlag[2] = false;
-    }
+  interruptInProgress = true; // Označi da je započela obrada prekida
+
+  if (intFlag[0]) {
+    blinkLed(LED_INT0); // Bljesni LED za INT0 (najviši prioritet)
+    intFlag[0] = false;
+  } else if (intFlag[1]) {
+    blinkLed(LED_INT1); // Bljesni LED za INT1 (srednji prioritet)
+    intFlag[1] = false;
+  } else if (intFlag[2]) {
+    blinkLed(LED_INT2); // Bljesni LED za INT2 (niski prioritet)
+    intFlag[2] = false;
+  }
+
+  interruptInProgress = false; // Završi obradu prekida
 }
 
 /**
- * @brief Bljeskanje LED-a na temelju vremena.
- * 
- * Funkcija koja blinka LED-om za zadani pin.
- * 
- * @param ledPin Pin na kojem je spojena LED dioda
+ * @brief Bljeskanje LED indikatora.
+ *
+ * Ova funkcija uključuje i isključuje LED diodu spojenu na zadani pin tijekom određenog vremenskog
+ * perioda, stvarajući efekt treptanja.
+ *
+ * @param ledPin Pin na kojem je spojena LED dioda.
  */
 void blinkLed(int ledPin) {
-    unsigned long startTime = millis();
-    while (millis() - startTime < 1000) {
-        digitalWrite(ledPin, !digitalRead(ledPin)); ///< Bljeskanje LED-a
-        delay(BLINK_INTERVAL); ///< Interval treptanja
-    }
-    digitalWrite(ledPin, LOW); ///< Gašenje LED-a
+  unsigned long startTime = millis();
+  while (millis() - startTime < 1000) {
+    digitalWrite(ledPin, !digitalRead(ledPin)); // Promijeni stanje LED-a
+    delay(BLINK_INTERVAL);
+  }
+  digitalWrite(ledPin, LOW); // Osiguraj da je LED isključena nakon bljeskanja
 }
 
 /**
- * @brief Mjerenje udaljenosti pomoću HC-SR04 senzora.
- * 
- * Funkcija koja pokreće senzor i vraća izmjerenu udaljenost.
- * 
- * @return Udaljenost u centimetrima, ili 0 ako nije valjana
+ * @brief Mjerenje udaljenosti pomoću HC-SR04 ultrazvučnog senzora.
+ *
+ * Ova funkcija šalje kratki impuls na TRIG pin senzora i zatim mjeri trajanje ECHO pulsa.
+ * Iz trajanja pulsa se izračunava udaljenost do objekta.
+ *
+ * @return Izmjerena udaljenost u centimetrima. Vraća 0 ako mjerenje nije uspjelo.
  */
 float measureDistance() {
-    digitalWrite(TRIG_PIN, LOW); ///< Osiguranje da je TRIG_PIN na LOW
-    delayMicroseconds(2); ///< Kratka pauza
-    digitalWrite(TRIG_PIN, HIGH); ///< Pokretanje signala
-    delayMicroseconds(10); ///< Trajanje impulsa
-    digitalWrite(TRIG_PIN, LOW); ///< Zaustavljanje signala
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
 
-    long duration = pulseIn(ECHO_PIN, HIGH); ///< Mjerenje trajanja ECHO signala
-    float distance = (duration / 2.0) * 0.0344; ///< Izračunavanje udaljenosti
-    return distance;
+  long duration = pulseIn(ECHO_PIN, HIGH); // Mjeri trajanje ECHO pulsa
+
+  // Brzina zvuka je oko 343 m/s ili 0.0343 cm/mikrosekundi
+  // Ukupno vrijeme pulsa uključuje put do objekta i natrag, stoga se dijeli s 2
+  float distance = (duration / 2.0) * 0.0343;
+
+  // Vrati izmjerenu udaljenost, ili 0 ako je trajanje predugo ili prekratko
+  return (duration > 0 && duration < 30000) ? distance : 0; // Ograničenje za realna mjerenja
 }
 
 /**
- * @brief Pokretanje alarma udaljenosti.
- * 
- * Funkcija koja pokreće alarm kada udaljenost padne ispod definirane granice.
+ * @brief Aktivacija alarma udaljenosti.
+ *
+ * Ova funkcija se poziva kada izmjerena udaljenost padne ispod definiranog praga (`ALARM_DISTANCE`).
+ * Uključuje LED indikator alarma udaljenosti i ispisuje poruku na serijski monitor.
  */
 void triggerDistanceAlert() {
-    digitalWrite(LED_ALERT, HIGH); ///< Uključivanje LED-a za alarm
-    Serial.println("Distance alert triggered!"); ///< Ispis na serijskom monitoru
-    delay(500); ///< Kratka pauza
-    digitalWrite(LED_ALERT, LOW); ///< Gašenje LED-a
+  digitalWrite(LED_ALERT, HIGH); // Uključi LED alarm udaljenosti
+  Serial.println("ALARM UDALJENOSTI AKTIVIRAN!");
+  delay(500);
+  digitalWrite(LED_ALERT, LOW);  // Isključi LED alarm udaljenosti
 }
