@@ -1,0 +1,91 @@
+'/**
+' * @file        UC_RUS_Lab1.puml
+' * @brief       UML dijagram obrazaca uporabe za sustav upravljanja prekidima
+' * 
+' * Ovaj dijagram obrazaca uporabe prikazuje interakciju između različitih komponenti sustava za upravljanje prekidima.
+' * Dijagram uključuje funkcionalnosti kao što su inicijalizacija sustava, obrada korisničkih ulaza, upravljanje prekidima
+' * (INT0, INT1, INT2), mjerenje udaljenosti, aktivacija upozorenja na osnovu udaljenosti, te upravljanje LED signalima.
+' * Sustav uključuje periodički generirani Timer prekid, koji pokreće odgovarajuće akcije u sustavu.
+' * 
+' * Dijagram ilustrira kako korisnik putem pritiska tipki aktivira odgovarajuće prekide i kako sustav obrađuje
+' * ove prekide u stvarnom vremenu. Dodatno, sustav koristi senzor HC_SR04 za mjerenje udaljenosti, pri čemu
+' * udaljenost ispod zadane granice (npr. 100 cm) aktivira alarm i upravlja LED indikatorima.
+' * 
+' * @author      Vlado Sruk
+' * @date        20. ožujak 2025.
+' * @version     1.0
+' * 
+' * @note        Licenca: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License HR
+' *              - Slobodno korištenje, modifikacija i distribucija uz uvjet da se ne koristi u komercijalne svrhe.
+' *              Edukacijska licenca - Sva prava pridržana.
+' * 
+' * @note        Tijekom izrade ovog projekta, u određenoj mjeri je korištena generacija koda pomoću AI alata. 
+' *              Finalni rezultat je kombinacija AI generiranja i ručnog programiranja.
+' *               
+' * @section     Povijest_izmjena
+' * - 20. ožujak 2025.: Početna verzija (verzija: 1.0)
+' */
+@startuml
+left to right direction
+
+actor Korisnik
+actor HC_SR04
+actor INT0_Crveni
+actor INT1_Žuti
+actor INT2_Zeleni
+actor LED_INT0_Crveni
+actor LED_INT1_Žuti
+actor LED_INT2_Zeleni
+actor LED_ALERT_Plavi
+actor LED_Timer
+
+rectangle "RUS_Lab1_prekidi" {
+  (Obradi prekide) 
+  (Obradi Timer prekid) 
+  (Obradi prekid INT0) 
+  (Obradi prekid INT1) 
+  (Obradi prekid INT2) 
+  (Pokreni upozorenje na udaljenost) 
+  (Mjeri udaljenost) 
+  (Generiraj Timer prekid) as Timer1
+}
+
+' Aktivnosti korisnika za pokretanje prekida
+Korisnik --> INT0_Crveni : Pritisni (pokreće INT0)
+Korisnik --> INT1_Žuti : Pritisni (pokreće INT1)
+Korisnik --> INT2_Zeleni : Pritisni (pokreće INT2)
+Korisnik --> HC_SR04 : Interakcija (neizravno pokreće mjerenje)
+
+' Aktivacija timer prekida
+Timer1 --> (Obradi Timer prekid) : Aktivira
+
+' Pokretanje prekida na temelju korisničkog unosa
+INT0_Crveni --> (Obradi prekid INT0) : Pokreće INT0
+INT1_Žuti --> (Obradi prekid INT1) : Pokreće INT1
+INT2_Zeleni --> (Obradi prekid INT2) : Pokreće INT2
+
+' Mjerenje udaljenosti
+HC_SR04 --> (Mjeri udaljenost)
+
+' Povezivanje mjerenja udaljenosti s obradom prekida ako je udaljenost ispod praga
+(Mjeri udaljenost) -[#0000FF].> (Obradi prekide) : <<extend>> [udaljenost < 100] Aktivira obradbu prekida
+
+' Obrađivanje prekida: povezivanje s LED signalima
+(Obradi prekide) --> (Obradi Timer prekid)
+(Obradi prekid INT0) --> (Obradi prekide)
+(Obradi prekid INT1) --> (Obradi prekide)
+(Obradi prekid INT2) --> (Obradi prekide)
+
+' LED indikatori za prekide
+(Obradi prekide) --> LED_INT0_Crveni : Bljesni
+(Obradi prekide) --> LED_INT1_Žuti : Bljesni
+(Obradi prekide) --> LED_INT2_Zeleni : Bljesni
+
+' Upozorenje na udaljenost
+(Obradi prekide) --> (Pokreni upozorenje na udaljenost)
+(Pokreni upozorenje na udaljenost) --> LED_ALERT_Plavi : Bljesni
+
+' LED indikator za Timer prekid
+(Obradi Timer prekid) --> LED_Timer : Bljesni
+
+@enduml
