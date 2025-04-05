@@ -1,0 +1,129 @@
+'/**
+' * @file        SD_RUS_Lab1.puml
+' * @brief       Sekvencijski dijagram za sustav upravljanja prekidima i daljnje obrade.
+' * 
+' * Ovaj sekvencijski dijagram prikazuje interakciju između različitih funkcija i prekinutih rutina u sustavu.
+' * Dijagram obuhvaća inicijalizaciju sustava, upravljanje prekidima, mjerenje udaljenosti, obradom alarma te 
+' * izvršavanje glavne petlje.
+' * 
+' * @author      Vlado Sruk
+' * @date        20. ožujak 2025.
+' * @version     1.0
+' * 
+' * @note        Licenca: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License HR
+' *              - Slobodno korištenje, modifikacija i distribucija uz uvjet da se ne koristi u komercijalne svrhe.
+' *              Edukacijska licenca - Sva prava pridržana.
+' * 
+' * @section     Povijest_izmjena
+' * - 20. ožujak 2025.: Početna verzija (verzija: 1.0)
+' */
+
+@startuml
+actor User
+
+participant "setup()" as Setup
+participant "ISR_INT0()" as ISR0
+participant "ISR_INT1()" as ISR1
+participant "ISR_INT2()" as ISR2
+participant "ISR(TIMER1_COMPA_vect)" as TimerISR
+participant "loop()" as MainLoop
+participant "handleInterrupts()" as HandleInterrupts
+participant "handleTimerInterrupt()" as HandleTimerInterrupt
+participant "blinkLed(ledPin)" as BlinkLed
+participant "Serial" as Serial
+participant "measureDistance()" as MeasureDistance
+participant "triggerDistanceAlert()" as TriggerAlert
+participant GlobalFlags
+
+' **Početna postava**: Inicijalizacija sustava i postavljanje prekidača
+User -> Setup : Inicijaliziraj sustav
+Setup -> ISR0 : attachInterrupt(BUTTON0, ISR_INT0, FALLING)
+Setup -> ISR1 : attachInterrupt(BUTTON1, ISR_INT1, FALLING)
+Setup -> ISR2 : attachInterrupt(BUTTON2, ISR_INT2, FALLING)
+Setup -> TimerISR : Konfiguriraj Timer1 (CTC, predskaliranje, vrijednost usporedbe, omogući prekid)
+Setup -> Serial : Serial.begin(9600) ' Inicijalizacija serijske komunikacije
+Setup -> GlobalFlags : sei() // Omogući globalne prekide
+Setup -> MainLoop : Inicijalizacija završena ' Nastavi s glavnom petljom
+
+' **Paralelna izvršna blokada (Izvršenje sustava)**: Glavni tijek programa
+par System Execution
+    loop Main Loop
+        ' **Obrada Timer Interrupta**: Provjerava se je li postavljen flag za timer prekid
+        MainLoop -> HandleTimerInterrupt : if (GlobalFlags:timerFlag)
+        alt Flag za timer prekid je istinit
+            MainLoop -> HandleTimerInterrupt : Obradi Timer prekid (najviši prioritet)
+            activate HandleTimerInterrupt
+            HandleTimerInterrupt -> GlobalFlags : interruptInProgress = true
+            HandleTimerInterrupt -> BlinkLed : blinkLed(LED_Timer) ' Bljeskanje LED-a za timer prekid
+            HandleTimerInterrupt -> Serial : Serial.println("TIMER INTERRUPT...")
+            HandleTimerInterrupt -> GlobalFlags : timerFlag = false ' Resetiranje timer flag-a
+            HandleInterruptHandler -> GlobalFlags : interruptInProgress = false
+            deactivate HandleTimerInterrupt
+        end
+
+        ' **Mjerenje udaljenosti**: Aktiviranje mjerenja udaljenosti pomoću senzora
+        MainLoop -> MeasureDistance : float distance = measureDistance()
+        activate MeasureDistance
+        MeasureDistance -> DistanceSensor : Pošaljite TRIG impuls ' Slanje impulsa za aktiviranje senzora
+        MeasureDistance -> DistanceSensor : Čekaj na ECHO high/low ' Čekanje na echo signal od senzora
+        deactivate MeasureDistance
+        MeasureDistance -> MainLoop : Vraća udaljenost ' Vraćanje izmjerene udaljenosti u glavnu petlju
+
+        ' **Logika alarma za udaljenost**: Aktivira alarm ako je udaljenost u alarmnom rasponu
+        MainLoop -> TriggerAlert : distanceAlert = (distance > 0 && distance < ALARM_DISTANCE)
+        alt Uvjet alarma za udaljenost je zadovoljen i !GlobalFlags:interruptInProgress
+            MainLoop -> TriggerAlert : triggerDistanceAlert() ' Pokretanje logike alarma
+            activate TriggerAlert
+            TriggerAlert -> BlinkLed : digitalWrite(LED_ALERT, HIGH) ' Uključivanje LED-a za alarm
+            TriggerAlert -> Serial : Serial.println("ALARM UDALJENOSTI...") ' Ispisivanje poruke alarma
+            TriggerAlert -> BlinkLed : digitalWrite(LED_ALERT, LOW) ' Isključivanje LED-a za alarm
+            deactivate TriggerAlert
+        end
+
+        ' **Obrada prekida**: Provjera i obrada prekida za svaki gumb
+        MainLoop -> HandleInterrupts : handleInterrupts()
+        activate HandleInterrupts
+        HandleInterrupts -> GlobalFlags : interruptInProgress = true
+        HandleInterrupts -> HandleInterrupt : if (GlobalFlags:intFlag[0])
+        alt INT0 flag je postavljen
+            HandleInterrupts -> BlinkLed : blinkLed(LED_INT0) ' Bljeskanje LED-a za INT0
+            HandleInterrupts -> GlobalFlags : intFlag[0] = false ' Brisanje INT0 flag-a
+        else
+            HandleInterrupts -> HandleInterrupt : else if (GlobalFlags:intFlag[1])
+            alt INT1 flag je postavljen
+                HandleInterrupts -> BlinkLed : blinkLed(LED_INT1) ' Bljeskanje LED-a za INT1
+                HandleInterrupts -> GlobalFlags : intFlag[1] = false ' Brisanje INT1 flag-a
+            else
+                HandleInterrupts -> HandleInterrupt : else if (GlobalFlags:intFlag[2])
+                alt INT2 flag je postavljen
+                    HandleInterrupts -> BlinkLed : blinkLed(LED_INT2) ' Bljeskanje LED-a za INT2
+                    HandleInterrupts -> GlobalFlags : intFlag[2] = false ' Brisanje INT2 flag-a
+                end
+            end
+        end
+        HandleInterrupts -> GlobalFlags : interruptInProgress = false
+        deactivate HandleInterrupts
+    end
+
+    ' **Radnje korisničkog gumba**: Obrada pritisaka na gumbe i debouncing logika
+    == ---------------- Radnje korisničkog gumba Crveni  -------------------------==
+    User -> ISR0 : Gumb 0 pritisnut (padajući rub) ' Korisnik pritisne Gumb 0
+    ISR0 -> HandleInterrupt : if (!GlobalFlags:interruptInProgress) handleInterrupt(0, ...)
+    HandleInterrupt -> GlobalFlags : if (millis() - GlobalFlags:lastInterruptTime[0] >= DEBOUNCE_DELAY) GlobalFlags:intFlag[0] = true, GlobalFlags:lastInterruptTime[0] = millis()
+   
+    == ---------------- Radnje korisničkog gumba Žuti  -------------------------==
+    User -> ISR1 : Gumb 1 pritisnut (padajući rub) ' Korisnik pritisne Gumb 1
+    ISR1 -> HandleInterrupt : if (!GlobalFlags:interruptInProgress) handleInterrupt(1, ...)
+    HandleInterrupt -> GlobalFlags : if (millis() - GlobalFlags:lastInterruptTime[1] >= DEBOUNCE_DELAY) GlobalFlags:intFlag[1] = true, GlobalFlags:lastInterruptTime[1] = millis()
+
+    == ---------------- Radnje korisničkog gumba Zeleni  -------------------------==
+    User -> ISR2 : Gumb 2 pritisnut (padajući rub) ' Korisnik pritisne Gumb 2
+    ISR2 -> HandleInterrupt : if (!GlobalFlags:interruptInProgress) handleInterrupt(2, ...)
+    HandleInterrupt -> GlobalFlags : if (millis() - GlobalFlags:lastInterruptTime[2] >= DEBOUNCE_DELAY) GlobalFlags:intFlag[2] = true, GlobalFlags:lastInterruptTime[2] = millis()
+
+    ' **Obrada Timer Interrupta**: Aktivira se kada timer dostigne vrijednost usporedbe
+    == ---------------- Timer Interrupt  -------------------------==
+    TimerISR -> HandleTimerInterrupt : Timer1 unutarnji brojnik doseže vrijednost usporedbe
+    HandleTimerInterrupt -> GlobalFlags : Postavlja GlobalFlags:timerFlag = true ' Postavljanje timer interrupt flag-a
+end
+@enduml
