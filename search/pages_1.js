@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['s_20ugradbenim_20sustavima_0',['RUS - Rad s Ugradbenim Sustavima',['../index.html',1,'']]],
-  ['sustavima_1',['RUS - Rad s Ugradbenim Sustavima',['../index.html',1,'']]]
+  ['primjer_209_20travnja_0',['RUS - Rad s Ugradbenim Sustavima Primjer 9.travnja',['../index.html',1,'']]]
 ];
