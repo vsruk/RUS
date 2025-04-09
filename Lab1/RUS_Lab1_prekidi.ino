@@ -1,6 +1,6 @@
 /**
  * @file RUS_Lab1_prekidi.ino
- * @mainpage RUS - Rad s Ugradbenim Sustavima
+ * @mainpage RUS - Rad s Ugradbenim Sustavima Primjer 9.travnja
  * @section overview Pregled modula
  *
  * Ovaj projekt demonstrira rad s vanjskim prekidima, uključujući prioritizaciju prekida na AVR mikroprocesoru.
