@@ -72,9 +72,10 @@ Ovaj zadatak uključuje korištenje mikrokontrolera za demonstraciju rada s viš
              with:
                github_token: ${{ secrets.GITHUB_TOKEN }}
                publish_dir: ./docs/html
-    
+   - https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication
+   - U vašem  tokenu npr. https://github.com/settings/tokens/22000326xx označite workflow! tako da primjer u Lab1 radi!
    - **Važno**: Kako bi ova akcija radila, potrebno je omogućiti **GitHub Pages** u postavkama repozitorija i osigurati da se generirani HTML dokumenti nalaze u `docs/html` direktoriju.
-   - **Napomena**: U slučaju privatnog repozitorija, potrebno je kreirati **Personal Access Token (PAT)** i dodati ga u `secrets` pod imenom `GH_PAT` umjesto `GITHUB_TOKEN`.
+   - **Napomena**: OPcionalno, u slučaju privatnog repozitorija, potrebno je kreirati **Personal Access Token (PAT)** i dodati ga u `secrets` pod imenom `GH_PAT` umjesto `GITHUB_TOKEN`.
    - **Modifikacija Doxygen konfiguracije**: U `Doxyfile` postaviti `OUTPUT_DIRECTORY = ./docs` kako bi se osigurala kompatibilnost s GitHub Actions.
 
 ---
