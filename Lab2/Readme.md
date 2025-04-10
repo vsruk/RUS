@@ -1,4 +1,4 @@
-# Upravljanje potrošnjom energije mikrokontrolera korištenjem Sleep moda
+# Upravljanje potrošnjom energije mikrokontrolera 
 
 ## Cilj zadatka
 
