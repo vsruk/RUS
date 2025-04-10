@@ -1,0 +1,82 @@
+
+@startuml
+actor User
+
+participant "setup()" as Setup
+participant "ISR_INT0()" as ISR0
+participant "ISR_INT1()" as ISR1
+participant "ISR_INT2()" as ISR2
+participant "ISR(TIMER1_COMPA_vect)" as TimerISR
+participant "loop()" as MainLoop
+participant "handleInterrupts()" as HandleInterrupts
+participant "handleTimerInterrupt()" as HandleTimerInterrupt
+participant "blinkLed(ledPin)" as BlinkLed
+participant "Serial" as Serial
+participant "measureDistance()" as MeasureDistance
+participant "triggerDistanceAlert()" as TriggerAlert
+participant GlobalFlags
+
+' Inicijalizacija sustava
+User -> Setup : Pokreni setup
+Setup -> ISR0 : attachInterrupt(BUTTON0, ISR_INT0, FALLING)
+Setup -> ISR1 : attachInterrupt(BUTTON1, ISR_INT1, FALLING)
+Setup -> ISR2 : attachInterrupt(BUTTON2, ISR_INT2, FALLING)
+Setup -> TimerISR : Postavi Timer1 + omogući prekid
+Setup -> Serial : Serial.begin(9600)
+Setup -> GlobalFlags : sei()
+Setup -> MainLoop : Nastavi u glavnu petlju
+
+' Glavni tijek – obrada prekida i senzora
+par System Execution
+    loop Glavna petlja
+        ' Timer prekid
+        MainLoop -> HandleTimerInterrupt : if (timerFlag)
+        alt Timer aktivan
+            HandleTimerInterrupt -> GlobalFlags : interruptInProgress = true
+            HandleTimerInterrupt -> BlinkLed : blinkLed(LED_Timer)
+            HandleTimerInterrupt -> Serial : "TIMER INTERRUPT..."
+            HandleTimerInterrupt -> GlobalFlags : timerFlag = false
+            HandleInterruptHandler -> GlobalFlags : interruptInProgress = false
+        end
+
+        ' Mjerenje udaljenosti
+        MainLoop -> MeasureDistance : distance = measureDistance()
+        MeasureDistance -> DistanceSensor : TRIG impuls
+        MeasureDistance -> DistanceSensor : Čekaj ECHO
+        MeasureDistance -> MainLoop : Vrati udaljenost
+
+        ' Aktivacija alarma
+        MainLoop -> TriggerAlert : if (distance < ALARM_DISTANCE && !interruptInProgress)
+        alt Uvjet zadovoljen
+            TriggerAlert -> BlinkLed : LED_ALERT on/off
+            TriggerAlert -> Serial : "ALARM UDALJENOSTI..."
+        end
+
+        ' Obrada prekida gumba
+        MainLoop -> HandleInterrupts : handleInterrupts()
+        HandleInterrupts -> GlobalFlags : interruptInProgress = true
+        HandleInterrupts -> GlobalFlags : if (intFlag[x]) ... očisti flag i blink
+        HandleInterrupts -> GlobalFlags : interruptInProgress = false
+    end
+
+    ' ISR logika – detekcija pritiska gumba
+    == Gumb 0 ==
+    User -> ISR0 : Gumb 0 pritisnut
+    ISR0 -> HandleInterrupt : handleInterrupt(0)
+    HandleInterrupt -> GlobalFlags : Debounce + postavi intFlag[0]
+
+    == Gumb 1 ==
+    User -> ISR1 : Gumb 1 pritisnut
+    ISR1 -> HandleInterrupt : handleInterrupt(1)
+    HandleInterrupt -> GlobalFlags : Debounce + postavi intFlag[1]
+
+    == Gumb 2 ==
+    User -> ISR2 : Gumb 2 pritisnut
+    ISR2 -> HandleInterrupt : handleInterrupt(2)
+    HandleInterrupt -> GlobalFlags : Debounce + postavi intFlag[2]
+
+    == Timer ISR ==
+    TimerISR -> HandleTimerInterrupt : Timer dostigao vrijednost
+    HandleTimerInterrupt -> GlobalFlags : timerFlag = true
+end
+@enduml
