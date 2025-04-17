@@ -34,7 +34,6 @@ jobs:
       - name: Run cppcheck analysis
         run: |
           if [ -d "Lab1" ]; then
-            # cppcheck --enable=all --inconclusive --std=c99  --suppress=missingIncludeSystem --verbose $(find Lab1 -name '*.ino') #--error-exitcode=1
             cppcheck --enable=all --inconclusive --std=c99  --suppress=missingIncludeSystem --suppress=unusedFunction --verbose $INO_FILES > cppcheck-report.txt 2>&1
           else
             echo "Directory Lab1 does not exist!"
@@ -57,3 +56,4 @@ jobs:
           # Lab1/src Lab1/include
           # Or use find to target specific file types within Lab1:
           # $(find Lab1 -name '*.c' -o -name '*.h')
+            # cppcheck --enable=all --inconclusive --std=c99  --suppress=missingIncludeSystem --verbose $(find Lab1 -name '*.ino') #--error-exitcode=1
