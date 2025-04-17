@@ -21,7 +21,12 @@ jobs:
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
         sudo ./llvm.sh 14
-
+        
+    - name: Install scan-build
+      run: |
+       sudo apt-get update
+       sudo apt-get install -y clang-tools
+    
     - name: Prepare Arduino .ino file for analysis
       run: |
         cp Lab1/*.ino Lab1/temp.cpp
@@ -30,7 +35,7 @@ jobs:
     - name: Run scan-build with clang++-14
       run: |
         mkdir -p analysis-report
-        /usr/share/clang/scan-build-14/scan-build -o analysis-report clang++-14 -c Lab1/analyzable.cpp -I/usr/share/arduino/hardware/arduino/cores/arduino || true
+        can-build -o analysis-report clang++-14 -c Lab1/analyzable.cpp -I/usr/share/arduino/hardware/arduino/cores/arduino || true
 
     - name: Upload analysis report
       uses: actions/upload-artifact@v4
