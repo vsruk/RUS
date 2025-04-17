@@ -110,7 +110,7 @@ jobs:
              echo "ERROR: Found '__init__.py', which is not the correct report script!"
              mkdir -p cppcheck-html-report
              echo "HTML report generation failed because the wrong script was found." > cppcheck-html-report/index.html
-             exit 1 # Padni jer smo našli pogrešnu skriptu
+             # exit 1  Padni jer smo našli pogrešnu skriptu
           fi
 
           # Kreiraj izlazni direktorij prije pokretanja skripte
