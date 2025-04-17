@@ -1,0 +1,37 @@
+name: Arduino Clang Static Analysis
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  clang-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Clang tools
+      run: sudo apt-get update && sudo apt-get install -y clang-tools scan-build
+
+    - name: Prepare Arduino .ino file for analysis
+      run: |
+        # Pretvori .ino u .cpp jer Clang očekuje .cpp fajlove
+        cp Lab1/*.ino Lab1/temp.cpp
+
+        # Dodaj Arduino-style header ako treba (ovisno o kodu)
+        echo '#include <Arduino.h>' | cat - Lab1/temp.cpp > Lab1/analyzable.cpp
+
+    - name: Run scan-build
+      run: |
+        mkdir -p analysis-report
+        scan-build -o analysis-report clang++ -c Lab1/analyzable.cpp -I/usr/share/arduino/hardware/arduino/cores/arduino
+
+    - name: Upload analysis report
+      uses: actions/upload-artifact@v3
+      with:
+        name: clang-static-analysis
+        path: analysis-report
