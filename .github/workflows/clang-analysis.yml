@@ -1,43 +1,67 @@
+# .github/workflows/arduino-clang-analysis.yml
+
+# Naziv workflowa
 name: Arduino Clang Static Analysis
 
+# Kada se workflow pokreće
 on:
   push:
-    branches: [main]
+    branches: [ main ] # Na push na main granu
   pull_request:
-  workflow_dispatch:
+    branches: [ main ] # Na pull request prema main grani
+  workflow_dispatch: # Omogućuje ručno pokretanje
 
 jobs:
+  # Posao (job) za statičku analizu
   clang-analysis:
-    runs-on: ubuntu-22.04 #ubuntu-latest
+    # Pokreće se na Ubuntu 22.04 runneru
+    runs-on: ubuntu-22.04
     
-   steps:
+    # Koraci (steps) koji se izvršavaju
+    steps:
+      # 1. Preuzimanje koda repozitorija
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Instalacija clang-tools paketa koji sadrži scan-build
       - name: Install clang-tools (scan-build)
         run: |
           sudo apt-get update
           sudo apt-get install -y clang-tools
 
+      # 3. Instalacija arduino-cli alata
       - name: Install arduino-cli
         run: |
+          # Preuzimanje i izvršavanje službene instalacijske skripte
           curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-          sudo mv bin/arduino-cli /usr/local/bin
+          # Premještanje arduino-cli izvršne datoteke na standardnu lokaciju
+          sudo mv bin/arduino-cli /usr/local/bin/
 
+      # 4. Konfiguracija arduino-cli i instalacija potrebnog core-a (za AVR ploče poput Mega)
       - name: Set up Arduino CLI core
         run: |
-          arduino-cli config init
-          arduino-cli core update-index
-          arduino-cli core install arduino:avr
+          arduino-cli config init # Inicijalizacija konfiguracijske datoteke
+          arduino-cli core update-index # Ažuriranje indeksa dostupnih platformi
+          arduino-cli core install arduino:avr # Instalacija Arduino AVR core-a
 
+      # 5. Pokretanje statičke analize pomoću scan-build
       - name: Run static analysis with scan-build
         run: |
+          # Kreiranje direktorija za izvještaj
           mkdir -p analysis-report
-          scan-build -o analysis-report --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega Lab1
+          # Pokretanje scan-build alata
+          # -o analysis-report: Direktorij za spremanje HTML izvještaja
+          # --status-bugs: Naredba će vratiti ne-nula izlazni kod ako se pronađu greške (važno za CI fail)
+          # --use-cc=clang --use-c++=clang++: Specificira koji kompajler scan-build treba pratiti
+          # arduino-cli compile --fqbn arduino:avr:mega Lab1: Naredba za kompajliranje koju scan-build analizira
+          #   --fqbn arduino:avr:mega: Specificira ploču (Fully Qualified Board Name) - provjerite je li točna za vaš projekt!
+          #   Lab1: Direktorij s vašim Arduino sketchom
+          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega Lab1
 
-
-    - name: Upload analysis report
-      uses: actions/upload-artifact@v4
-      with:
-        name: clang-static-analysis
-        path: analysis-report
+      # 6. Upload HTML izvještaja kao artefakta
+      - name: Upload analysis report
+        # Koristi se samo ako prethodni korak uspije (ili ako dodate `if: always()`)
+        uses: actions/upload-artifact@v4
+        with:
+          name: clang-static-analysis-report # Naziv artefakta
+          path: analysis-report # Putanja do direktorija koji se uploada
