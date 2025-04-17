@@ -29,6 +29,11 @@ jobs:
       - name: Install cppcheck
         run: sudo apt-get update && sudo apt-get install -y cppcheck
 
+      # --- Added Debugging Step ---
+      # List files in the workspace to verify the path to Lab1
+      - name: List files in workspace
+        run: ls -la
+
       # Run cppcheck
       # Customize the command based on your project structure and needs
       - name: Run cppcheck analysis
@@ -40,13 +45,13 @@ jobs:
             --error-exitcode=1 \
             --suppress=missingIncludeSystem \
             --verbose \
-            Lab1 # Analyze all files in the current directory (adjust path if needed)
-            # You might want to specify source directories or files explicitly:
-            # src/ include/
-            # Or use find to target specific file types:
-            # $(find . -name '*.c' -o -name '*.h')
+            Lab1 # Analyze all files in the Lab1 directory
 
           # Optional: Add specific checks or suppressions
           # --check-level=exhaustive
           # --suppressions-list=suppressions.txt
           # --platform=unix64 # Or specify your target platform (e.g., avr8)
+          # You might want to specify source directories or files explicitly within Lab1:
+          # Lab1/src Lab1/include
+          # Or use find to target specific file types within Lab1:
+          # $(find Lab1 -name '*.c' -o -name '*.h')
