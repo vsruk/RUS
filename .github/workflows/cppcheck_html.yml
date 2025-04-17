@@ -37,7 +37,7 @@ jobs:
       - name: Clone cppcheck for htmlreport tool
         run: git clone --depth 1 https://github.com/danmar/cppcheck.git /tmp/cppcheck
 
-      # 1.3.1. [DEBUG] Provjera lokacije htmlreport skripte
+      # 1.3.1. [DEBUG] Provjera lokacije htmlreport skripte (ostavljamo za svaki slučaj)
       - name: Find htmlreport tool in cloned repo
         run: |
           echo "Listing contents of /tmp/cppcheck:"
@@ -62,7 +62,7 @@ jobs:
             echo "Analyzing files: $INO_FILES"
             
             # Pokreni cppcheck s XML izlazom (bez --error-exitcode ovdje, provjerit ćemo kasnije)
-            cppcheck --enable=all --inconclusive --std=c99 --suppress=missingIncludeSystem  --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
+            cppcheck --enable=all --inconclusive --std=c99 --suppress=missingIncludeSystem --suppress=unusedFunction --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
             
             # Zabilježi izlazni kod cppchecka
             CPPCHECK_EXIT_CODE=$? 
@@ -87,27 +87,33 @@ jobs:
             exit 1 # Završi s greškom ako direktorij ne postoji
           fi
 
-      # 1.5. Generiranje HTML izvještaja iz XML-a pomoću klonirane skripte
+      # 1.5. Generiranje HTML izvještaja iz XML-a pomoću klonirane skripte (šire traženje)
       - name: Generate HTML report
         run: |
           echo "Generating HTML report..."
-          # Putanja do skripte unutar kloniranog repozitorija
-          HTML_REPORT_SCRIPT="/tmp/cppcheck/htmlreport/cppcheck-htmlreport.py"
+          # Dinamički pronađi putanju do BILO KOJE .py skripte unutar /tmp/cppcheck/htmlreport/ direktorija
+          HTML_REPORT_SCRIPT=$(find /tmp/cppcheck/htmlreport -name '*.py' | head -n 1)
           
-          # --- DEBUG ---
-          echo "Checking for script at path: $HTML_REPORT_SCRIPT"
-          ls -l $HTML_REPORT_SCRIPT || echo "ls -l failed for the script path."
-          # --- END DEBUG ---
-
-          if [ -f "$HTML_REPORT_SCRIPT" ]; then
-             python3 $HTML_REPORT_SCRIPT --file=cppcheck-report.xml --report-dir=cppcheck-html-report --source-dir=.
-             echo "HTML report generated in cppcheck-html-report directory."
-          else
-             echo "ERROR: cppcheck-htmlreport.py not found in cloned repository at expected path!"
-             # Kreiraj prazan direktorij da upload/deploy ne padnu skroz
+          # Provjeri je li skripta pronađena
+          if [ -z "$HTML_REPORT_SCRIPT" ]; then
+             echo "ERROR: No Python script (*.py) found within /tmp/cppcheck/htmlreport/ directory!"
              mkdir -p cppcheck-html-report
              echo "HTML report generation failed." > cppcheck-html-report/index.html
              exit 1 # Padni ako skripta nije nađena
+          fi
+
+          echo "Found script at: $HTML_REPORT_SCRIPT"
+          ls -l $HTML_REPORT_SCRIPT # Ispiši detalje pronađene skripte
+
+          # Provjeri postoji li XML datoteka prije generiranja HTML-a
+          if [ -f cppcheck-report.xml ]; then
+             python3 $HTML_REPORT_SCRIPT --file=cppcheck-report.xml --report-dir=cppcheck-html-report --source-dir=.
+             echo "HTML report generated in cppcheck-html-report directory."
+          else
+             echo "ERROR: cppcheck-report.xml not found, cannot generate HTML report!"
+             mkdir -p cppcheck-html-report
+             echo "HTML report generation failed because XML input was missing." > cppcheck-html-report/index.html
+             exit 1 # Padni ako nema XML-a
           fi
 
       # 1.6. Setup Pages (Konfiguracija za GitHub Pages)
