@@ -8,7 +8,7 @@ on:
 
 jobs:
   clang-analysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04 #ubuntu-latest
 
     steps:
     - name: Checkout code
