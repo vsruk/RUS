@@ -162,7 +162,7 @@ jobs:
 
     # Postavke okoline za GitHub Pages
     environment:
-      name: github-pages
+      name: gh-pages
       url: ${{ steps.deployment.outputs.page_url }}
       
     # Dozvole potrebne za deploy
