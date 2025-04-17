@@ -58,7 +58,7 @@ jobs:
           mkdir -p analysis-report
           # Pokretanje scan-build alata s apsolutnom putanjom do skice
           # $GITHUB_WORKSPACE varijabla sadrži putanju do korijena vašeg repozitorija unutar runnera
-          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega $GITHUB_WORKSPACE/Lab1/RUS_Lab1_prekidi.ino
+          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega $GITHUB_WORKSPACE/Lab1/Lab1.ino
 
       # 7. Upload HTML izvještaja kao artefakta
       - name: Upload analysis report
