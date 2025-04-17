@@ -33,15 +33,14 @@ jobs:
       # Customize the command based on your project structure and needs
       - name: Run cppcheck analysis
         run: |
-         if [ -d "Lab1" ]; then
-            cppcheck \
-              --enable=all \
-              --inconclusive \
-              --std=c99 \
-              # --error-exitcode=1 \ #disabled
-              --suppress=missingIncludeSystem \
-              --verbose \
-              $(find Lab1 -name '*.ino') 2> cppcheck-report.txt
+          cppcheck \
+            --enable=all \
+            --inconclusive \
+            --std=c99 \
+            --suppress=missingIncludeSystem \
+            --verbose \
+            --xml --xml-version=2 \
+            $(find Lab1 -name '*.ino') 
           else
             echo "Directory Lab1 does not exist!"
             exit 1
