@@ -44,21 +44,20 @@ jobs:
           arduino-cli core update-index # Ažuriranje indeksa dostupnih platformi
           arduino-cli core install arduino:avr # Instalacija Arduino AVR core-a
 
-      # 5. Pokretanje statičke analize pomoću scan-build
+      # 5. (Debug) Ispis sadržaja Lab1 direktorija
+      - name: List Lab1 directory contents
+        run: ls -l $GITHUB_WORKSPACE/Lab1
+
+      # 6. Pokretanje statičke analize pomoću scan-build
       - name: Run static analysis with scan-build
         run: |
           # Kreiranje direktorija za izvještaj
           mkdir -p analysis-report
-          # Pokretanje scan-build alata
-          # -o analysis-report: Direktorij za spremanje HTML izvještaja
-          # --status-bugs: Naredba će vratiti ne-nula izlazni kod ako se pronađu greške (važno za CI fail)
-          # --use-cc=clang --use-c++=clang++: Specificira koji kompajler scan-build treba pratiti
-          # arduino-cli compile --fqbn arduino:avr:mega Lab1/RUS_Lab1_prekidi.ino: Naredba za kompajliranje koju scan-build analizira
-          #   --fqbn arduino:avr:mega: Specificira ploču (Fully Qualified Board Name) - provjerite je li točna za vaš projekt!
-          #   Lab1/RUS_Lab1_prekidi.ino: Puna putanja do vaše .ino datoteke skice!
-          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega Lab1/RUS_Lab1_prekidi.ino
+          # Pokretanje scan-build alata s apsolutnom putanjom do skice
+          # $GITHUB_WORKSPACE varijabla sadrži putanju do korijena vašeg repozitorija unutar runnera
+          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega $GITHUB_WORKSPACE/Lab1/RUS_Lab1_prekidi.ino
 
-      # 6. Upload HTML izvještaja kao artefakta
+      # 7. Upload HTML izvještaja kao artefakta
       - name: Upload analysis report
         # Koristi se samo ako prethodni korak uspije (ili ako dodate `if: always()`)
         uses: actions/upload-artifact@v4
