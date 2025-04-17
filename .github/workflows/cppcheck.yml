@@ -34,7 +34,7 @@ jobs:
       - name: Run cppcheck analysis
         run: |
           if [ -d "Lab1" ]; then
-            cppcheck --enable=all --inconclusive --std=c99  --suppress=missingIncludeSystem --suppress=unusedFunction --verbose $INO_FILES > cppcheck-report.txt 2>&1
+            cppcheck --enable=all --inconclusive --std=c99  --suppress=missingIncludeSystem --suppress=unusedFunction --verbose  $(find Lab1 -name '*.ino') > cppcheck-report.txt 2>&1
           else
             echo "Directory Lab1 does not exist!"
             exit 1
