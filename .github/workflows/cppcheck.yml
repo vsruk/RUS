@@ -34,7 +34,7 @@ jobs:
       - name: Run cppcheck analysis
         run: |
           if [ -d "Lab1" ]; then
-            cppcheck --enable=all --inconclusive --std=c++17  --suppress=missingIncludeSystem --suppress=unusedFunction --verbose  $(find Lab1 -name '*.ino') > cppcheck-report.txt 2>&1
+            cppcheck --enable=all --inconclusive --std=c++17  --verbose  $(find Lab1 -name '*.ino') > cppcheck-report.txt 2>&1 #--suppress=missingIncludeSystem --suppress=unusedFunction 
             echo "--- Cppcheck Report ---"
             cat cppcheck-report.txt
             echo "--- End Report ---"
