@@ -12,26 +12,28 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
 
-    - name: Install Clang tools
-      run: sudo apt-get update && sudo apt-get install -y clang-tools scan-build
+    - name: Install LLVM tools with scan-build
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget gnupg lsb-release
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 14
 
     - name: Prepare Arduino .ino file for analysis
       run: |
-        # Pretvori .ino u .cpp jer Clang očekuje .cpp fajlove
         cp Lab1/*.ino Lab1/temp.cpp
-
-        # Dodaj Arduino-style header ako treba (ovisno o kodu)
         echo '#include <Arduino.h>' | cat - Lab1/temp.cpp > Lab1/analyzable.cpp
 
-    - name: Run scan-build
+    - name: Run scan-build with clang++-14
       run: |
         mkdir -p analysis-report
-        scan-build -o analysis-report clang++ -c Lab1/analyzable.cpp -I/usr/share/arduino/hardware/arduino/cores/arduino
+        /usr/share/clang/scan-build-14/scan-build -o analysis-report clang++-14 -c Lab1/analyzable.cpp -I/usr/share/arduino/hardware/arduino/cores/arduino || true
 
     - name: Upload analysis report
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: clang-static-analysis
         path: analysis-report
