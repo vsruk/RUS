@@ -53,10 +53,10 @@ jobs:
           # -o analysis-report: Direktorij za spremanje HTML izvještaja
           # --status-bugs: Naredba će vratiti ne-nula izlazni kod ako se pronađu greške (važno za CI fail)
           # --use-cc=clang --use-c++=clang++: Specificira koji kompajler scan-build treba pratiti
-          # arduino-cli compile --fqbn arduino:avr:mega Lab1: Naredba za kompajliranje koju scan-build analizira
+          # arduino-cli compile --fqbn arduino:avr:mega Lab1/RUS_Lab1_prekidi.ino: Naredba za kompajliranje koju scan-build analizira
           #   --fqbn arduino:avr:mega: Specificira ploču (Fully Qualified Board Name) - provjerite je li točna za vaš projekt!
-          #   Lab1: Direktorij s vašim Arduino sketchom
-          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega Lab1
+          #   Lab1/RUS_Lab1_prekidi.ino: Puna putanja do vaše .ino datoteke skice!
+          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega Lab1/RUS_Lab1_prekidi.ino
 
       # 6. Upload HTML izvještaja kao artefakta
       - name: Upload analysis report
