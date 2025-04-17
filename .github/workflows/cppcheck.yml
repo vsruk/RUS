@@ -29,11 +29,6 @@ jobs:
       - name: Install cppcheck
         run: sudo apt-get update && sudo apt-get install -y cppcheck
 
-      # --- Added Debugging Step ---
-      # List files in the workspace to verify the path to Lab1
-      - name: List files in workspace
-        run: ls -la
-
       # Run cppcheck
       # Customize the command based on your project structure and needs
       - name: Run cppcheck analysis
