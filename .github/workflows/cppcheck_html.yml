@@ -54,8 +54,9 @@ jobs:
             # --xml --xml-version=2: Generiraj XML izvještaj (verzija 2)
             # 2> cppcheck-report.xml: Preusmjeri XML izlaz (koji ide na stderr) u datoteku
             # Ostali flagovi kao i prije (suppress, error-exitcode, itd.)
-            cppcheck --enable=all --inconclusive --std=c99 --error-exitcode=1 --suppress=missingIncludeSystem --suppress=unusedFunction --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
-            
+            cppcheck --enable=all --inconclusive --std=c++17  --checkers-report=cppcheck-report.xml  --xml --xml-version=2 $INO_FILES 2> cppcheck-report1.xml
+       #    cppcheck --enable=all --inconclusive --std=c++17  --checkers-report=cppcheck-report.txt --verbose  $(find Lab1 -name '*.ino') > cppcheck-report1.txt 2>&1 #--suppress=missingIncludeSystem --suppress=unusedFunction 
+#--suppress=missingIncludeSystem --suppress=unusedFunction
             # Provjeri izlazni kod cppchecka ručno jer preusmjeravanje može sakriti grešku od shella
             CPPCHECK_EXIT_CODE=$? 
             echo "Cppcheck exit code: $CPPCHECK_EXIT_CODE"
