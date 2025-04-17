@@ -19,6 +19,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repository
@@ -26,18 +27,20 @@ jobs:
 
       # Install cppcheck using the package manager
       - name: Install cppcheck
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cppcheck
+			  
+							 
+        run: sudo apt-get update && sudo apt-get install -y cppcheck
 
-      # Debugging: List files in workspace to verify path to Lab1
+      # --- Added Debugging Step ---
+      # List files in the workspace to verify the path to Lab1
       - name: List files in workspace
         run: ls -la
 
       # Run cppcheck
+      # Customize the command based on your project structure and needs
       - name: Run cppcheck analysis
         run: |
-          if [ -d "Lab1" ]; then
+         if [ -d "Lab1" ]; then
             cppcheck \
               --enable=all \
               --inconclusive \
@@ -45,11 +48,12 @@ jobs:
               --error-exitcode=1 \
               --suppress=missingIncludeSystem \
               --verbose \
-              "Lab1" 2> cppcheck-report.txt
+              $(find Lab1 -name '*.ino') 2> cppcheck-report.txt
           else
             echo "Directory Lab1 does not exist!"
             exit 1
           fi
+# Analyze all files in the Lab1 directory
 
       # Upload cppcheck report as artifact
       - name: Upload cppcheck report
@@ -57,3 +61,12 @@ jobs:
         with:
           name: cppcheck-report
           path: cppcheck-report.txt
+
+          # Optional: Add specific checks or suppressions
+          # --check-level=exhaustive
+          # --suppressions-list=suppressions.txt
+          # --platform=unix64 # Or specify your target platform (e.g., avr8)
+          # You might want to specify source directories or files explicitly within Lab1:
+          # Lab1/src Lab1/include
+          # Or use find to target specific file types within Lab1:
+          # $(find Lab1 -name '*.c' -o -name '*.h')
