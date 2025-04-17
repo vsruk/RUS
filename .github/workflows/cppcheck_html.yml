@@ -18,7 +18,7 @@ permissions:
   id-token: write # Potrebno za deploy na Pages
 
 jobs:
-  # 1. Posao (job) za statičku analizu
+  # 1. Posao (job) za statičku analizu i generiranje HTML reporta
   cppcheck:
     # Pokreće se na Ubuntu runneru
     runs-on: ubuntu-latest
@@ -29,16 +29,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 1.2. Instalacija cppcheck alata
-      - name: Install cppcheck
-        run: sudo apt-get update && sudo apt-get install -y cppcheck python3 python3-pip
+      # 1.2. Instalacija potrebnih alata (cppcheck, git, python3)
+      - name: Install Tools
+        run: sudo apt-get update && sudo apt-get install -y cppcheck git python3
 
-      # 1.3. Instalacija cppcheck-htmlreport alata
-      - name: Install cppcheck-htmlreport
-        run: pip3 install cppcheck-htmlreport
+      # 1.3. Kloniranje cppcheck repozitorija radi pristupa htmlreport skripti
+      - name: Clone cppcheck for htmlreport tool
+        run: git clone --depth 1 https://github.com/danmar/cppcheck.git /tmp/cppcheck
 
       # 1.4. Pokretanje cppcheck analize i generiranje XML izvještaja
       - name: Run cppcheck analysis (XML Output)
+        id: cppcheck_analysis # Dajemo ID koraku radi provjere ishoda
+        # Nastavi čak i ako cppcheck pronađe greške, kako bismo mogli generirati report
+        continue-on-error: true 
         run: |
           # Provjeri postoji li Lab1 direktorij
           if [ -d "Lab1" ]; then
@@ -46,55 +49,56 @@ jobs:
             INO_FILES=$(find Lab1 -maxdepth 1 -name '*.ino')             
             if [ -z "$INO_FILES" ]; then
               echo "No .ino files found in Lab1 directory!"
-              exit 1
+              exit 1 # Padni ako nema .ino fileova
             fi
             echo "Analyzing files: $INO_FILES"
             
-            # Pokreni cppcheck s XML izlazom:
-            # --xml --xml-version=2: Generiraj XML izvještaj (verzija 2)
-            # 2> cppcheck-report.xml: Preusmjeri XML izlaz (koji ide na stderr) u datoteku
-            # Ostali flagovi kao i prije (suppress, error-exitcode, itd.)
-            cppcheck --enable=all --inconclusive --std=c++17  --checkers-report=cppcheck-report.xml  --xml --xml-version=2 $INO_FILES 2> cppcheck-report1.xml
-            # Provjeri izlazni kod cppchecka ručno jer preusmjeravanje može sakriti grešku od shella
+            # Pokreni cppcheck s XML izlazom (bez --error-exitcode ovdje, provjerit ćemo kasnije)
+            cppcheck --enable=all --inconclusive --std=c++17 --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
+            
+            # Zabilježi izlazni kod cppchecka
             CPPCHECK_EXIT_CODE=$? 
             echo "Cppcheck exit code: $CPPCHECK_EXIT_CODE"
-            # Ako želite da build padne i ako nema XML reporta (npr. cppcheck nije našao file), dodajte provjeru ovdje
-            if [ $CPPCHECK_EXIT_CODE -ne 0 ]; then
-              echo "Cppcheck failed with exit code $CPPCHECK_EXIT_CODE"
-              # Opcionalno ispiši XML ako postoji, radi debuga
-              if [ -f cppcheck-report.xml ]; then
-                 echo "--- Cppcheck XML Report (contains errors) ---"
-                 cat cppcheck-report.xml
-                 echo "--- End Report ---"
-              fi
-              exit $CPPCHECK_EXIT_CODE # Propagira grešku da workflow padne
-            fi
+            # Spremi izlazni kod za kasnije korištenje u workflowu
+            echo "exit_code=$CPPCHECK_EXIT_CODE" >> $GITHUB_OUTPUT 
 
+            # Ispiši XML report u log radi debuga
+            if [ -f cppcheck-report.xml ]; then
+               echo "--- Cppcheck XML Report ---"
+               cat cppcheck-report.xml
+               echo "--- End Report ---"
+            else
+               echo "cppcheck-report.xml not generated."
+               # Kreiraj prazan report da idući korak ne padne potpuno
+               echo '<?xml version="1.0" encoding="UTF-8"?><results version="2"><cppcheck version="?"/><errors/></results>' > cppcheck-report.xml
+               # Ako cppcheck nije uspio generirati report, vjerojatno želimo da workflow padne
+               if [ $CPPCHECK_EXIT_CODE -eq 0 ]; then exit 1; else exit $CPPCHECK_EXIT_CODE; fi
+            fi
           else
             echo "Directory Lab1 does not exist!"
             exit 1 # Završi s greškom ako direktorij ne postoji
           fi
 
-      # 1.5. Generiranje HTML izvještaja iz XML-a
+      # 1.5. Generiranje HTML izvještaja iz XML-a pomoću klonirane skripte
       - name: Generate HTML report
-        if: success() || failure() # Pokreni čak i ako je cppcheck našao greške, da imamo report
         run: |
-          if [ -f cppcheck-report.xml ]; then
-            echo "Generating HTML report..."
-            # --file: Ulazna XML datoteka
-            # --report-dir: Izlazni direktorij za HTML report
-            # --source-dir: Korijenski direktorij izvornog koda (za linkove u reportu)
-            cppcheck-htmlreport --file=cppcheck-report.xml --report-dir=cppcheck-html-report --source-dir=.
+          echo "Generating HTML report..."
+          # Putanja do skripte unutar kloniranog repozitorija
+          HTML_REPORT_SCRIPT="/tmp/cppcheck/htmlreport/cppcheck-htmlreport.py"
+          if [ -f "$HTML_REPORT_SCRIPT" ]; then
+             python3 $HTML_REPORT_SCRIPT --file=cppcheck-report.xml --report-dir=cppcheck-html-report --source-dir=.
+             echo "HTML report generated in cppcheck-html-report directory."
           else
-            echo "cppcheck-report.xml not found, skipping HTML generation."
-            # Opcionalno: Kreiraj prazan direktorij da upload/deploy ne padnu skroz
-            mkdir -p cppcheck-html-report 
-            echo "No cppcheck report generated." > cppcheck-html-report/index.html
+             echo "ERROR: cppcheck-htmlreport.py not found in cloned repository!"
+             # Kreiraj prazan direktorij da upload/deploy ne padnu skroz
+             mkdir -p cppcheck-html-report
+             echo "HTML report generation failed." > cppcheck-html-report/index.html
+             exit 1 # Padni ako skripta nije nađena
           fi
 
       # 1.6. Setup Pages (Konfiguracija za GitHub Pages)
       - name: Setup Pages
-        # Pokreni samo ako je push na main granu, jer samo tada radimo deploy
+        # Pokreni samo ako je push na main granu
         if: github.ref == 'refs/heads/main' 
         uses: actions/configure-pages@v5
 
@@ -106,13 +110,21 @@ jobs:
         with:
           # Uploadaj sadržaj direktorija s HTML izvještajem
           path: './cppcheck-html-report'
+          
+      # 1.8. Provjera rezultata Cppchecka i označavanje workflowa kao neuspješnog ako treba
+      - name: Check Cppcheck Result
+        if: steps.cppcheck_analysis.outputs.exit_code != '0'
+        run: |
+          echo "Cppcheck found errors (exit code ${{ steps.cppcheck_analysis.outputs.exit_code }}). Failing the workflow."
+          exit 1
 
   # 2. Posao (job) za Deploy na GitHub Pages
   deploy:
-    # Pokreni ovaj posao samo ako je prethodni 'cppcheck' posao uspješno završen
-    # I samo ako se radi o pushu na main granu
-    needs: cppcheck
-    if: github.ref == 'refs/heads/main'
+    # Pokreni ovaj posao samo ako je 'cppcheck' posao uspješno završen (ili ako želite deployati i s greškama?)
+    # Ovdje pretpostavljamo da deployamo samo ako NEMA cppcheck grešaka.
+    # Ako želite deployati uvijek (na main), maknite needs i if uvjet ili ga prilagodite.
+    needs: cppcheck 
+    if: github.ref == 'refs/heads/main' && needs.cppcheck.result == 'success' 
 
     # Postavke okoline za GitHub Pages
     environment:
