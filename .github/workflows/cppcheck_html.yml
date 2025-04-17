@@ -62,7 +62,7 @@ jobs:
             echo "Analyzing files: $INO_FILES"
             
             # Pokreni cppcheck s XML izlazom (bez --error-exitcode ovdje, provjerit ćemo kasnije)
-            cppcheck --enable=all --inconclusive --std=c99 --suppress=missingIncludeSystem --suppress=unusedFunction --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
+            cppcheck --enable=all --inconclusive --std=c99 --suppress=missingIncludeSystem --checkers-report=ilename --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
             
             # Zabilježi izlazni kod cppchecka
             CPPCHECK_EXIT_CODE=$? 
