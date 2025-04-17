@@ -1,4 +1,4 @@
 var files_dup =
 [
-    [ "RUS_Lab1_prekidi.ino", "de/d99/RUS__Lab1__prekidi_8ino.html", "de/d99/RUS__Lab1__prekidi_8ino" ]
+    [ "Lab1.ino", "d1/d16/Lab1_8ino.html", "d1/d16/Lab1_8ino" ]
 ];

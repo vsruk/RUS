@@ -40,7 +40,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"de/d99/RUS__Lab1__prekidi_8ino.html"
+"d1/d16/Lab1_8ino.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
