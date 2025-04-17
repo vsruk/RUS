@@ -9,33 +9,32 @@ on:
 jobs:
   clang-analysis:
     runs-on: ubuntu-22.04 #ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Install LLVM tools with scan-build
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y wget gnupg lsb-release
-        wget https://apt.llvm.org/llvm.sh
-        chmod +x llvm.sh
-        sudo ./llvm.sh 14
-        
-    - name: Install scan-build
-      run: |
-       sudo apt-get update
-       sudo apt-get install -y clang-tools
     
-    - name: Prepare Arduino .ino file for analysis
-      run: |
-        cp Lab1/*.ino Lab1/temp.cpp
-        echo '#include <Arduino.h>' | cat - Lab1/temp.cpp > Lab1/analyzable.cpp
+   steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Run scan-build with clang++-14
-      run: |
-        mkdir -p analysis-report
-        scan-build -o analysis-report clang++-14 -c Lab1/analyzable.cpp -I/usr/share/arduino/hardware/arduino/cores/arduino || true
+      - name: Install clang-tools (scan-build)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-tools
+
+      - name: Install arduino-cli
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+          sudo mv bin/arduino-cli /usr/local/bin
+
+      - name: Set up Arduino CLI core
+        run: |
+          arduino-cli config init
+          arduino-cli core update-index
+          arduino-cli core install arduino:avr
+
+      - name: Run static analysis with scan-build
+        run: |
+          mkdir -p analysis-report
+          scan-build -o analysis-report --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega Lab1
+
 
     - name: Upload analysis report
       uses: actions/upload-artifact@v4
