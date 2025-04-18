@@ -132,7 +132,8 @@ jobs:
       # 1.7. Upload HTML izvještaja kao Pages artefakta
       - name: Upload artifact for Pages
         # Pokreni samo ako je push na main granu
-        if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && needs.cppcheck.result == 'success'
+        if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref)
+        # if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && needs.cppcheck.result == 'success'
         # if: github.ref == 'refs/heads/main' 
         uses: actions/upload-pages-artifact@v3
         with:
