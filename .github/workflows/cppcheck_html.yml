@@ -125,13 +125,15 @@ jobs:
       # 1.6. Setup Pages (Konfiguracija za GitHub Pages)
       - name: Setup Pages
         # Pokreni samo ako je push na main granu
-        if: github.ref == 'refs/heads/main' 
+        if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && needs.cppcheck.result == 'success'
+        # if: github.ref == 'refs/heads/main' 
         uses: actions/configure-pages@v5
 
       # 1.7. Upload HTML izvještaja kao Pages artefakta
       - name: Upload artifact for Pages
         # Pokreni samo ako je push na main granu
-        if: github.ref == 'refs/heads/main' 
+        if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && needs.cppcheck.result == 'success'
+        # if: github.ref == 'refs/heads/main' 
         uses: actions/upload-pages-artifact@v3
         with:
           # Uploadaj sadržaj direktorija s HTML izvještajem
