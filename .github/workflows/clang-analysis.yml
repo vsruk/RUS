@@ -1,69 +1,77 @@
-# .github/workflows/arduino-clang-analysis.yml
-
-# Naziv workflowa
+---
 name: Arduino Clang Static Analysis
-
-# Kada se workflow pokreće
 on:
   push:
-    branches: [ main ] # Na push na main granu
+    branches:
+      - main
   pull_request:
-    branches: [ main ] # Na pull request prema main grani
-  workflow_dispatch: # Omogućuje ručno pokretanje
-
+    branches:
+      - main
+  workflow_dispatch: null
 jobs:
-  # Posao (job) za statičku analizu
   clang-analysis:
-    # Pokreće se na Ubuntu 22.04 runneru
     runs-on: ubuntu-22.04
-    
-    # Koraci (steps) koji se izvršavaju
     steps:
-      # 1. Preuzimanje koda repozitorija
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # 2. Instalacija clang-tools paketa koji sadrži scan-build
       - name: Install clang-tools (scan-build)
         run: |
           sudo apt-get update
           sudo apt-get install -y clang-tools
-
-      # 3. Instalacija arduino-cli alata
       - name: Install arduino-cli
-        run: |
+        run: >
           # Preuzimanje i izvršavanje službene instalacijske skripte
-          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-          # Premještanje arduino-cli izvršne datoteke na standardnu lokaciju
-          sudo mv bin/arduino-cli /usr/local/bin/
 
-      # 4. Konfiguracija arduino-cli i instalacija potrebnog core-a (za AVR ploče poput Mega)
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+
+          # Premještanje arduino-cli izvršne datoteke na standardnu lokaciju
+
+          sudo mv bin/arduino-cli /usr/local/bin/
       - name: Set up Arduino CLI core
         run: |
           arduino-cli config init # Inicijalizacija konfiguracijske datoteke
           arduino-cli core update-index # Ažuriranje indeksa dostupnih platformi
           arduino-cli core install arduino:avr # Instalacija Arduino AVR core-a
-
-      # 5. (Debug) Ispis sadržaja Lab1 direktorija
       - name: List Lab1 directory contents
         run: ls -l $GITHUB_WORKSPACE/Lab1
-#      - name: Rename .ino file to match sketch folder
-#        run: |
-#          mv $GITHUB_WORKSPACE/Lab1/Lab1.ino $GITHUB_WORKSPACE/Lab1/Lab1.ino
-          
-      # 6. Pokretanje statičke analize pomoću scan-build
       - name: Run static analysis with scan-build
-        run: |
+        run: >
           # Kreiranje direktorija za izvještaj
-          mkdir -p analysis-report
-          # Pokretanje scan-build alata s apsolutnom putanjom do skice
-          # $GITHUB_WORKSPACE varijabla sadrži putanju do korijena vašeg repozitorija unutar runnera
-          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega $GITHUB_WORKSPACE/Lab1/Lab1.ino
 
-      # 7. Upload HTML izvještaja kao artefakta
+          mkdir -p analysis-report
+
+          # Pokretanje scan-build alata s apsolutnom putanjom do skice
+
+          # $GITHUB_WORKSPACE varijabla sadrži putanju do korijena vašeg repozitorija unutar runnera
+
+          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega $GITHUB_WORKSPACE/Lab1/Lab1.ino
+      - name: Check scan-build results and decide on upload
+        id: check_results
+        run: >
+          # Provjeravamo ishod prethodnog koraka ('success' ili 'failure')
+
+          if [ "${{ steps.scan.outcome }}" == 'failure' ]; then
+            echo "Scan-build found issues (outcome: failure due to --status-bugs)."
+            # Provjerimo postoje li izvještaji za svaki slučaj
+            if [ -n "$(find analysis-report -name index.html -print -quit)" ]; then
+               echo "Report files found. Preparing for upload."
+               echo "UPLOAD_ARTIFACT=true" >> $GITHUB_ENV
+            else
+               # Ovo ne bi trebalo da se desi ako je outcome failure, ali za sigurnost
+               echo "WARNING: scan-build outcome was failure, but no report files found in analysis-report!"
+               echo "UPLOAD_ARTIFACT=false" >> $GITHUB_ENV
+            fi
+          else
+            echo "Scan-build found no issues (outcome: success)."
+            echo "Skipping artifact upload as no reports were generated."
+            echo "UPLOAD_ARTIFACT=false" >> $GITHUB_ENV
+            # Opcionalno: Ako baš *uvijek* želite artefakt, čak i samo poruku:
+            # mkdir -p analysis-report # Osiguraj da postoji ako ga je scan-build obrisao
+            # echo "No issues found by scan-build." > analysis-report/status.txt
+            # echo "UPLOAD_ARTIFACT=true" >> $GITHUB_ENV # Postavi na true ako kreiraš status.txt
+          fi
       - name: Upload analysis report
-        # Koristi se samo ako prethodni korak uspije (ili ako dodate `if: always()`)
         uses: actions/upload-artifact@v4
         with:
-          name: clang-static-analysis-report # Naziv artefakta
-          path: analysis-report # Putanja do direktorija koji se uploada
+          name: clang-static-analysis-report
+          path: analysis-report
