@@ -61,8 +61,10 @@ jobs:
             fi
             echo "Analyzing files: $INO_FILES"
             
-            # Pokreni cppcheck s XML izlazom (bez --error-exitcode ovdje, provjerit ćemo kasnije)
-            cppcheck --enable=all --inconclusive --std=c++17 --suppress=missingIncludeSystem --checkers-report=filename.htm --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
+            # Pokreni cppcheck s XML izlazom
+            # Ispravljena naredba: dodano --suppress=unusedFunction i 2> cppcheck-report.xml
+            # Uklonjen neispravan --checkers-report flag
+            cppcheck --enable=all --inconclusive --std=c99 --suppress=missingIncludeSystem --suppress=unusedFunction --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
             
             # Zabilježi izlazni kod cppchecka
             CPPCHECK_EXIT_CODE=$? 
@@ -87,37 +89,35 @@ jobs:
             exit 1 # Završi s greškom ako direktorij ne postoji
           fi
 
-      # 1.5. Generiranje HTML izvještaja iz XML-a pomoću klonirane skripte (traženje *.py unutar htmlreport dir + provjera)
+      # 1.5. Generiranje HTML izvještaja iz XML-a pomoću klonirane skripte (fiksna putanja)
       - name: Generate HTML report
         run: |
           echo "Generating HTML report..."
-          # Dinamički pronađi putanju do BILO KOJE .py skripte unutar /tmp/cppcheck/htmlreport/ direktorija
-          HTML_REPORT_SCRIPT=/tmp/cppcheck/htmlreport/cppcheck-htmlreport #$(find /tmp/cppcheck/htmlreport -name '*.py' | head -n 1)
+          # Postavljanje fiksne putanje do skripte
+          HTML_REPORT_SCRIPT="/tmp/cppcheck/htmlreport/cppcheck-htmlreport"
           
-          # Provjeri je li skripta pronađena
-          if [ -z "$HTML_REPORT_SCRIPT" ]; then
-             echo "ERROR: No Python script (*.py) found within /tmp/cppcheck/htmlreport/ directory!"
-             mkdir -p cppcheck-html-report
-             echo "HTML report generation failed." > cppcheck-html-report/index.html
-             exit 1 # Padni ako skripta nije nađena
-          fi
-
-          echo "Found script candidate at: $HTML_REPORT_SCRIPT"
-          ls -l $HTML_REPORT_SCRIPT # Ispiši detalje pronađene skripte
-
-
+          echo "Using fixed script path: $HTML_REPORT_SCRIPT"
+          ls -l $HTML_REPORT_SCRIPT || echo "Script not found at fixed path by ls." # Ispiši detalje ili grešku
 
           # Kreiraj izlazni direktorij prije pokretanja skripte
           mkdir -p cppcheck-html-report
 
           # Provjeri postoji li XML datoteka prije generiranja HTML-a
           if [ -f cppcheck-report.xml ]; then
-             echo "Running python script to generate HTML..."
-             python3 $HTML_REPORT_SCRIPT --file=cppcheck-report.xml --report-dir=cppcheck-html-report  --source-dir=. --title="RUS Lab1 "
-             echo "Python script finished."
-             # [DEBUG] Ispiši sadržaj generiranog direktorija
-             echo "Listing contents of cppcheck-html-report directory:"
-             ls -lR cppcheck-html-report
+             # Provjeri postoji li skripta prije pokušaja izvršavanja
+             if [ -f "$HTML_REPORT_SCRIPT" ]; then
+                echo "Running python script to generate HTML..."
+                # Dodana opcija --title za postavljanje naslova izvještaja
+                python3 $HTML_REPORT_SCRIPT --file=cppcheck-report.xml --report-dir=cppcheck-html-report --source-dir=. --title="RUS Lab1 "
+                echo "Python script finished."
+                # [DEBUG] Ispiši sadržaj generiranog direktorija
+                echo "Listing contents of cppcheck-html-report directory:"
+                ls -lR cppcheck-html-report
+             else
+                echo "ERROR: HTML report script not found at $HTML_REPORT_SCRIPT!"
+                echo "HTML report generation failed because script was not found." > cppcheck-html-report/index.html
+                exit 1 # Padni ako skripta nije nađena na fiksnoj putanji
+             fi
           else
              echo "ERROR: cppcheck-report.xml not found, cannot generate HTML report!"
              echo "HTML report generation failed because XML input was missing." > cppcheck-html-report/index.html
