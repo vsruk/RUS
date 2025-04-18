@@ -49,7 +49,7 @@ jobs:
         run: ls -l $GITHUB_WORKSPACE/Lab1
 #      - name: Rename .ino file to match sketch folder
 #        run: |
-#          mv $GITHUB_WORKSPACE/Lab1/RUS_Lab1_prekidi.ino $GITHUB_WORKSPACE/Lab1/Lab1.ino
+#          mv $GITHUB_WORKSPACE/Lab1/Lab1.ino $GITHUB_WORKSPACE/Lab1/Lab1.ino
           
       # 6. Pokretanje statičke analize pomoću scan-build
       - name: Run static analysis with scan-build
