@@ -65,7 +65,7 @@ jobs:
             # Ispravljena naredba: dodano --suppress=unusedFunction i 2> cppcheck-report.xml
             # Uklonjen neispravan --checkers-report flag
             cppcheck --enable=all --inconclusive --platform=avr8 --std=c++17 --checkers-report=cppcheck-report.txt --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
-            --suppress=missingIncludeSystem --suppress=unusedFunction 
+            # --suppress=missingIncludeSystem --suppress=unusedFunction 
             
             # Zabilježi izlazni kod cppchecka
             CPPCHECK_EXIT_CODE=$? 
