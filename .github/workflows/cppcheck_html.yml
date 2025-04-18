@@ -62,7 +62,7 @@ jobs:
             echo "Analyzing files: $INO_FILES"
             
             # Pokreni cppcheck s XML izlazom (bez --error-exitcode ovdje, provjerit ćemo kasnije)
-            cppcheck --enable=all --inconclusive --std=c99 --suppress=missingIncludeSystem --checkers-report=filename.htm --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
+            cppcheck --enable=all --inconclusive --std=c++17 --suppress=missingIncludeSystem --checkers-report=filename.htm --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
             
             # Zabilježi izlazni kod cppchecka
             CPPCHECK_EXIT_CODE=$? 
@@ -105,13 +105,7 @@ jobs:
           echo "Found script candidate at: $HTML_REPORT_SCRIPT"
           ls -l $HTML_REPORT_SCRIPT # Ispiši detalje pronađene skripte
 
-          # DODATNA PROVJERA: Osiguraj da pronađena skripta nije __init__.py
-          if [[ "$(basename "$HTML_REPORT_SCRIPT")" == "__init__.py" ]]; then
-             echo "ERROR: Found '__init__.py', which is not the correct report script!"
-             mkdir -p cppcheck-html-report
-             echo "HTML report generation failed because the wrong script was found." > cppcheck-html-report/index.html
-             # exit 1  Padni jer smo našli pogrešnu skriptu
-          fi
+
 
           # Kreiraj izlazni direktorij prije pokretanja skripte
           mkdir -p cppcheck-html-report
