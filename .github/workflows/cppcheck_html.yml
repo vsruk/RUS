@@ -124,7 +124,7 @@ jobs:
 
       # 1.6. Setup Pages (Konfiguracija za GitHub Pages)
       - name: Setup Pages
-        # Pokreni samo ako je push na main granu
+        # Pokreni samo ako je push na  granu
         if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && needs.cppcheck.result == 'success'
         # if: github.ref == 'refs/heads/main' 
         uses: actions/configure-pages@v5
@@ -152,7 +152,8 @@ jobs:
     # Ovdje pretpostavljamo da deployamo samo ako NEMA cppcheck grešaka.
     # Ako želite deployati uvijek (na main), maknite needs i if uvjet ili ga prilagodite.
     needs: cppcheck 
-    if: github.ref == 'refs/heads/main' && needs.cppcheck.result == 'success' 
+    if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && needs.cppcheck.result == 'success'
+    # if: github.ref == 'refs/heads/main' && needs.cppcheck.result == 'success' 
 
     # Postavke okoline za GitHub Pages
     environment:
