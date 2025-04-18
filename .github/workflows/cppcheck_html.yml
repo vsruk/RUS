@@ -92,7 +92,7 @@ jobs:
         run: |
           echo "Generating HTML report..."
           # Dinamički pronađi putanju do BILO KOJE .py skripte unutar /tmp/cppcheck/htmlreport/ direktorija
-          HTML_REPORT_SCRIPT=$(find /tmp/cppcheck/htmlreport -name '*.py' | head -n 1)
+          HTML_REPORT_SCRIPT=/tmp/cppcheck/htmlreport/cppcheck-htmlreport #$(find /tmp/cppcheck/htmlreport -name '*.py' | head -n 1)
           
           # Provjeri je li skripta pronađena
           if [ -z "$HTML_REPORT_SCRIPT" ]; then
