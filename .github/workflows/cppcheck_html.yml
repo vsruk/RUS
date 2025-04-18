@@ -163,6 +163,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
       
+    - name: Debug page_url output
+      run: echo "Page URL: ${{ steps.deployment.outputs.page_url }}"
+     
     # Dozvole potrebne za deploy
     permissions:
       pages: write
