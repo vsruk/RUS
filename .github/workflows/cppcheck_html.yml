@@ -113,7 +113,7 @@ jobs:
           # Provjeri postoji li XML datoteka prije generiranja HTML-a
           if [ -f cppcheck-report.xml ]; then
              echo "Running python script to generate HTML..."
-             python3 $HTML_REPORT_SCRIPT --file=cppcheck-report.xml --report-dir=cppcheck-html-report --source-dir=.
+             python3 $HTML_REPORT_SCRIPT --file=cppcheck-report.xml --report-dir=cppcheck-html-report  --source-dir=. --title="RUS Lab1 "
              echo "Python script finished."
              # [DEBUG] Ispiši sadržaj generiranog direktorija
              echo "Listing contents of cppcheck-html-report directory:"
