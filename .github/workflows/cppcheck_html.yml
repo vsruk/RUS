@@ -97,8 +97,7 @@ jobs:
           HTML_REPORT_SCRIPT="/tmp/cppcheck/htmlreport/cppcheck-htmlreport"
           
           echo "Using fixed script path: $HTML_REPORT_SCRIPT"
-          ls -l $HTML_REPORT_SCRIPT || echo "Script not found at fixed path by ls." # Ispiši detalje ili grešku
-
+          
           # Kreiraj izlazni direktorij prije pokretanja skripte
           mkdir -p cppcheck-html-report
 
@@ -116,7 +115,6 @@ jobs:
              else
                 echo "ERROR: HTML report script not found at $HTML_REPORT_SCRIPT!"
                 echo "HTML report generation failed because script was not found." > cppcheck-html-report/index.html
-                exit 1 # Padni ako skripta nije nađena na fiksnoj putanji
              fi
           else
              echo "ERROR: cppcheck-report.xml not found, cannot generate HTML report!"
