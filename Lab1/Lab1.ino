@@ -1,273 +1,227 @@
-/**
- * @file
- * @brief Simulates interrupts on an Arduino Mega (Wokwi project).
- *
- * This project demonstrates how to simulate external and timer interrupts using an Arduino Mega.
- * It uses three buttons (BUTTON0, BUTTON1, BUTTON2) to trigger external interrupts and a timer
- * (via Timer1) for periodic events. The program also measures distance using an ultrasonic sensor
- * and triggers a distance alert if an object is too close.
- *
- * Various LEDs indicate the interrupt events and sensor/timer actions. Additionally, several
- * digital pins are toggled to simulate signals for a logic analyzer.
- *
- * @note This code is designed for use with the Wokwi simulation environment.
+#include <Arduino.h>
+#include "driver/gpio.h"
+#include "esp_timer.h"
+
+/** @def LED_TIMER
+ *  @brief GPIO pin za LED timer.
  */
+#define LED_TIMER 13
 
-#include <avr/interrupt.h>
-
-// Pin definitions
-#define BUTTON0      2
-#define BUTTON1      3
-#define BUTTON2      21
-#define LED_INT0     8
-#define LED_INT1     9
-#define LED_INT2     10
-#define LED_Sensor   11
-#define LED_Timer    12
-#define TRIG_PIN     6
-#define ECHO_PIN     5
-
-#define TIMER1_PRESCALER   1024
-#define TIMER1_COMPARE     15624
-#define BLINK_INTERVAL     200
-#define DEBOUNCE_DELAY     50
-#define TIMER_DELAY        1000
-#define ALARM_DISTANCE     100
-
-// Logic analyzer pin definitions
-#define LOGIC_ANALYZER_PIN0 14 
-#define LOGIC_ANALYZER_PIN1 15 
-#define LOGIC_ANALYZER_PIN2 16 
-#define LOGIC_ANALYZER_TIMER 17
-#define LOGIC_ANALYZER_SENSOR 18 
-
-// Global volatile variables used in ISRs and main loop
-volatile bool     intFlag[3] = {0};
-volatile unsigned long lastInterruptTime[3] = {0}, lastTimerTime = 0;
-volatile bool     distanceAlert = 0, timerFlag = 0;
-volatile bool     pastDistanceAlert;
-
-/**
- * @brief Arduino setup function.
- *
- * Configures the pin modes for LEDs, buttons, ultrasonic sensor, and logic analyzer pins.
- * Attaches external interrupts for BUTTON0, BUTTON1, and BUTTON2.
- * Sets up Timer1 to generate an interrupt when it reaches the compare value.
- * Initializes serial communication and enables interrupts.
+/** @def LED_BTN0
+ *  @brief GPIO pin za LED gumba 0.
  */
-void setup(){
-    pinMode(LED_INT0,    OUTPUT);
-    pinMode(LED_INT1,    OUTPUT);
-    pinMode(LED_INT2,    OUTPUT);
-    pinMode(LED_Sensor,  OUTPUT);
-    pinMode(LED_Timer,   OUTPUT);
+#define LED_BTN0 12
 
-    pinMode(BUTTON0, INPUT_PULLUP);
-    pinMode(BUTTON1, INPUT_PULLUP);
-    pinMode(BUTTON2, INPUT_PULLUP);
-
-    pinMode(TRIG_PIN, OUTPUT);
-    pinMode(ECHO_PIN, INPUT);
-
-    pinMode(LOGIC_ANALYZER_PIN0, OUTPUT);
-    pinMode(LOGIC_ANALYZER_PIN1, OUTPUT);
-    pinMode(LOGIC_ANALYZER_PIN2, OUTPUT);
-    pinMode(LOGIC_ANALYZER_TIMER, OUTPUT);
-    pinMode(LOGIC_ANALYZER_SENSOR, OUTPUT);
-
-    attachInterrupt(digitalPinToInterrupt(BUTTON0), ISR_INT0, FALLING);
-    attachInterrupt(digitalPinToInterrupt(BUTTON1), ISR_INT1, FALLING);
-    attachInterrupt(digitalPinToInterrupt(BUTTON2), ISR_INT2, FALLING);
-
-    // Configure Timer1 in CTC mode with prescaler 1024
-    TCCR1A = 0;
-    TCCR1B = (1 << WGM12) | (1 << CS12) | (1 << CS10);
-    OCR1A  = TIMER1_COMPARE;
-    TIMSK1 = (1 << OCIE1A);
-    
-    Serial.begin(9600);
-    sei();  // Enable global interrupts
-    float d = measureDistance();
-    pastDistanceAlert = (d > 0 && d < ALARM_DISTANCE);
-    if (pastDistanceAlert == 1){
-      digitalWrite(LOGIC_ANALYZER_SENSOR, HIGH);
-      Serial.println("ALARM: Predmet preblizu (<100cm, LOWEST PRIORITY)!");
-    }
-}
-
-/**
- * @brief Arduino main loop.
- *
- * Continuously measures the distance using the ultrasonic sensor.
- * Sets the distanceAlert flag based on the measured distance.
- * Checks for a timer interrupt flag and handles it.
- * Processes any pending external interrupts by blinking the corresponding LEDs.
- * Triggers a distance alert if an object is detected too close.
+/** @def LED_BTN1
+ *  @brief GPIO pin za LED gumba 1.
  */
-void loop(){
-    float d = measureDistance();
-    distanceAlert = (d > 0 && d < ALARM_DISTANCE);
-    if(pastDistanceAlert != distanceAlert){
-      if (distanceAlert == 0){
-        digitalWrite(LOGIC_ANALYZER_SENSOR, LOW);
-      } else {
-        digitalWrite(LOGIC_ANALYZER_SENSOR, HIGH);
-        Serial.println("ALARM: Predmet preblizu (<100cm, LOWEST PRIORITY)!");
-      }
-      pastDistanceAlert = distanceAlert;
-    }
+#define LED_BTN1 14
 
-    if(timerFlag){ 
-        handleTimerInterrupt(); 
-    }
-    
-    handleBlinking();
-    
-    triggerDistanceAlert();
-}
-
-/**
- * @brief Timer1 Compare Match Interrupt Service Routine.
- *
- * This ISR is called when Timer1 reaches the compare value.
- * It toggles the logic analyzer timer pin, sets the timer flag, and updates the last timer time.
+/** @def LED_BTN2
+ *  @brief GPIO pin za LED gumba 2.
  */
-ISR(TIMER1_COMPA_vect){
-    digitalWrite(LOGIC_ANALYZER_TIMER, HIGH);
+#define LED_BTN2 27
+
+/** @def PIR_PIN
+ *  @brief GPIO pin za PIR senzor.
+ */
+#define PIR_PIN GPIO_NUM_33
+
+/** @def BUTTON0
+ *  @brief GPIO pin za gumb 0.
+ */
+#define BUTTON0 GPIO_NUM_2
+
+/** @def BUTTON1
+ *  @brief GPIO pin za gumb 1.
+ */
+#define BUTTON1 GPIO_NUM_4
+
+/** @def BUTTON2
+ *  @brief GPIO pin za gumb 2.
+ */
+#define BUTTON2 GPIO_NUM_5
+
+/** @var volatile bool btn0Pressed
+ *  @brief Stanje prekida za gumb 0.
+ */
+volatile bool btn0Pressed = false;
+
+/** @var volatile bool btn1Pressed
+ *  @brief Stanje prekida za gumb 1.
+ */
+volatile bool btn1Pressed = false;
+
+/** @var volatile bool btn2Pressed
+ *  @brief Stanje prekida za gumb 2.
+ */
+volatile bool btn2Pressed = false;
+
+/** @var volatile bool pirDetected
+ *  @brief Stanje prekida za PIR senzor.
+ */
+volatile bool pirDetected = false;
+
+/** @var volatile bool timerFlag
+ *  @brief Zastavica za timer prekid.
+ */
+volatile bool timerFlag = false;
+
+/** @def PRIORITY_TIMER
+ *  @brief Prioritet prekida za timer.
+ */
+#define PRIORITY_TIMER 0
+
+/** @def PRIORITY_BTN0
+ *  @brief Prioritet prekida za gumb 0.
+ */
+#define PRIORITY_BTN0 3
+
+/** @def PRIORITY_BTN1
+ *  @brief Prioritet prekida za gumb 1.
+ */
+#define PRIORITY_BTN1 4
+
+/** @def PRIORITY_BTN2
+ *  @brief Prioritet prekida za gumb 2.
+ */
+#define PRIORITY_BTN2 1
+
+/** @def PRIORITY_PIR
+ *  @brief Prioritet prekida za PIR senzor.
+ */
+#define PRIORITY_PIR 2
+
+/** @var esp_timer_handle_t timerHandle
+ *  @brief Rukovalac za ESP tajmer.
+ */
+esp_timer_handle_t timerHandle;
+
+/** @fn void IRAM_ATTR handleBtn0(void* arg)
+ *  @brief Prekidna rutina za gumb 0.
+ *  @param arg Argument prekida (ne koristi se).
+ */
+void IRAM_ATTR handleBtn0(void* arg) { btn0Pressed = true; }
+
+/** @fn void IRAM_ATTR handleBtn1(void* arg)
+ *  @brief Prekidna rutina za gumb 1.
+ *  @param arg Argument prekida (ne koristi se).
+ */
+void IRAM_ATTR handleBtn1(void* arg) { btn1Pressed = true; }
+
+/** @fn void IRAM_ATTR handleBtn2(void* arg)
+ *  @brief Prekidna rutina za gumb 2.
+ *  @param arg Argument prekida (ne koristi se).
+ */
+void IRAM_ATTR handleBtn2(void* arg) { btn2Pressed = true; }
+
+/** @fn void IRAM_ATTR handlePIR(void* arg)
+ *  @brief Prekidna rutina za PIR senzor.
+ *  @param arg Argument prekida (ne koristi se).
+ */
+void IRAM_ATTR handlePIR(void* arg) { pirDetected = true; }
+
+/** @fn void IRAM_ATTR timerISR(void* arg)
+ *  @brief Prekidna rutina za tajmer.
+ *  @param arg Argument prekida (ne koristi se).
+ */
+void IRAM_ATTR timerISR(void* arg) {
     timerFlag = true;
-    lastTimerTime = millis();
-    digitalWrite(LOGIC_ANALYZER_TIMER, LOW);
 }
 
-/**
- * @brief Handles the timer interrupt event.
- *
- * Activates the LED for timer events, prints a message to the Serial Monitor,
- * waits for a short duration, then turns off the LED and resets the timer flag.
+/** @fn void setup()
+ *  @brief Inicijalizacija hardvera i postavke prekida.
+ *  
+ *  Ova funkcija konfigurira GPIO pinove, postavlja prekide
+ *  i inicijalizira periodični tajmer.
  */
-void handleTimerInterrupt(){
-    digitalWrite(LED_Timer, HIGH);
-    Serial.println("TIMER INTERRUPT (HIGHEST PRIORITY)");
-    delay(200);
-    digitalWrite(LED_Timer, LOW);
-    timerFlag = false;
-}
+void setup() {
+    Serial.begin(115200);
 
-/**
- * @brief Interrupt Service Routine for BUTTON0 (INT0).
- *
- * Toggles the logic analyzer pin for INT0 and calls the generic interrupt handler.
- */
-void ISR_INT0(){
-    digitalWrite(LOGIC_ANALYZER_PIN0, HIGH);
-    handleInterrupt(0, LED_INT0, "INT0 (HIGH priority) triggered");
-    digitalWrite(LOGIC_ANALYZER_PIN0, LOW);
-}
-
-/**
- * @brief Interrupt Service Routine for BUTTON1 (INT1).
- *
- * Toggles the logic analyzer pin for INT1 and calls the generic interrupt handler.
- */
-void ISR_INT1(){ 
-    digitalWrite(LOGIC_ANALYZER_PIN1, HIGH);
-    handleInterrupt(1, LED_INT1, "INT1 (MEDIUM priority) triggered");
-    digitalWrite(LOGIC_ANALYZER_PIN1, LOW);
-}
-
-/**
- * @brief Interrupt Service Routine for BUTTON2 (INT2).
- *
- * Toggles the logic analyzer pin for INT2 and calls the generic interrupt handler.
- */
-void ISR_INT2(){
-    digitalWrite(LOGIC_ANALYZER_PIN2, HIGH);
-    handleInterrupt(2, LED_INT2, "INT2 (LOW priority) triggered");
-    digitalWrite(LOGIC_ANALYZER_PIN2, LOW);
-}
-
-/**
- * @brief Common interrupt handler.
- *
- * Debounces the interrupt by checking the elapsed time since the last interrupt.
- * If the debounce delay has passed, the corresponding interrupt flag is set,
- * the current time is saved, and a message is printed to the Serial Monitor.
- *
- * @param i Interrupt index (0 for INT0, 1 for INT1, 2 for INT2).
- * @param led LED pin associated with this interrupt.
- * @param msg Message to print indicating which interrupt was triggered.
- */
-void handleInterrupt(int i, int led, const char* msg){
-    if((millis() - lastInterruptTime[i]) < DEBOUNCE_DELAY) return;
-    lastInterruptTime[i] = millis();
-    intFlag[i] = true;
-    Serial.println(msg);
-}
-
-/**
- * @brief Processes external interrupt flags by blinking LEDs.
- *
- * Iterates over the interrupt flags array; if a flag is set, calls blinkLed for the
- * corresponding LED and then clears the flag.
- */
-void handleBlinking(){
-    for(int i = 0; i < 3; i++){
-        if(intFlag[i]){
-            blinkLed((i == 0) ? LED_INT0 : (i == 1) ? LED_INT1 : LED_INT2);
-            intFlag[i] = false;
-        }
-    }
-}
-
-/**
- * @brief Blinks the specified LED for 1 second.
- *
- * Toggles the LED state every BLINK_INTERVAL milliseconds for a duration of 1 second.
- *
- * @param led Pin number of the LED to blink.
- */
-void blinkLed(int led){
-    unsigned long start = millis();
-    while(millis() - start < 1000){
-        digitalWrite(led, !digitalRead(led));
-        delay(BLINK_INTERVAL);
-    }
-    digitalWrite(led, LOW);
-}
-
-/**
- * @brief Measures distance using an ultrasonic sensor.
- *
- * Sends a trigger pulse on TRIG_PIN, then measures the duration of the echo on ECHO_PIN.
- * Converts the pulse duration to a distance in centimeters.
- *
- * @return Measured distance in centimeters, or -1 if no valid echo is received.
- */
-float measureDistance(){
-    digitalWrite(TRIG_PIN, LOW);
-    delayMicroseconds(2);
-    digitalWrite(TRIG_PIN, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(TRIG_PIN, LOW);
+    // Konfiguracija izlaza
+    esp_rom_gpio_pad_select_gpio((gpio_num_t)LED_TIMER);
+    esp_rom_gpio_pad_select_gpio((gpio_num_t)LED_BTN0);
+    esp_rom_gpio_pad_select_gpio((gpio_num_t)LED_BTN1);
+    esp_rom_gpio_pad_select_gpio((gpio_num_t)LED_BTN2);
     
-    long t = pulseIn(ECHO_PIN, HIGH, 30000);
-    return (t > 0) ? t / 58.0 : -1;
+    gpio_set_direction((gpio_num_t)LED_TIMER, GPIO_MODE_OUTPUT);
+    gpio_set_direction((gpio_num_t)LED_BTN0, GPIO_MODE_OUTPUT);
+    gpio_set_direction((gpio_num_t)LED_BTN1, GPIO_MODE_OUTPUT);
+    gpio_set_direction((gpio_num_t)LED_BTN2, GPIO_MODE_OUTPUT);
+
+    // Konfiguracija ulaza
+    gpio_set_direction(BUTTON0, GPIO_MODE_INPUT);
+    gpio_set_direction(BUTTON1, GPIO_MODE_INPUT);
+    gpio_set_direction(BUTTON2, GPIO_MODE_INPUT);
+    gpio_set_direction(PIR_PIN, GPIO_MODE_INPUT);
+
+    // Konfiguracija prekida
+    gpio_set_intr_type(BUTTON0, GPIO_INTR_NEGEDGE);
+    gpio_set_intr_type(BUTTON1, GPIO_INTR_NEGEDGE);
+    gpio_set_intr_type(BUTTON2, GPIO_INTR_NEGEDGE);
+    gpio_set_intr_type(PIR_PIN, GPIO_INTR_POSEDGE);
+
+    // Inicijalizacija ISR servisa
+    gpio_install_isr_service(0);
+
+    // Dodavanje ISR funkcija
+    gpio_isr_handler_add(BUTTON0, handleBtn0, (void*)PRIORITY_BTN0);
+    gpio_isr_handler_add(BUTTON1, handleBtn1, (void*)PRIORITY_BTN1);
+    gpio_isr_handler_add(BUTTON2, handleBtn2, (void*)PRIORITY_BTN2);
+    gpio_isr_handler_add(PIR_PIN, handlePIR, (void*)PRIORITY_PIR);
+
+    // Konfiguracija tajmera (1 sekunda)
+    esp_timer_create_args_t timerArgs = {};
+    timerArgs.callback = &timerISR;
+    timerArgs.name = "TIMER1";
+    esp_timer_create(&timerArgs, &timerHandle);
+    esp_timer_start_periodic(timerHandle, 1000000); // 1 sekunda
+
+    Serial.println("Sustav inicijaliziran.");
 }
 
-/**
- * @brief Triggers a distance alert if an object is detected too close.
- *
- * If the measured distance is within the alarm threshold, this function toggles the sensor LED
- * at 200 ms intervals and prints an alarm message. Otherwise, it ensures the LED is turned off.
+/** @fn void loop()
+ *  @brief Glavna petlja programa koja obrađuje prekide.
+ *  
+ *  Ova funkcija kontinuirano provjerava zastavice prekida
+ *  i izvršava odgovarajuće akcije prema prioritetima.
  */
-void triggerDistanceAlert() {
-    static unsigned long prev = 0;
-    if (distanceAlert) {
-        if (millis() - prev >= 200) {
-            prev = millis();
-            digitalWrite(LED_Sensor, !digitalRead(LED_Sensor));
-        }
-    } else {
-        digitalWrite(LED_Sensor, LOW);  // Turn off LED when distance is safe
+void loop() {
+    // Obrada prekida prema prioritetima
+    if (timerFlag) {
+        timerFlag = false;
+        gpio_set_level((gpio_num_t)LED_TIMER, !gpio_get_level((gpio_num_t)LED_TIMER));
+        Serial.println("[TIMER] Aktiviran");
     }
+
+    if (btn0Pressed) {
+        btn0Pressed = false;
+        gpio_set_level((gpio_num_t)LED_BTN0, 1);
+        delay(1000);
+        gpio_set_level((gpio_num_t)LED_BTN0, 0);
+        Serial.println("[BUTTON0] Pritisnut");
+    }
+
+    if (btn1Pressed) {
+        btn1Pressed = false;
+        gpio_set_level((gpio_num_t)LED_BTN1, 1);
+        delay(1000);
+        gpio_set_level((gpio_num_t)LED_BTN1, 0);
+        Serial.println("[BUTTON1] Pritisnut");
+    }
+
+    if (btn2Pressed) {
+        btn2Pressed = false;
+        gpio_set_level((gpio_num_t)LED_BTN2, 1);
+        delay(1000);
+        gpio_set_level((gpio_num_t)LED_BTN2, 0);
+        Serial.println("[BUTTON2] Pritisnut");
+    }
+
+    if (pirDetected) {
+        pirDetected = false;
+        Serial.println("[PIR] Pokret detektiran!");
+    }
+
+    delay(10); // Mala pauza za stabilnost
 }
