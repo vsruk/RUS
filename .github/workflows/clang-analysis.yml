@@ -25,26 +25,26 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
 
           # Premještanje arduino-cli izvršne datoteke na standardnu lokaciju
+
           sudo mv bin/arduino-cli /usr/local/bin/
-          
       - name: Set up Arduino CLI core
         run: |
           arduino-cli config init # Inicijalizacija konfiguracijske datoteke
           arduino-cli core update-index # Ažuriranje indeksa dostupnih platformi
           arduino-cli core install arduino:avr # Instalacija Arduino AVR core-a
-      #- name: List Lab1 directory contents
-      #  run: ls -l $GITHUB_WORKSPACE/Lab1
+      - name: List Lab1 directory contents
+        run: ls -l $GITHUB_WORKSPACE/Lab1
       - name: Run static analysis with scan-build
         run: >
           # Kreiranje direktorija za izvještaj
+
           mkdir -p analysis-report
 
           # Pokretanje scan-build alata s apsolutnom putanjom do skice
+
           # $GITHUB_WORKSPACE varijabla sadrži putanju do korijena vašeg repozitorija unutar runnera
 
-          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn \
-                     arduino:avr:mega $GITHUB_WORKSPACE/Lab1/Lab1.ino
-
+          scan-build -o analysis-report --status-bugs --use-cc=clang --use-c++=clang++ arduino-cli compile --fqbn arduino:avr:mega $GITHUB_WORKSPACE/Lab1/Lab1.ino
       - name: Check scan-build results and decide on upload
         id: check_results
         run: >
