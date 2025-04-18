@@ -134,12 +134,10 @@ jobs:
         # Pokreni samo ako je push na main granu
         if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && needs.cppcheck.result == 'success'
         # if: github.ref == 'refs/heads/main' 
-        uses: actions/upload-pages-artifact@v4
-        
+        uses: actions/upload-pages-artifact@v3
         with:
           # Uploadaj sadržaj direktorija s HTML izvještajem
           path: './cppcheck-html-report'
-          name: github-pages  # <<< Dodano ovo
           
       # 1.8. Provjera rezultata Cppchecka i označavanje workflowa kao neuspješnog ako treba
       - name: Check Cppcheck Result
@@ -156,13 +154,12 @@ jobs:
     needs: cppcheck 
     if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && needs.cppcheck.result == 'success'
     # if: github.ref == 'refs/heads/main' && needs.cppcheck.result == 'success' 
-    uses: actions/upload-pages-artifact@v4
-    
+
     # Postavke okoline za GitHub Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-     
+      
     # Dozvole potrebne za deploy
     permissions:
       pages: write
