@@ -6,9 +6,9 @@ name: Cppcheck Analysis and Deploy Report
 # Kada se workflow pokreće
 on:
   push:
-    branches: [ main ] # Pokreni samo na push na main granu za deploy
+    branches: [ main, develop ] # Pokreni samo na push na main granu za deploy
   pull_request:
-    branches: [ main ] # Pokreni samo analizu na PR prema main
+    branches: [ main, develop ] # Pokreni samo analizu na PR prema main
   workflow_dispatch: # Omogućuje ručno pokretanje
 
 # Dozvole potrebne za deploy na GitHub Pages
