@@ -3,10 +3,10 @@ name: Doxygen Documentation
 on:
   push:
     branches:
-      - main  # Trigger workflow on push to the 'main' branch
+      - [ main, develop ]  # Trigger workflow on push to the 'main' branch
   pull_request:
     branches:
-      - main  # Trigger workflow for pull requests targeting the 'main' branch
+      - [ main, develop ]  # Trigger workflow for pull requests targeting the 'main' branch
 
 permissions:
   contents: write  # Allow GitHub Actions to push changes to the 'gh-pages' branch
