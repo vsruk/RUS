@@ -1,227 +1,305 @@
-#include <Arduino.h>
-#include "driver/gpio.h"
-#include "esp_timer.h"
-
-/** @def LED_TIMER
- *  @brief GPIO pin za LED timer.
+/**
+ * @file smart_safe_system.ino
+ *
+ * @mainpage Pametni Sef s PIN Zaštitom, Resetiranjem PIN-a i Temperaturnim Ograničenjem
+ *
+ * @section description Opis
+ * Ovaj projekt implementira sustav pametnog sefa koristeći LCD zaslon, matricu tipki (keypad),
+ * temperaturni senzor i servo motor. Korisnik mora unijeti ispravan PIN kako bi otvorio sef.
+ * Sustav uključuje sigurnosnu provjeru temperature, kao i mogućnost resetiranja PIN-a pomoću posebne kombinacije (*201*).
+ *
+ * @section hardware Hardverska postava
+ * - LCD zaslon povezan na pinove 12, 11, 10, A5, A4, A3.
+ * - Matrica tipki (4x4) povezana na digitalne pinove 2-9.
+ * - Servo motor povezan na pin 13.
+ * - NTC temperaturni senzor spojen na analogni pin A0.
+ *
+ * @section libraries Korištene biblioteke
+ * - Keypad: za upravljanje matricom tipki.
+ * - LiquidCrystal: za upravljanje LCD zaslonom.
+ * - Servo: za upravljanje servo motorom.
+ *
+ * @section notes Napomene
+ * - Zadnja znamenka PIN unosa je vidljiva, dok su ostale maskirane.
+ * - Ako je temperatura izvan granica (manja od 0°C ili veća od 38°C), sef se neće otvoriti.
+ * - Resetiranje PIN-a vrši se unosom kombinacije trenutnog pina i *201*, nakon čega se unosi novi PIN.
+ *
+ * @section author Autor
+ * - Autor: Renato Rak, Ivan Prekratić
  */
-#define LED_TIMER 13
 
-/** @def LED_BTN0
- *  @brief GPIO pin za LED gumba 0.
- */
-#define LED_BTN0 12
+// Biblioteke
+#include <Keypad.h>         ///< Biblioteka za upravljanje matricom tipki.
+#include <LiquidCrystal.h>  ///< Biblioteka za upravljanje LCD zaslonom.
+#include <Servo.h>          ///< Biblioteka za upravljanje servo motorom.
 
-/** @def LED_BTN1
- *  @brief GPIO pin za LED gumba 1.
- */
-#define LED_BTN1 14
+// Inicijalizacija LCD zaslona (RS, E, D4, D5, D6, D7)
+LiquidCrystal lcd(12, 11, 10, A5, A4, A3);
 
-/** @def LED_BTN2
- *  @brief GPIO pin za LED gumba 2.
- */
-#define LED_BTN2 27
+// Konfiguracija tipkovnice (keypad)
+const uint8_t ROWS = 4;
+const uint8_t COLS = 4;
+char keys[ROWS][COLS] = {
+    {'1', '2', '3', 'A'},
+    {'4', '5', '6', 'B'},
+    {'7', '8', '9', 'C'},
+    {'*', '0', '#', 'D'}
+};
+uint8_t colPins[COLS] = {5, 4, 3, 2};
+uint8_t rowPins[ROWS] = {9, 8, 7, 6};
 
-/** @def PIR_PIN
- *  @brief GPIO pin za PIR senzor.
- */
-#define PIR_PIN GPIO_NUM_33
+Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+Servo servo;
 
-/** @def BUTTON0
- *  @brief GPIO pin za gumb 0.
- */
-#define BUTTON0 GPIO_NUM_2
+// Varijable za upravljanje PIN-om i stanjem sustava
+String correctPin = "1234";                 ///< Ispravni PIN za otključavanje sefa.
+String enteredPin = "";                     ///< Trenutno uneseni PIN.
+volatile bool hasEntered = false;           ///< Status pristupa (otključano/zatvoreno).
+String resetPasswordPattern = "*201*";      ///< Kod za resetiranje PIN-a.
+volatile bool isResetPasswordMode = false;  ///< Status načina za postavljanje novog PIN-a.
+String inputPassword = "";                  ///< Novi uneseni PIN.
 
-/** @def BUTTON1
- *  @brief GPIO pin za gumb 1.
- */
-#define BUTTON1 GPIO_NUM_4
+// Pinovi senzora i serva
+const int ntcPin = A0;                      ///< Analogni pin za NTC temperaturni senzor.
+const int servoPin = 13;                    ///< Digitalni pin za servo motor.
 
-/** @def BUTTON2
- *  @brief GPIO pin za gumb 2.
+/**
+ * @brief Inicijalna funkcija postavljanja.
+ * Inicijalizira servo motor, LCD zaslon i prikazuje početnu poruku.
  */
-#define BUTTON2 GPIO_NUM_5
-
-/** @var volatile bool btn0Pressed
- *  @brief Stanje prekida za gumb 0.
- */
-volatile bool btn0Pressed = false;
-
-/** @var volatile bool btn1Pressed
- *  @brief Stanje prekida za gumb 1.
- */
-volatile bool btn1Pressed = false;
-
-/** @var volatile bool btn2Pressed
- *  @brief Stanje prekida za gumb 2.
- */
-volatile bool btn2Pressed = false;
-
-/** @var volatile bool pirDetected
- *  @brief Stanje prekida za PIR senzor.
- */
-volatile bool pirDetected = false;
-
-/** @var volatile bool timerFlag
- *  @brief Zastavica za timer prekid.
- */
-volatile bool timerFlag = false;
-
-/** @def PRIORITY_TIMER
- *  @brief Prioritet prekida za timer.
- */
-#define PRIORITY_TIMER 0
-
-/** @def PRIORITY_BTN0
- *  @brief Prioritet prekida za gumb 0.
- */
-#define PRIORITY_BTN0 3
-
-/** @def PRIORITY_BTN1
- *  @brief Prioritet prekida za gumb 1.
- */
-#define PRIORITY_BTN1 4
-
-/** @def PRIORITY_BTN2
- *  @brief Prioritet prekida za gumb 2.
- */
-#define PRIORITY_BTN2 1
-
-/** @def PRIORITY_PIR
- *  @brief Prioritet prekida za PIR senzor.
- */
-#define PRIORITY_PIR 2
-
-/** @var esp_timer_handle_t timerHandle
- *  @brief Rukovalac za ESP tajmer.
- */
-esp_timer_handle_t timerHandle;
-
-/** @fn void IRAM_ATTR handleBtn0(void* arg)
- *  @brief Prekidna rutina za gumb 0.
- *  @param arg Argument prekida (ne koristi se).
- */
-void IRAM_ATTR handleBtn0(void* arg) { btn0Pressed = true; }
-
-/** @fn void IRAM_ATTR handleBtn1(void* arg)
- *  @brief Prekidna rutina za gumb 1.
- *  @param arg Argument prekida (ne koristi se).
- */
-void IRAM_ATTR handleBtn1(void* arg) { btn1Pressed = true; }
-
-/** @fn void IRAM_ATTR handleBtn2(void* arg)
- *  @brief Prekidna rutina za gumb 2.
- *  @param arg Argument prekida (ne koristi se).
- */
-void IRAM_ATTR handleBtn2(void* arg) { btn2Pressed = true; }
-
-/** @fn void IRAM_ATTR handlePIR(void* arg)
- *  @brief Prekidna rutina za PIR senzor.
- *  @param arg Argument prekida (ne koristi se).
- */
-void IRAM_ATTR handlePIR(void* arg) { pirDetected = true; }
-
-/** @fn void IRAM_ATTR timerISR(void* arg)
- *  @brief Prekidna rutina za tajmer.
- *  @param arg Argument prekida (ne koristi se).
- */
-void IRAM_ATTR timerISR(void* arg) {
-    timerFlag = true;
+void setup()
+{
+  servo.attach(servoPin);
+  servo.write(-90); ///< Zaključaj sef.
+  lcd.begin(20, 4);
+  lcd.setCursor(0, 0);
+  lcd.print("Dobrodosli!");
+  lcd.setCursor(0, 1);
+  lcd.print("Unesite PIN:");
 }
 
-/** @fn void setup()
- *  @brief Inicijalizacija hardvera i postavke prekida.
- *  
- *  Ova funkcija konfigurira GPIO pinove, postavlja prekide
- *  i inicijalizira periodični tajmer.
+/**
+ * @brief Glavna petlja programa.
+ * Čita unos s tipkovnice i prikazuje maskirani PIN unos.
  */
-void setup() {
-    Serial.begin(115200);
+void loop()
+{
+  char key = keypad.getKey();
 
-    // Konfiguracija izlaza
-    esp_rom_gpio_pad_select_gpio((gpio_num_t)LED_TIMER);
-    esp_rom_gpio_pad_select_gpio((gpio_num_t)LED_BTN0);
-    esp_rom_gpio_pad_select_gpio((gpio_num_t)LED_BTN1);
-    esp_rom_gpio_pad_select_gpio((gpio_num_t)LED_BTN2);
-    
-    gpio_set_direction((gpio_num_t)LED_TIMER, GPIO_MODE_OUTPUT);
-    gpio_set_direction((gpio_num_t)LED_BTN0, GPIO_MODE_OUTPUT);
-    gpio_set_direction((gpio_num_t)LED_BTN1, GPIO_MODE_OUTPUT);
-    gpio_set_direction((gpio_num_t)LED_BTN2, GPIO_MODE_OUTPUT);
+  if (key != NO_KEY && !hasEntered)
+  {
+    if (key == '#')
+    {
+      checkPin();
+    }
+    else if (key == 'C')
+    {
+      enteredPin = "";
+      lcd.setCursor(0, 2);
+      lcd.print("                ");
+    }
+    else
+    {
+      enteredPin += key;
+    }
 
-    // Konfiguracija ulaza
-    gpio_set_direction(BUTTON0, GPIO_MODE_INPUT);
-    gpio_set_direction(BUTTON1, GPIO_MODE_INPUT);
-    gpio_set_direction(BUTTON2, GPIO_MODE_INPUT);
-    gpio_set_direction(PIR_PIN, GPIO_MODE_INPUT);
-
-    // Konfiguracija prekida
-    gpio_set_intr_type(BUTTON0, GPIO_INTR_NEGEDGE);
-    gpio_set_intr_type(BUTTON1, GPIO_INTR_NEGEDGE);
-    gpio_set_intr_type(BUTTON2, GPIO_INTR_NEGEDGE);
-    gpio_set_intr_type(PIR_PIN, GPIO_INTR_POSEDGE);
-
-    // Inicijalizacija ISR servisa
-    gpio_install_isr_service(0);
-
-    // Dodavanje ISR funkcija
-    gpio_isr_handler_add(BUTTON0, handleBtn0, (void*)PRIORITY_BTN0);
-    gpio_isr_handler_add(BUTTON1, handleBtn1, (void*)PRIORITY_BTN1);
-    gpio_isr_handler_add(BUTTON2, handleBtn2, (void*)PRIORITY_BTN2);
-    gpio_isr_handler_add(PIR_PIN, handlePIR, (void*)PRIORITY_PIR);
-
-    // Konfiguracija tajmera (1 sekunda)
-    esp_timer_create_args_t timerArgs = {};
-    timerArgs.callback = &timerISR;
-    timerArgs.name = "TIMER1";
-    esp_timer_create(&timerArgs, &timerHandle);
-    esp_timer_start_periodic(timerHandle, 1000000); // 1 sekunda
-
-    Serial.println("Sustav inicijaliziran.");
+    // Prikaz maskiranog unosa (zadnja znamenka ostaje vidljiva)
+    lcd.setCursor(0, 2);
+    lcd.print("Unos: ");
+    int start = 6;
+    for (int i = 0; i < enteredPin.length(); i++) {
+      if (i == enteredPin.length() - 1) {
+        lcd.print(enteredPin[i]);
+      } else {
+        lcd.print("*");
+      }
+    }
+    int totalLength = start + enteredPin.length();
+    while (totalLength < 20) {
+      lcd.print(" ");
+      totalLength++;
+    }
+  }
 }
 
-/** @fn void loop()
- *  @brief Glavna petlja programa koja obrađuje prekide.
- *  
- *  Ova funkcija kontinuirano provjerava zastavice prekida
- *  i izvršava odgovarajuće akcije prema prioritetima.
+/**
+ * @brief Provjerava uneseni PIN.
+ * Ako je PIN ispravan i temperatura unutar granica, sef se otključava. 
+ * Ako je unesena šifra za reset, prelazi se u način postavljanja novog PIN-a.
  */
-void loop() {
-    // Obrada prekida prema prioritetima
-    if (timerFlag) {
-        timerFlag = false;
-        gpio_set_level((gpio_num_t)LED_TIMER, !gpio_get_level((gpio_num_t)LED_TIMER));
-        Serial.println("[TIMER] Aktiviran");
-    }
+void checkPin()
+{
+  lcd.clear();
 
-    if (btn0Pressed) {
-        btn0Pressed = false;
-        gpio_set_level((gpio_num_t)LED_BTN0, 1);
-        delay(1000);
-        gpio_set_level((gpio_num_t)LED_BTN0, 0);
-        Serial.println("[BUTTON0] Pritisnut");
-    }
+  if (enteredPin == correctPin)
+  {
+    float temp = readTemperature();
 
-    if (btn1Pressed) {
-        btn1Pressed = false;
-        gpio_set_level((gpio_num_t)LED_BTN1, 1);
-        delay(1000);
-        gpio_set_level((gpio_num_t)LED_BTN1, 0);
-        Serial.println("[BUTTON1] Pritisnut");
+    if (temp > 38.0 || temp < 0.0)
+    {
+      lcd.setCursor(0, 0);
+      lcd.print("Temp: ");
+      lcd.print(temp, 1);
+      lcd.setCursor(0, 1);
+      lcd.print("Ne moze se otvoriti");
+      lcd.setCursor(0, 2);
+      lcd.print("Temp izvan granica");
+      delay(3000);
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Unesite PIN:");
+      enteredPin = "";
+      return;
     }
+    else
+    {
+      lcd.setCursor(0, 0);
+      lcd.print("Tocan PIN!");
+      lcd.setCursor(0, 1);
+      lcd.print("Sef otvoren!");
+      hasEntered = true;
+      unlock();
+      delay(5000); // sef ostaje otvoren 5 sekundi
 
-    if (btn2Pressed) {
-        btn2Pressed = false;
-        gpio_set_level((gpio_num_t)LED_BTN2, 1);
-        delay(1000);
-        gpio_set_level((gpio_num_t)LED_BTN2, 0);
-        Serial.println("[BUTTON2] Pritisnut");
+      // Zaključavanje
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Sef zakljucan.");
+      lock();
+      delay(2000);
+
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Unesite PIN:");
+      hasEntered = false;
+      enteredPin = "";
     }
+  }
+  else if (enteredPin == (correctPin + resetPasswordPattern))
+  {
+    isResetPasswordMode = true;
+    newPin();
+  }
+  else
+  {
+    lcd.setCursor(0, 0);
+    lcd.print("Pogresan PIN!");
+    lcd.setCursor(0, 1);
+    lcd.print("Pokusajte opet");
+    enteredPin = "";
+    delay(2000);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Unesite PIN:");
+  }
+}
 
-    if (pirDetected) {
-        pirDetected = false;
-        Serial.println("[PIR] Pokret detektiran!");
+/**
+ * @brief Omogućuje korisniku postavljanje novog PIN-a.
+ * Unos mora biti različit od reset koda.
+ */
+void newPin()
+{
+  inputPassword = "";
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Postavi novi PIN");
+
+  while (isResetPasswordMode)
+  {
+    char key = keypad.getKey();
+
+    if (key)
+    {
+      if (key == 'C')
+      {
+        inputPassword = "";
+        lcd.setCursor(0, 2);
+        lcd.print("                ");
+      }
+      else if (key == '#')
+      {
+        if (inputPassword == resetPasswordPattern)
+        {
+          lcd.setCursor(0, 3);
+          lcd.print("Neispravan PIN!");
+          inputPassword = "";
+          delay(2000);
+          lcd.setCursor(0, 3);
+          lcd.print("                ");
+        }
+        else
+        {
+          correctPin = inputPassword;
+          enteredPin = "";
+          isResetPasswordMode = false;
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("PIN postavljen!");
+          delay(2000);
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("Unesite PIN:");
+        }
+      }
+      else
+      {
+        inputPassword += key;
+      }
+
+      lcd.setCursor(0, 2);
+      lcd.print("Unos: ");
+      int start = 6;
+      lcd.setCursor(start, 2);
+
+      int len = inputPassword.length();
+
+      if (len < 4) {
+        for (int i = 0; i < len - 1; i++) {
+          lcd.print("*");
+        }
+        lcd.print(inputPassword[len - 1]);
+        for (int i = len; i < 4; i++) {
+          lcd.print(" ");
+        }
+      }
+      else {
+        lcd.print("***");
+        lcd.print(inputPassword[len - 1]);
+      }
+      int totalLength = start + inputPassword.length();
+      while (totalLength < 20) {
+        lcd.print(" ");
+        totalLength++;
+      }
     }
+  }
+}
 
-    delay(10); // Mala pauza za stabilnost
+/**
+ * @brief Čita temperaturu s NTC senzora i pretvara je u stupnjeve Celzijusa.
+ * @return Temperatura u °C.
+ */
+float readTemperature()
+{
+  const float BETA = 3950;
+  int analogValue = analogRead(ntcPin);
+  float celsius = 1 / (log(1 / (1023. / analogValue - 1)) / BETA + 1.0 / 298.15) - 273.15;
+  return celsius;
+}
+
+/**
+ * @brief Otključava sef (pomakne servo motor).
+ */
+void unlock()
+{
+  servo.write(180);
+}
+
+/**
+ * @brief Zaključava sef (pomakne servo motor).
+ */
+void lock()
+{
+  servo.write(-90);
 }
