@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['primjer_209_20travnja_0',['RUS - Rad s Ugradbenim Sustavima Primjer 9.travnja',['../index.html',1,'']]]
+  ['i_20temperaturnim_20ograničenjem_0',['Pametni Sef s PIN Zaštitom, Resetiranjem PIN-a i Temperaturnim Ograničenjem',['../index.html',1,'']]]
 ];

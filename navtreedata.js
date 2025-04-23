@@ -25,14 +25,13 @@
 var NAVTREE =
 [
   [ "RUS_Lab1_prekid", "index.html", [
-    [ "RUS - Rad s Ugradbenim Sustavima Primjer 9.travnja", "index.html", "index" ],
+    [ "Pametni Sef s PIN Zaštitom, Resetiranjem PIN-a i Temperaturnim Ograničenjem", "index.html", "index" ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "Globals", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
-        [ "Variables", "globals_vars.html", null ],
-        [ "Macros", "globals_defs.html", null ]
+        [ "Variables", "globals_vars.html", null ]
       ] ]
     ] ]
   ] ]

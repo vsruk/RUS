@@ -1,0 +1,13 @@
+<map id="lcd" name="lcd">
+<area shape="rect" id="Node000001" title="&lt; Biblioteka za upravljanje servo motorom." alt="" coords="349,50,391,75"/>
+<area shape="rect" id="Node000002" href="$d1/d16/Lab1_8ino.html#a242897a6bb8e137b7e92b6aa057fb9b9" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="104,24,184,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="345,42,324,26,300,14,268,8,234,11,175,27,173,22,233,5,268,3,302,9,327,22,348,38"/>
+<area shape="rect" id="Node000003" href="$d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos." alt="" coords="5,50,56,75"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="336,65,56,65,56,60,336,60"/>
+<area shape="rect" id="Node000004" href="$d1/d16/Lab1_8ino.html#a7c15648e475464382693a42a0c733ad7" title="Omogućuje korisniku postavljanje novog PIN&#45;a. Unos mora biti različit od reset koda." alt="" coords="232,24,301,50"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="336,57,301,48,302,43,337,51"/>
+<area shape="rect" id="Node000005" href="$d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title="Inicijalna funkcija postavljanja. Inicijalizira servo motor, LCD zaslon i prikazuje početnu poruku." alt="" coords="237,126,296,151"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="342,86,286,128,283,123,339,81"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="92,51,57,59,55,54,90,46"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="218,40,184,40,184,34,218,34"/>
+</map>

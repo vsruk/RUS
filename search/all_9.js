@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['measuredistance_0',['measureDistance',['../d1/d16/Lab1_8ino.html#a24db61917b9da8bb4b87af136cbd345f',1,'Lab1.ino']]],
-  ['modula_1',['Pregled modula',['../index.html#overview',1,'']]]
+  ['ograničenjem_0',['Pametni Sef s PIN Zaštitom, Resetiranjem PIN-a i Temperaturnim Ograničenjem',['../index.html',1,'']]],
+  ['opis_1',['Opis',['../index.html#description',1,'']]]
 ];

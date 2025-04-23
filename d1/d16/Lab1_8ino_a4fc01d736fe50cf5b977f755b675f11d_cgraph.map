@@ -1,13 +1,5 @@
 <map id="setup" name="setup">
-<area shape="rect" id="Node000001" title="Inicijalizacija pinova, konfiguracija prekida i Timer1." alt="" coords="5,55,64,80"/>
-<area shape="rect" id="Node000002" href="$d1/d16/Lab1_8ino.html#ac821426bbbcc53b574e0fceb0523be84" title="Prekidna rutina za vanjski prekid INT0." alt="" coords="112,5,192,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="63,53,108,34,110,39,65,58"/>
-<area shape="rect" id="Node000004" href="$d1/d16/Lab1_8ino.html#a0ef31787dca1428623757604c4d1ab7d" title="Prekidna rutina za vanjski prekid INT1." alt="" coords="112,55,192,80"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="64,65,98,65,98,70,64,70"/>
-<area shape="rect" id="Node000005" href="$d1/d16/Lab1_8ino.html#a470520bf5d52fc484f287e9631c50920" title="Prekidna rutina za vanjski prekid INT2." alt="" coords="112,104,192,129"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="65,77,110,96,108,101,63,82"/>
-<area shape="rect" id="Node000003" href="$d1/d16/Lab1_8ino.html#a4c96831ab3c332483a603f129028f35c" title="Obrada pojedinačnog prekida." alt="" coords="240,55,363,80"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="192,28,250,48,248,53,190,33"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="192,65,226,65,226,70,192,70"/>
-<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="190,101,248,82,250,87,192,106"/>
+<area shape="rect" id="Node000001" title="Inicijalna funkcija postavljanja. Inicijalizira servo motor, LCD zaslon i prikazuje početnu poruku." alt="" coords="5,5,64,31"/>
+<area shape="rect" id="Node000002" href="$d1/d16/Lab1_8ino.html#a084782a3a670d7ab4af03145643a364a" title="&lt; Biblioteka za upravljanje servo motorom." alt="" coords="112,5,153,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,15,99,15,99,21,64,21"/>
 </map>

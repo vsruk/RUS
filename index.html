@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>RUS_Lab1_prekid: RUS - Rad s Ugradbenim Sustavima Primjer 9.travnja</title>
+<title>RUS_Lab1_prekid: Pametni Sef s PIN Zaštitom, Resetiranjem PIN-a i Temperaturnim Ograničenjem</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -90,63 +90,39 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">RUS - Rad s Ugradbenim Sustavima Primjer 9.travnja </div></div>
+  <div class="headertitle"><div class="title">Pametni Sef s PIN Zaštitom, Resetiranjem PIN-a i Temperaturnim Ograničenjem </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Primjer rada s prekidima i programska prioritizacija prekida za tipkala.</p>
-<h1><a class="anchor" id="overview"></a>
-Pregled modula</h1>
-<p>Ovaj projekt demonstrira rad s vanjskim prekidima, uključujući prioritizaciju prekida na AVR mikroprocesoru. Program omogućuje upravljanje prekidima putem tipkala (INT0, INT1, INT2) i koristi Timer1 za generiranje vremenskih prekida. Također se koristi HC-SR04 ultrazvučni senzor za mjerenje udaljenosti, pri čemu se aktivira LED alarm ako je udaljenost manja od definiranog praga. U ovom programu implementirana je programska prioritizacija prekida, pri čemu Timer1 ima najviši prioritet, a prekidi INT0, INT1 i INT2 su obrađeni u skladu s definiranom hijerarhijom.</p>
-<h1><a class="anchor" id="modules"></a>
-Pregled funkcionalnosti</h1>
+<div class="textblock"><h1><a class="anchor" id="description"></a>
+Opis</h1>
+<p>Ovaj projekt implementira sustav pametnog sefa koristeći LCD zaslon, matricu tipki (keypad), temperaturni senzor i servo motor. Korisnik mora unijeti ispravan PIN kako bi otvorio sef. Sustav uključuje sigurnosnu provjeru temperature, kao i mogućnost resetiranja PIN-a pomoću posebne kombinacije (<em>201</em>).</p>
+<h1><a class="anchor" id="hardware"></a>
+Hardverska postava</h1>
 <ul>
-<li>Funkcije za upravljanje prekidima</li>
-<li>Shema spajanja</li>
+<li>LCD zaslon povezan na pinove 12, 11, 10, A5, A4, A3.</li>
+<li>Matrica tipki (4x4) povezana na digitalne pinove 2-9.</li>
+<li>Servo motor povezan na pin 13.</li>
+<li>NTC temperaturni senzor spojen na analogni pin A0.</li>
 </ul>
-<h1><a class="anchor" id="links"></a>
-Projekt i simulacija</h1>
-<p>Projekt i simulacija dostupni su na Wokwi platformi: <a href="https://wokwi.com/">Wokwi projekt</a></p>
-<h1><a class="anchor" id="led_indikatori"></a>
-LED indikatori</h1>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Pin   </th><th class="markdownTableHeadNone">Funkcija   </th><th class="markdownTableHeadNone">Prioritet    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">LED_INT0   </td><td class="markdownTableBodyNone">Indikator prekida INT0   </td><td class="markdownTableBodyNone">Najviši    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">LED_INT1   </td><td class="markdownTableBodyNone">Indikator prekida INT1   </td><td class="markdownTableBodyNone">Srednji    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">LED_INT2   </td><td class="markdownTableBodyNone">Indikator prekida INT2   </td><td class="markdownTableBodyNone">Niski    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">LED_ALERT   </td><td class="markdownTableBodyNone">Indikator alarma udaljenosti   </td><td class="markdownTableBodyNone">-    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">LED_Timer   </td><td class="markdownTableBodyNone">Indikator alarma tajmera   </td><td class="markdownTableBodyNone">Najviši (programski)   </td></tr>
-</table>
-<h1><a class="anchor" id="tipkala"></a>
-Tipkala za prekide</h1>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Pin   </th><th class="markdownTableHeadNone">Tipka   </th><th class="markdownTableHeadNone">Funkcija aktivacije prekida    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">BUTTON0   </td><td class="markdownTableBodyNone">Tipka 0   </td><td class="markdownTableBodyNone">Aktivira INT0 (najviši)    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">BUTTON1   </td><td class="markdownTableBodyNone">Tipka 1   </td><td class="markdownTableBodyNone">Aktivira INT1 (srednji)    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">BUTTON2   </td><td class="markdownTableBodyNone">Tipka 2   </td><td class="markdownTableBodyNone">Aktivira INT2 (niski)   </td></tr>
-</table>
-<h1><a class="anchor" id="hcsr04"></a>
-HC-SR04 Ultrazvučni senzor</h1>
-<p>Koristi se za mjerenje udaljenosti. Ako izmjerena udaljenost padne ispod definiranog praga, aktivira se LED indikator alarma udaljenosti (LED_ALERT).</p>
-<h1><a class="anchor" id="timer1"></a>
-Timer1 prekid</h1>
-<p>Timer1 je konfiguriran za generiranje periodičkog prekida. Ovaj prekid ima programski najviši prioritet i koristi se za demonstraciju prekida s najvišim prioritetom putem LED indikatora (LED_Timer).</p>
-<dl class="section note"><dt>Note</dt><dd>Iako je implementirana programska prioritizacija prekida, stvarni ugnježđeni prekidi (preemption) nisu podržani na AVR arhitekturi (ATmega2560) na razini sklopovlja. Program osigurava da se prekidi obrađuju prema definiranom prioritetu u glavnoj petlji. Prekid tajmera ima najviši prioritet, zatim INT0, INT1 i na kraju INT2.</dd></dl>
-<dl class="section author"><dt>Author</dt><dd>Vlado Sruk </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>20. ožujak 2025. </dd></dl>
-<dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Licenca: MIT Licenca - Slobodno korištenje, modifikacija i distribucija.</dd>
-<dd>
-Zavisnosti: &lt;avr/interrupt.h&gt; za rad s prekidima. </dd></dl>
+<h1><a class="anchor" id="libraries"></a>
+Korištene biblioteke</h1>
+<ul>
+<li>Keypad: za upravljanje matricom tipki.</li>
+<li>LiquidCrystal: za upravljanje LCD zaslonom.</li>
+<li>Servo: za upravljanje servo motorom.</li>
+</ul>
+<h1><a class="anchor" id="notes"></a>
+Napomene</h1>
+<ul>
+<li>Zadnja znamenka PIN unosa je vidljiva, dok su ostale maskirane.</li>
+<li>Ako je temperatura izvan granica (manja od 0°C ili veća od 38°C), sef se neće otvoriti.</li>
+<li>Resetiranje PIN-a vrši se unosom kombinacije trenutnog pina i <em>201</em>, nakon čega se unosi novi PIN.</li>
+</ul>
+<h1><a class="anchor" id="author"></a>
+Autor</h1>
+<ul>
+<li>Autor: Renato Rak, Ivan Prekratić </li>
+</ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->

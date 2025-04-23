@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['setup_0',['setup',['../d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d',1,'Lab1.ino']]]
+  ['unlock_0',['unlock',['../d1/d16/Lab1_8ino.html#a9278be8203e1c42e2619179882ae4403',1,'Lab1.ino']]]
 ];
