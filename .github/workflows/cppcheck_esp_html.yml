@@ -1,0 +1,139 @@
+# .github/workflows/cppcheck.yml
+
+# Naziv workflowa
+name: Cppcheck Analysis and Deploy Report
+
+# Kada se workflow pokreće
+on:
+  push:
+    branches: [ main, develop ] # Pokreni samo na push na main granu za deploy
+  pull_request:
+    branches: [ main, develop ] # Pokreni samo analizu na PR prema main
+  workflow_dispatch: # Omogućuje ručno pokretanje
+
+# Dozvole potrebne za deploy na GitHub Pages
+permissions:
+  contents: read # Potrebno za checkout
+  pages: write # Potrebno za deploy na Pages
+  id-token: write # Potrebno za deploy na Pages
+
+jobs:
+  # 1. Posao (job) za statičku analizu i generiranje HTML reporta
+  cppcheck:
+    # Pokreće se na Ubuntu runneru
+    runs-on: ubuntu-latest
+
+    # Koraci (steps) koji se izvršavaju
+    steps:
+      # 1.1. Preuzimanje koda repozitorija
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 1.2. Instalacija potrebnih alata (cppcheck, git, python3)
+      - name: Install Tools
+        run: sudo apt-get update && sudo apt-get install -y cppcheck git python3
+
+      # 1.3. Kloniranje cppcheck repozitorija radi pristupa htmlreport skripti
+      - name: Clone cppcheck for htmlreport tool
+        run: git clone --depth 1 https://github.com/danmar/cppcheck.git /tmp/cppcheck
+
+      # 1.3.1. [DEBUG] Provjera lokacije htmlreport skripte (ostavljamo za svaki slučaj)
+      - name: Find htmlreport tool in cloned repo
+        run: |
+          echo "Listing contents of /tmp/cppcheck:"
+          ls -lR /tmp/cppcheck
+          echo "Searching for htmlreport script:"
+          find /tmp/cppcheck -name '*htmlreport*.py' || echo "Script not found by find."
+
+      # 1.4. Pokretanje cppcheck analize i generiranje XML izvještaja
+      - name: Run cppcheck analysis (XML Output)
+        id: cppcheck_analysis # Dajemo ID koraku radi provjere ishoda
+        continue-on-error: true 
+        run: |
+          # Provjeri postoji li Lab1 direktorij
+          if [ -d "Lab1" ]; then
+            echo "Running cppcheck..."
+            INO_FILES=$(find Lab1 -maxdepth 1 -name '*.ino')             
+            if [ -z "$INO_FILES" ]; then
+              echo "No .ino files found in Lab1 directory!"
+              exit 1 # Padni ako nema .ino fileova
+            fi
+            echo "Analyzing files: $INO_FILES"
+
+            # Pokreni cppcheck s XML izlazom
+            cppcheck --enable=all --inconclusive --platform=unix32 --std=c++17 --checkers-report=cppcheck-report.txt --xml --xml-version=2 $INO_FILES 2> cppcheck-report.xml
+            
+            CPPCHECK_EXIT_CODE=$? 
+            echo "Cppcheck exit code: $CPPCHECK_EXIT_CODE"
+            echo "exit_code=$CPPCHECK_EXIT_CODE" >> $GITHUB_OUTPUT 
+
+            if [ -f cppcheck-report.xml ]; then
+               echo "--- Cppcheck XML Report ---"
+               cat cppcheck-report.xml
+               echo "--- End Report ---"
+            else
+               echo "cppcheck-report.xml not generated."
+               echo '<?xml version="1.0" encoding="UTF-8"?><results version="2"><cppcheck version="?"/><errors/></results>' > cppcheck-report.xml
+               if [ $CPPCHECK_EXIT_CODE -eq 0 ]; then exit 1; else exit $CPPCHECK_EXIT_CODE; fi
+            fi
+          else
+            echo "Directory Lab1 does not exist!"
+            exit 1
+          fi
+
+      # 1.5. Generiranje HTML izvještaja iz XML-a pomoću klonirane skripte (fiksna putanja)
+      - name: Generate HTML report
+        run: |
+          echo "Generating HTML report..."
+          HTML_REPORT_SCRIPT="/tmp/cppcheck/htmlreport/cppcheck-htmlreport"
+          echo "Using fixed script path: $HTML_REPORT_SCRIPT"
+          mkdir -p cppcheck-html-report
+
+          if [ -f cppcheck-report.xml ]; then
+             if [ -f "$HTML_REPORT_SCRIPT" ]; then
+                echo "Running python script to generate HTML..."
+                python3 $HTML_REPORT_SCRIPT --file=cppcheck-report.xml --report-dir=cppcheck-html-report --source-dir=. --title="RUS Lab1 "
+                echo "Python script finished."
+                echo "Listing contents of cppcheck-html-report directory:"
+                ls -lR cppcheck-html-report
+             else
+                echo "ERROR: HTML report script not found at $HTML_REPORT_SCRIPT!"
+                echo "HTML report generation failed because script was not found." > cppcheck-html-report/index.html
+             fi
+          else
+             echo "ERROR: cppcheck-report.xml not found, cannot generate HTML report!"
+             echo "HTML report generation failed because XML input was missing." > cppcheck-html-report/index.html
+             exit 1
+          fi
+
+      - name: Setup Pages
+        if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && steps.cppcheck_analysis.outputs.exit_code == '0'
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact for Pages
+        if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && steps.cppcheck_analysis.outputs.exit_code == '0'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './cppcheck-html-report'
+
+      - name: Check Cppcheck Result
+        if: steps.cppcheck_analysis.outputs.exit_code != '0'
+        run: |
+          echo "Cppcheck found errors (exit code ${{ steps.cppcheck_analysis.outputs.exit_code }}). Failing the workflow."
+          exit 1
+
+  deploy:
+    needs: cppcheck 
+    if: contains(fromJson('["refs/heads/main", "refs/heads/develop"]'), github.ref) && needs.cppcheck.result == 'success'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
