@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['i_20temperaturnim_20ograničenjem_0',['Pametni Sef s PIN Zaštitom, Resetiranjem PIN-a i Temperaturnim Ograničenjem',['../index.html',1,'']]],
-  ['inputpassword_1',['inputPassword',['../d1/d16/Lab1_8ino.html#af6986285946633af897cba3b775c8d4b',1,'Lab1.ino']]],
-  ['isresetpasswordmode_2',['isResetPasswordMode',['../d1/d16/Lab1_8ino.html#aa3e65f257d6e2ae335bb0b0061992b89',1,'Lab1.ino']]]
+  ['getkey_0',['getKey',['../d1/d16/Lab1_8ino.html#a2da36c055d23bb1f20f20bfabbb40661',1,'Lab1.ino']]],
+  ['getpatientdata_1',['getPatientData',['../d1/d16/Lab1_8ino.html#ab249427f7b02b085c108ba7ff5bd8fa2',1,'Lab1.ino']]]
 ];

@@ -1,0 +1,23 @@
+<map id="lcd" name="lcd">
+<area shape="rect" id="Node000001" title=" " alt="" coords="493,132,535,157"/>
+<area shape="rect" id="Node000002" href="$d1/d16/Lab1_8ino.html#ae786f8044734bf7283b0df88675335c5" title="Connects to WiFi (real or simulated)." alt="" coords="319,107,433,132"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="479,141,433,132,434,127,480,136"/>
+<area shape="rect" id="Node000004" href="$d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title="Setup function initializes LCD, WiFi, Firebase and sets the system to input mode." alt="" coords="152,56,211,81"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="488,125,467,110,444,98,381,80,316,71,257,69,211,69,211,64,257,63,317,66,382,75,446,93,470,105,491,121"/>
+<area shape="rect" id="Node000005" href="$d1/d16/Lab1_8ino.html#a98442a31625045560a6fd3e84d4e4d5e" title="Displays patient info on the LCD screen." alt="" coords="307,208,445,233"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="484,168,447,191,408,210,405,206,444,186,482,163"/>
+<area shape="rect" id="Node000006" href="$d1/d16/Lab1_8ino.html#ac14fcfce1e57d782584ccc183c008a2e" title="Processes card number and fetches patient info." alt="" coords="104,157,259,183"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="480,150,259,167,259,161,479,145"/>
+<area shape="rect" id="Node000007" href="$d1/d16/Lab1_8ino.html#a423dcbfd8fa6cceb0dd8f3a0d9dbccc6" title="Handles numeric input from keypad." alt="" coords="117,232,246,257"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="506,171,484,213,467,233,447,248,420,260,391,268,332,273,276,269,228,260,229,255,276,263,332,268,390,262,418,255,444,244,464,229,480,210,501,169"/>
+<area shape="rect" id="Node000008" href="$d1/d16/Lab1_8ino.html#ae4b79fd67844175694542864c20abd28" title="Resets system to input state and clears indicators." alt="" coords="307,5,445,31"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="497,121,475,86,444,52,412,33,415,28,447,48,479,83,502,118"/>
+<area shape="rect" id="Node000003" href="$d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,132,56,157"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="305,127,56,146,56,140,305,122"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="312,106,210,79,212,74,314,100"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="312,207,230,185,231,180,314,202"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="92,158,56,151,57,146,93,152"/>
+<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="147,227,103,198,48,160,51,155,105,193,150,222"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="293,11,248,11,199,15,150,26,105,46,82,64,63,88,39,133,35,130,58,85,78,61,103,41,149,21,198,10,247,6,293,6"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="314,37,212,64,210,59,312,32"/>
+</map>

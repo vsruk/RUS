@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['a_20i_20temperaturnim_20ograničenjem_0',['Pametni Sef s PIN Zaštitom, Resetiranjem PIN-a i Temperaturnim Ograničenjem',['../index.html',1,'']]],
-  ['autor_1',['Autor',['../index.html#author',1,'']]]
+  ['appointmenttime_0',['appointmenttime',['../d7/d78/structPatientInfo.html#a046c6ab53481b143970c062f00e94bbc',1,'PatientInfo::appointmentTime'],['../d7/ddc/structLocalPatient.html#a49abb8c53891b653b5e39d507d65596f',1,'LocalPatient::appointmentTime']]]
 ];

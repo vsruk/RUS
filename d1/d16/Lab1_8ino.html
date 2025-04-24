@@ -91,92 +91,248 @@ $(document).ready(function(){initNavTree('d1/d16/Lab1_8ino.html','../../'); init
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">Lab1.ino File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;Keypad.h&gt;</code><br />
-<code>#include &lt;LiquidCrystal.h&gt;</code><br />
-<code>#include &lt;Servo.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;Wire.h&gt;</code><br />
+<code>#include &lt;LiquidCrystal_I2C.h&gt;</code><br />
+<code>#include &lt;WiFi.h&gt;</code><br />
+<code>#include &lt;FirebaseESP32.h&gt;</code><br />
+<code>#include &lt;ArduinoJson.h&gt;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d78/structPatientInfo.html">PatientInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure to hold patient information.  <a href="../../d7/d78/structPatientInfo.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddc/structLocalPatient.html">LocalPatient</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for offline patient data.  <a href="../../d7/ddc/structLocalPatient.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:acd939b64a048d6ed459be654090a838a" id="r_acd939b64a048d6ed459be654090a838a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#acd939b64a048d6ed459be654090a838a">FIREBASE_HOST</a>&#160;&#160;&#160;&quot;rus---projekt-default-rtdb.europe-west1.firebasedatabase.app&quot;</td></tr>
+<tr class="separator:acd939b64a048d6ed459be654090a838a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a689f00c928d30a9e6b9c294e8148c1" id="r_a7a689f00c928d30a9e6b9c294e8148c1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a7a689f00c928d30a9e6b9c294e8148c1">FIREBASE_AUTH</a>&#160;&#160;&#160;&quot;Fg4FnkVhu41qNTYb4XjFI9VVeBmYBg9oYOblnfZJ&quot;</td></tr>
+<tr class="separator:a7a689f00c928d30a9e6b9c294e8148c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a586542b79d00e4db7e1d5a667ae83a2b" id="r_a586542b79d00e4db7e1d5a667ae83a2b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a586542b79d00e4db7e1d5a667ae83a2b">WIFI_SSID</a>&#160;&#160;&#160;&quot;&quot;</td></tr>
+<tr class="separator:a586542b79d00e4db7e1d5a667ae83a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8685d8aff7e570048090a3a51afceb07" id="r_a8685d8aff7e570048090a3a51afceb07"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a8685d8aff7e570048090a3a51afceb07">WIFI_PASSWORD</a>&#160;&#160;&#160;&quot;&quot;</td></tr>
+<tr class="separator:a8685d8aff7e570048090a3a51afceb07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac69331f8facce28cfd7b94076ca7055e" id="r_ac69331f8facce28cfd7b94076ca7055e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ac69331f8facce28cfd7b94076ca7055e">BUZZER_CHANNEL</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:ac69331f8facce28cfd7b94076ca7055e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a315a28de20a612a435fefed3e3d3df3e" id="r_a315a28de20a612a435fefed3e3d3df3e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a315a28de20a612a435fefed3e3d3df3e">BUZZER_RESOLUTION</a>&#160;&#160;&#160;8</td></tr>
+<tr class="separator:a315a28de20a612a435fefed3e3d3df3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:aa51313be2faacb739a18fdeecefbac75" id="r_aa51313be2faacb739a18fdeecefbac75"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75">SystemState</a> { <a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75afda0dff1ce83745a9ad37e8ec3f03e94">WAITING_FOR_INPUT</a>
+, <a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75a4f462d643d1f9119507d552f169cd5dc">PROCESSING_CARD</a>
+, <a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75a0cf113b3a00cbca93902aadd850d3c52">DISPLAY_PATIENT_INFO</a>
+, <a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75a1b8dfe61ee52c868df2689df2540828f">DISPLAY_ERROR</a>
+ }</td></tr>
+<tr class="separator:aa51313be2faacb739a18fdeecefbac75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a084782a3a670d7ab4af03145643a364a" id="r_a084782a3a670d7ab4af03145643a364a"><td class="memItemLeft" align="right" valign="top">LiquidCrystal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a084782a3a670d7ab4af03145643a364a">lcd</a> (12, 11, 10, A5, A4, A3)</td></tr>
-<tr class="memdesc:a084782a3a670d7ab4af03145643a364a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&lt; Biblioteka za upravljanje servo motorom.  <br /></td></tr>
-<tr class="separator:a084782a3a670d7ab4af03145643a364a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae084e1bc8ccb35ea289ba0ca4972ea6d" id="r_ae084e1bc8ccb35ea289ba0ca4972ea6d"><td class="memItemLeft" align="right" valign="top">LiquidCrystal_I2C&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ae084e1bc8ccb35ea289ba0ca4972ea6d">lcd</a> (0x27, 16, 2)</td></tr>
+<tr class="separator:ae084e1bc8ccb35ea289ba0ca4972ea6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae786f8044734bf7283b0df88675335c5" id="r_ae786f8044734bf7283b0df88675335c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ae786f8044734bf7283b0df88675335c5">connectToWiFi</a> ()</td></tr>
+<tr class="memdesc:ae786f8044734bf7283b0df88675335c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects to WiFi (real or simulated).  <br /></td></tr>
+<tr class="separator:ae786f8044734bf7283b0df88675335c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4b79fd67844175694542864c20abd28" id="r_ae4b79fd67844175694542864c20abd28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ae4b79fd67844175694542864c20abd28">resetToInputMode</a> ()</td></tr>
+<tr class="memdesc:ae4b79fd67844175694542864c20abd28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets system to input state and clears indicators.  <br /></td></tr>
+<tr class="separator:ae4b79fd67844175694542864c20abd28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a423dcbfd8fa6cceb0dd8f3a0d9dbccc6" id="r_a423dcbfd8fa6cceb0dd8f3a0d9dbccc6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a423dcbfd8fa6cceb0dd8f3a0d9dbccc6">handleCardInput</a> ()</td></tr>
+<tr class="memdesc:a423dcbfd8fa6cceb0dd8f3a0d9dbccc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles numeric input from keypad.  <br /></td></tr>
+<tr class="separator:a423dcbfd8fa6cceb0dd8f3a0d9dbccc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac14fcfce1e57d782584ccc183c008a2e" id="r_ac14fcfce1e57d782584ccc183c008a2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ac14fcfce1e57d782584ccc183c008a2e">processCardNumber</a> ()</td></tr>
+<tr class="memdesc:ac14fcfce1e57d782584ccc183c008a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes card number and fetches patient info.  <br /></td></tr>
+<tr class="separator:ac14fcfce1e57d782584ccc183c008a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a907ace78eeae758c69822122d16a5598" id="r_a907ace78eeae758c69822122d16a5598"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a907ace78eeae758c69822122d16a5598">beepSuccess</a> ()</td></tr>
+<tr class="memdesc:a907ace78eeae758c69822122d16a5598"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plays success beep pattern (higher pitch, single beep)  <br /></td></tr>
+<tr class="separator:a907ace78eeae758c69822122d16a5598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2d5ad8f8daaed55a5b97fb55aa89170" id="r_aa2d5ad8f8daaed55a5b97fb55aa89170"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#aa2d5ad8f8daaed55a5b97fb55aa89170">beepError</a> ()</td></tr>
+<tr class="memdesc:aa2d5ad8f8daaed55a5b97fb55aa89170"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plays error beep pattern (lower pitch, double beep)  <br /></td></tr>
+<tr class="separator:aa2d5ad8f8daaed55a5b97fb55aa89170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2da36c055d23bb1f20f20bfabbb40661" id="r_a2da36c055d23bb1f20f20bfabbb40661"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a2da36c055d23bb1f20f20bfabbb40661">getKey</a> ()</td></tr>
+<tr class="memdesc:a2da36c055d23bb1f20f20bfabbb40661"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets pressed key from keypad.  <br /></td></tr>
+<tr class="separator:a2da36c055d23bb1f20f20bfabbb40661"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab249427f7b02b085c108ba7ff5bd8fa2" id="r_ab249427f7b02b085c108ba7ff5bd8fa2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d78/structPatientInfo.html">PatientInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ab249427f7b02b085c108ba7ff5bd8fa2">getPatientData</a> (String cardNumber)</td></tr>
+<tr class="memdesc:ab249427f7b02b085c108ba7ff5bd8fa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets patient data from Firebase or local database.  <br /></td></tr>
+<tr class="separator:ab249427f7b02b085c108ba7ff5bd8fa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98442a31625045560a6fd3e84d4e4d5e" id="r_a98442a31625045560a6fd3e84d4e4d5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a98442a31625045560a6fd3e84d4e4d5e">displayPatientInfo</a> (<a class="el" href="../../d7/d78/structPatientInfo.html">PatientInfo</a> patient)</td></tr>
+<tr class="memdesc:a98442a31625045560a6fd3e84d4e4d5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays patient info on the LCD screen.  <br /></td></tr>
+<tr class="separator:a98442a31625045560a6fd3e84d4e4d5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a211f792f3c0783031102e8c8ccc1a861" id="r_a211f792f3c0783031102e8c8ccc1a861"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a211f792f3c0783031102e8c8ccc1a861">truncateString</a> (String str, int maxLength)</td></tr>
+<tr class="memdesc:a211f792f3c0783031102e8c8ccc1a861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Truncates string to fit LCD line.  <br /></td></tr>
+<tr class="separator:a211f792f3c0783031102e8c8ccc1a861"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fc01d736fe50cf5b977f755b675f11d" id="r_a4fc01d736fe50cf5b977f755b675f11d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d">setup</a> ()</td></tr>
-<tr class="memdesc:a4fc01d736fe50cf5b977f755b675f11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicijalna funkcija postavljanja. Inicijalizira servo motor, LCD zaslon i prikazuje početnu poruku.  <br /></td></tr>
+<tr class="memdesc:a4fc01d736fe50cf5b977f755b675f11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup function initializes LCD, WiFi, Firebase and sets the system to input mode.  <br /></td></tr>
 <tr class="separator:a4fc01d736fe50cf5b977f755b675f11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe461d27b9c48d5921c00d521181f12f" id="r_afe461d27b9c48d5921c00d521181f12f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f">loop</a> ()</td></tr>
-<tr class="memdesc:afe461d27b9c48d5921c00d521181f12f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos.  <br /></td></tr>
+<tr class="memdesc:afe461d27b9c48d5921c00d521181f12f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main loop handles state machine and key input.  <br /></td></tr>
 <tr class="separator:afe461d27b9c48d5921c00d521181f12f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a242897a6bb8e137b7e92b6aa057fb9b9" id="r_a242897a6bb8e137b7e92b6aa057fb9b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a242897a6bb8e137b7e92b6aa057fb9b9">checkPin</a> ()</td></tr>
-<tr class="memdesc:a242897a6bb8e137b7e92b6aa057fb9b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava. Ako je unesena šifra za reset, prelazi se u način postavljanja novog PIN-a.  <br /></td></tr>
-<tr class="separator:a242897a6bb8e137b7e92b6aa057fb9b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c15648e475464382693a42a0c733ad7" id="r_a7c15648e475464382693a42a0c733ad7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a7c15648e475464382693a42a0c733ad7">newPin</a> ()</td></tr>
-<tr class="memdesc:a7c15648e475464382693a42a0c733ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Omogućuje korisniku postavljanje novog PIN-a. Unos mora biti različit od reset koda.  <br /></td></tr>
-<tr class="separator:a7c15648e475464382693a42a0c733ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d2c55da2f92071c5032d86632a579da" id="r_a1d2c55da2f92071c5032d86632a579da"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a1d2c55da2f92071c5032d86632a579da">readTemperature</a> ()</td></tr>
-<tr class="memdesc:a1d2c55da2f92071c5032d86632a579da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Čita temperaturu s NTC senzora i pretvara je u stupnjeve Celzijusa.  <br /></td></tr>
-<tr class="separator:a1d2c55da2f92071c5032d86632a579da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9278be8203e1c42e2619179882ae4403" id="r_a9278be8203e1c42e2619179882ae4403"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a9278be8203e1c42e2619179882ae4403">unlock</a> ()</td></tr>
-<tr class="memdesc:a9278be8203e1c42e2619179882ae4403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Otključava sef (pomakne servo motor).  <br /></td></tr>
-<tr class="separator:a9278be8203e1c42e2619179882ae4403"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa81aed607133209dade63a226818224d" id="r_aa81aed607133209dade63a226818224d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#aa81aed607133209dade63a226818224d">lock</a> ()</td></tr>
-<tr class="memdesc:aa81aed607133209dade63a226818224d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zaključava sef (pomakne servo motor).  <br /></td></tr>
-<tr class="separator:aa81aed607133209dade63a226818224d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a4b323b4ce043aae9bd5021d1db3cce7e" id="r_a4b323b4ce043aae9bd5021d1db3cce7e"><td class="memItemLeft" align="right" valign="top">const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a4b323b4ce043aae9bd5021d1db3cce7e">ROWS</a> = 4</td></tr>
-<tr class="separator:a4b323b4ce043aae9bd5021d1db3cce7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ae1f1dbd6618fe52b870f67b04b2b58" id="r_a9ae1f1dbd6618fe52b870f67b04b2b58"><td class="memItemLeft" align="right" valign="top">const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a9ae1f1dbd6618fe52b870f67b04b2b58">COLS</a> = 4</td></tr>
-<tr class="separator:a9ae1f1dbd6618fe52b870f67b04b2b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a856e873a1d14012d57ddb813c4a1e40a" id="r_a856e873a1d14012d57ddb813c4a1e40a"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a856e873a1d14012d57ddb813c4a1e40a">keys</a> [<a class="el" href="../../d1/d16/Lab1_8ino.html#a4b323b4ce043aae9bd5021d1db3cce7e">ROWS</a>][<a class="el" href="../../d1/d16/Lab1_8ino.html#a9ae1f1dbd6618fe52b870f67b04b2b58">COLS</a>]</td></tr>
+<tr class="memitem:a988a608b186de34e793324aee3ec73ee" id="r_a988a608b186de34e793324aee3ec73ee"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a988a608b186de34e793324aee3ec73ee">buzzerPin</a> = 25</td></tr>
+<tr class="separator:a988a608b186de34e793324aee3ec73ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7a297218fb22d38a00b6305308206b1" id="r_ab7a297218fb22d38a00b6305308206b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ab7a297218fb22d38a00b6305308206b1">simulatedWiFiMode</a> = true</td></tr>
+<tr class="separator:ab7a297218fb22d38a00b6305308206b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4be7012087927efdb769dc93d4bac589" id="r_a4be7012087927efdb769dc93d4bac589"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a4be7012087927efdb769dc93d4bac589">hasInternet</a> = false</td></tr>
+<tr class="separator:a4be7012087927efdb769dc93d4bac589"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a829655a147df70dd4cc94eae40a2204e" id="r_a829655a147df70dd4cc94eae40a2204e"><td class="memItemLeft" align="right" valign="top">const byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a829655a147df70dd4cc94eae40a2204e">ROWS</a> = 4</td></tr>
+<tr class="separator:a829655a147df70dd4cc94eae40a2204e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefd90f1160eaa105bc910d4d7c46b815" id="r_aefd90f1160eaa105bc910d4d7c46b815"><td class="memItemLeft" align="right" valign="top">const byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#aefd90f1160eaa105bc910d4d7c46b815">COLS</a> = 4</td></tr>
+<tr class="separator:aefd90f1160eaa105bc910d4d7c46b815"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a856e873a1d14012d57ddb813c4a1e40a" id="r_a856e873a1d14012d57ddb813c4a1e40a"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a856e873a1d14012d57ddb813c4a1e40a">keys</a> [<a class="el" href="../../d1/d16/Lab1_8ino.html#a829655a147df70dd4cc94eae40a2204e">ROWS</a>][<a class="el" href="../../d1/d16/Lab1_8ino.html#aefd90f1160eaa105bc910d4d7c46b815">COLS</a>]</td></tr>
 <tr class="separator:a856e873a1d14012d57ddb813c4a1e40a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7941412bdecdb863a16f8e6cfd2e6db5" id="r_a7941412bdecdb863a16f8e6cfd2e6db5"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a7941412bdecdb863a16f8e6cfd2e6db5">colPins</a> [<a class="el" href="../../d1/d16/Lab1_8ino.html#a9ae1f1dbd6618fe52b870f67b04b2b58">COLS</a>] = {5, 4, 3, 2}</td></tr>
-<tr class="separator:a7941412bdecdb863a16f8e6cfd2e6db5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60eddd2725d354859cbda19a0e1718bd" id="r_a60eddd2725d354859cbda19a0e1718bd"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a60eddd2725d354859cbda19a0e1718bd">rowPins</a> [<a class="el" href="../../d1/d16/Lab1_8ino.html#a4b323b4ce043aae9bd5021d1db3cce7e">ROWS</a>] = {9, 8, 7, 6}</td></tr>
-<tr class="separator:a60eddd2725d354859cbda19a0e1718bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e6c3cc7e8c762ab0ca1fa2296d7bbfe" id="r_a0e6c3cc7e8c762ab0ca1fa2296d7bbfe"><td class="memItemLeft" align="right" valign="top">Keypad&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a0e6c3cc7e8c762ab0ca1fa2296d7bbfe">keypad</a> = Keypad(makeKeymap(<a class="el" href="../../d1/d16/Lab1_8ino.html#a856e873a1d14012d57ddb813c4a1e40a">keys</a>), <a class="el" href="../../d1/d16/Lab1_8ino.html#a60eddd2725d354859cbda19a0e1718bd">rowPins</a>, <a class="el" href="../../d1/d16/Lab1_8ino.html#a7941412bdecdb863a16f8e6cfd2e6db5">colPins</a>, <a class="el" href="../../d1/d16/Lab1_8ino.html#a4b323b4ce043aae9bd5021d1db3cce7e">ROWS</a>, <a class="el" href="../../d1/d16/Lab1_8ino.html#a9ae1f1dbd6618fe52b870f67b04b2b58">COLS</a>)</td></tr>
-<tr class="separator:a0e6c3cc7e8c762ab0ca1fa2296d7bbfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79efceea669fb85a732c30f47cf7e59c" id="r_a79efceea669fb85a732c30f47cf7e59c"><td class="memItemLeft" align="right" valign="top">Servo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a79efceea669fb85a732c30f47cf7e59c">servo</a></td></tr>
-<tr class="separator:a79efceea669fb85a732c30f47cf7e59c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85771ca267982ca6036aff23caf987a1" id="r_a85771ca267982ca6036aff23caf987a1"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a85771ca267982ca6036aff23caf987a1">correctPin</a> = &quot;1234&quot;</td></tr>
-<tr class="memdesc:a85771ca267982ca6036aff23caf987a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ispravni PIN za otključavanje sefa.  <br /></td></tr>
-<tr class="separator:a85771ca267982ca6036aff23caf987a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47479c762c4f7c5d5c65657fa06f9255" id="r_a47479c762c4f7c5d5c65657fa06f9255"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a47479c762c4f7c5d5c65657fa06f9255">enteredPin</a> = &quot;&quot;</td></tr>
-<tr class="memdesc:a47479c762c4f7c5d5c65657fa06f9255"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trenutno uneseni PIN.  <br /></td></tr>
-<tr class="separator:a47479c762c4f7c5d5c65657fa06f9255"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8161ef9375e97d2b9e9926b40fc30253" id="r_a8161ef9375e97d2b9e9926b40fc30253"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a8161ef9375e97d2b9e9926b40fc30253">hasEntered</a> = false</td></tr>
-<tr class="memdesc:a8161ef9375e97d2b9e9926b40fc30253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status pristupa (otključano/zatvoreno).  <br /></td></tr>
-<tr class="separator:a8161ef9375e97d2b9e9926b40fc30253"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34e38fe3ecfecb253240966c839fb908" id="r_a34e38fe3ecfecb253240966c839fb908"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a34e38fe3ecfecb253240966c839fb908">resetPasswordPattern</a> = &quot;*201*&quot;</td></tr>
-<tr class="memdesc:a34e38fe3ecfecb253240966c839fb908"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kod za resetiranje PIN-a.  <br /></td></tr>
-<tr class="separator:a34e38fe3ecfecb253240966c839fb908"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3e65f257d6e2ae335bb0b0061992b89" id="r_aa3e65f257d6e2ae335bb0b0061992b89"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#aa3e65f257d6e2ae335bb0b0061992b89">isResetPasswordMode</a> = false</td></tr>
-<tr class="memdesc:aa3e65f257d6e2ae335bb0b0061992b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status načina za postavljanje novog PIN-a.  <br /></td></tr>
-<tr class="separator:aa3e65f257d6e2ae335bb0b0061992b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6986285946633af897cba3b775c8d4b" id="r_af6986285946633af897cba3b775c8d4b"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#af6986285946633af897cba3b775c8d4b">inputPassword</a> = &quot;&quot;</td></tr>
-<tr class="memdesc:af6986285946633af897cba3b775c8d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Novi uneseni PIN.  <br /></td></tr>
-<tr class="separator:af6986285946633af897cba3b775c8d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6292d9c80912550082f1dde5c53e7e0d" id="r_a6292d9c80912550082f1dde5c53e7e0d"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a6292d9c80912550082f1dde5c53e7e0d">ntcPin</a> = A0</td></tr>
-<tr class="memdesc:a6292d9c80912550082f1dde5c53e7e0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analogni pin za NTC temperaturni senzor.  <br /></td></tr>
-<tr class="separator:a6292d9c80912550082f1dde5c53e7e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6a80d0d11018361daa0566b1e844bd9" id="r_ab6a80d0d11018361daa0566b1e844bd9"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ab6a80d0d11018361daa0566b1e844bd9">servoPin</a> = 13</td></tr>
-<tr class="memdesc:ab6a80d0d11018361daa0566b1e844bd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Digitalni pin za servo motor.  <br /></td></tr>
-<tr class="separator:ab6a80d0d11018361daa0566b1e844bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d6753e0ae098b31e2f84d4024e361cf" id="r_a6d6753e0ae098b31e2f84d4024e361cf"><td class="memItemLeft" align="right" valign="top">byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a6d6753e0ae098b31e2f84d4024e361cf">rowPins</a> [<a class="el" href="../../d1/d16/Lab1_8ino.html#a829655a147df70dd4cc94eae40a2204e">ROWS</a>] = {12, 13, 14, 15}</td></tr>
+<tr class="separator:a6d6753e0ae098b31e2f84d4024e361cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9fece7b062124080e4b2976f9a8b675" id="r_aa9fece7b062124080e4b2976f9a8b675"><td class="memItemLeft" align="right" valign="top">byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#aa9fece7b062124080e4b2976f9a8b675">colPins</a> [<a class="el" href="../../d1/d16/Lab1_8ino.html#aefd90f1160eaa105bc910d4d7c46b815">COLS</a>] = {5, 18, 19, 23}</td></tr>
+<tr class="separator:aa9fece7b062124080e4b2976f9a8b675"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a275827bff685d924333de479d882690e" id="r_a275827bff685d924333de479d882690e"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a275827bff685d924333de479d882690e">ledSuccessPin</a> = 2</td></tr>
+<tr class="separator:a275827bff685d924333de479d882690e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2798b9aaf993d50c7cea2e69b19ebdd" id="r_ae2798b9aaf993d50c7cea2e69b19ebdd"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ae2798b9aaf993d50c7cea2e69b19ebdd">ledErrorPin</a> = 4</td></tr>
+<tr class="separator:ae2798b9aaf993d50c7cea2e69b19ebdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b37470b9914566c41427050ff31e2d1" id="r_a1b37470b9914566c41427050ff31e2d1"><td class="memItemLeft" align="right" valign="top">FirebaseData&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a1b37470b9914566c41427050ff31e2d1">firebaseData</a></td></tr>
+<tr class="separator:a1b37470b9914566c41427050ff31e2d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48345e899174b69437171a7c85de6de2" id="r_a48345e899174b69437171a7c85de6de2"><td class="memItemLeft" align="right" valign="top">FirebaseConfig&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a48345e899174b69437171a7c85de6de2">firebaseConfig</a></td></tr>
+<tr class="separator:a48345e899174b69437171a7c85de6de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31581cf7bb135a8d6d44310b24e06a38" id="r_a31581cf7bb135a8d6d44310b24e06a38"><td class="memItemLeft" align="right" valign="top">FirebaseAuth&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a31581cf7bb135a8d6d44310b24e06a38">firebaseAuth</a></td></tr>
+<tr class="separator:a31581cf7bb135a8d6d44310b24e06a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d5f62ce3dacd59608623716f3542037" id="r_a4d5f62ce3dacd59608623716f3542037"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/ddc/structLocalPatient.html">LocalPatient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a4d5f62ce3dacd59608623716f3542037">localPatients</a> []</td></tr>
+<tr class="separator:a4d5f62ce3dacd59608623716f3542037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e2bcf8de2c1eced051a3a4d69ec7cee" id="r_a7e2bcf8de2c1eced051a3a4d69ec7cee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75">SystemState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a7e2bcf8de2c1eced051a3a4d69ec7cee">currentState</a> = <a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75afda0dff1ce83745a9ad37e8ec3f03e94">WAITING_FOR_INPUT</a></td></tr>
+<tr class="separator:a7e2bcf8de2c1eced051a3a4d69ec7cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdf4a026a65cd49e428c574f80e4f3c9" id="r_acdf4a026a65cd49e428c574f80e4f3c9"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#acdf4a026a65cd49e428c574f80e4f3c9">inputBuffer</a> = &quot;&quot;</td></tr>
+<tr class="separator:acdf4a026a65cd49e428c574f80e4f3c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42689e07c5bc087458acc8b891eafad8" id="r_a42689e07c5bc087458acc8b891eafad8"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#a42689e07c5bc087458acc8b891eafad8">lastActionTime</a> = 0</td></tr>
+<tr class="separator:a42689e07c5bc087458acc8b891eafad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac45eb8ac3eb188fc0d9728907d3a0362" id="r_ac45eb8ac3eb188fc0d9728907d3a0362"><td class="memItemLeft" align="right" valign="top">const unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d16/Lab1_8ino.html#ac45eb8ac3eb188fc0d9728907d3a0362">TIMEOUT</a> = 30000</td></tr>
+<tr class="separator:ac45eb8ac3eb188fc0d9728907d3a0362"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a242897a6bb8e137b7e92b6aa057fb9b9" name="a242897a6bb8e137b7e92b6aa057fb9b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a242897a6bb8e137b7e92b6aa057fb9b9">&#9670;&#160;</a></span>checkPin()</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ac69331f8facce28cfd7b94076ca7055e" name="ac69331f8facce28cfd7b94076ca7055e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac69331f8facce28cfd7b94076ca7055e">&#9670;&#160;</a></span>BUZZER_CHANNEL</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void checkPin </td>
+          <td class="memname">#define BUZZER_CHANNEL&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a315a28de20a612a435fefed3e3d3df3e" name="a315a28de20a612a435fefed3e3d3df3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a315a28de20a612a435fefed3e3d3df3e">&#9670;&#160;</a></span>BUZZER_RESOLUTION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BUZZER_RESOLUTION&#160;&#160;&#160;8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a689f00c928d30a9e6b9c294e8148c1" name="a7a689f00c928d30a9e6b9c294e8148c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a689f00c928d30a9e6b9c294e8148c1">&#9670;&#160;</a></span>FIREBASE_AUTH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FIREBASE_AUTH&#160;&#160;&#160;&quot;Fg4FnkVhu41qNTYb4XjFI9VVeBmYBg9oYOblnfZJ&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd939b64a048d6ed459be654090a838a" name="acd939b64a048d6ed459be654090a838a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd939b64a048d6ed459be654090a838a">&#9670;&#160;</a></span>FIREBASE_HOST</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FIREBASE_HOST&#160;&#160;&#160;&quot;rus---projekt-default-rtdb.europe-west1.firebasedatabase.app&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8685d8aff7e570048090a3a51afceb07" name="a8685d8aff7e570048090a3a51afceb07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8685d8aff7e570048090a3a51afceb07">&#9670;&#160;</a></span>WIFI_PASSWORD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WIFI_PASSWORD&#160;&#160;&#160;&quot;&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a586542b79d00e4db7e1d5a667ae83a2b" name="a586542b79d00e4db7e1d5a667ae83a2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a586542b79d00e4db7e1d5a667ae83a2b">&#9670;&#160;</a></span>WIFI_SSID</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WIFI_SSID&#160;&#160;&#160;&quot;&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="aa51313be2faacb739a18fdeecefbac75" name="aa51313be2faacb739a18fdeecefbac75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa51313be2faacb739a18fdeecefbac75">&#9670;&#160;</a></span>SystemState</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75">SystemState</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa51313be2faacb739a18fdeecefbac75afda0dff1ce83745a9ad37e8ec3f03e94" name="aa51313be2faacb739a18fdeecefbac75afda0dff1ce83745a9ad37e8ec3f03e94"></a>WAITING_FOR_INPUT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa51313be2faacb739a18fdeecefbac75a4f462d643d1f9119507d552f169cd5dc" name="aa51313be2faacb739a18fdeecefbac75a4f462d643d1f9119507d552f169cd5dc"></a>PROCESSING_CARD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa51313be2faacb739a18fdeecefbac75a0cf113b3a00cbca93902aadd850d3c52" name="aa51313be2faacb739a18fdeecefbac75a0cf113b3a00cbca93902aadd850d3c52"></a>DISPLAY_PATIENT_INFO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa51313be2faacb739a18fdeecefbac75a1b8dfe61ee52c868df2689df2540828f" name="aa51313be2faacb739a18fdeecefbac75a1b8dfe61ee52c868df2689df2540828f"></a>DISPLAY_ERROR&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="aa2d5ad8f8daaed55a5b97fb55aa89170" name="aa2d5ad8f8daaed55a5b97fb55aa89170"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2d5ad8f8daaed55a5b97fb55aa89170">&#9670;&#160;</a></span>beepError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void beepError </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -184,83 +340,299 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava. Ako je unesena šifra za reset, prelazi se u način postavljanja novog PIN-a. </p>
+<p>Plays error beep pattern (lower pitch, double beep) </p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="../../d1/d16/Lab1_8ino_a242897a6bb8e137b7e92b6aa057fb9b9_cgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a242897a6bb8e137b7e92b6aa057fb9b9_cgraph" alt=""/></div>
-<map name="ad1/d16/Lab1_8ino_a242897a6bb8e137b7e92b6aa057fb9b9_cgraph" id="ad1/d16/Lab1_8ino_a242897a6bb8e137b7e92b6aa057fb9b9_cgraph">
-<area shape="rect" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="5,80,85,105"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a084782a3a670d7ab4af03145643a364a" title="&lt; Biblioteka za upravljanje servo motorom." alt="" coords="315,30,356,56"/>
-<area shape="poly" title=" " alt="" coords="55,77,86,44,108,28,132,15,169,5,199,3,267,15,303,26,301,31,266,20,199,9,170,10,134,20,111,32,90,48,59,81"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#aa81aed607133209dade63a226818224d" title="Zaključava sef (pomakne servo motor)." alt="" coords="175,30,225,56"/>
-<area shape="poly" title=" " alt="" coords="85,77,162,52,163,57,86,82"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a7c15648e475464382693a42a0c733ad7" title="Omogućuje korisniku postavljanje novog PIN&#45;a. Unos mora biti različit od reset koda." alt="" coords="165,80,235,105"/>
-<area shape="poly" title=" " alt="" coords="85,90,152,90,152,95,85,95"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a1d2c55da2f92071c5032d86632a579da" title="Čita temperaturu s NTC senzora i pretvara je u stupnjeve Celzijusa." alt="" coords="133,129,267,154"/>
-<area shape="poly" title=" " alt="" coords="86,102,148,122,146,127,85,107"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a9278be8203e1c42e2619179882ae4403" title="Otključava sef (pomakne servo motor)." alt="" coords="167,178,233,204"/>
-<area shape="poly" title=" " alt="" coords="61,103,93,133,135,163,156,174,153,179,132,168,90,137,57,107"/>
-<area shape="poly" title=" " alt="" coords="234,77,301,53,302,58,236,82"/>
-</map>
-</div>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="../../d1/d16/Lab1_8ino_a242897a6bb8e137b7e92b6aa057fb9b9_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a242897a6bb8e137b7e92b6aa057fb9b9_icgraph" alt=""/></div>
-<map name="ad1/d16/Lab1_8ino_a242897a6bb8e137b7e92b6aa057fb9b9_icgraph" id="ad1/d16/Lab1_8ino_a242897a6bb8e137b7e92b6aa057fb9b9_icgraph">
-<area shape="rect" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="104,5,184,31"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos." alt="" coords="5,5,56,31"/>
-<area shape="poly" title=" " alt="" coords="91,21,56,21,56,15,91,15"/>
+<div class="center"><img src="../../d1/d16/Lab1_8ino_aa2d5ad8f8daaed55a5b97fb55aa89170_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_aa2d5ad8f8daaed55a5b97fb55aa89170_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_aa2d5ad8f8daaed55a5b97fb55aa89170_icgraph" id="ad1/d16/Lab1_8ino_aa2d5ad8f8daaed55a5b97fb55aa89170_icgraph">
+<area shape="rect" title="Plays error beep pattern (lower pitch, double beep)" alt="" coords="307,5,392,31"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ac14fcfce1e57d782584ccc183c008a2e" title="Processes card number and fetches patient info." alt="" coords="104,5,259,31"/>
+<area shape="poly" title=" " alt="" coords="293,21,259,21,259,15,293,15"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,5,56,31"/>
+<area shape="poly" title=" " alt="" coords="90,21,56,21,56,15,90,15"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a084782a3a670d7ab4af03145643a364a" name="a084782a3a670d7ab4af03145643a364a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a084782a3a670d7ab4af03145643a364a">&#9670;&#160;</a></span>lcd()</h2>
+<a id="a907ace78eeae758c69822122d16a5598" name="a907ace78eeae758c69822122d16a5598"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a907ace78eeae758c69822122d16a5598">&#9670;&#160;</a></span>beepSuccess()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">LiquidCrystal lcd </td>
+          <td class="memname">void beepSuccess </td>
           <td>(</td>
-          <td class="paramtype">12&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Plays success beep pattern (higher pitch, single beep) </p>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_a907ace78eeae758c69822122d16a5598_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a907ace78eeae758c69822122d16a5598_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_a907ace78eeae758c69822122d16a5598_icgraph" id="ad1/d16/Lab1_8ino_a907ace78eeae758c69822122d16a5598_icgraph">
+<area shape="rect" title="Plays success beep pattern (higher pitch, single beep)" alt="" coords="307,5,413,31"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ac14fcfce1e57d782584ccc183c008a2e" title="Processes card number and fetches patient info." alt="" coords="104,5,259,31"/>
+<area shape="poly" title=" " alt="" coords="293,21,259,21,259,15,293,15"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,5,56,31"/>
+<area shape="poly" title=" " alt="" coords="90,21,56,21,56,15,90,15"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae786f8044734bf7283b0df88675335c5" name="ae786f8044734bf7283b0df88675335c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae786f8044734bf7283b0df88675335c5">&#9670;&#160;</a></span>connectToWiFi()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void connectToWiFi </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Connects to WiFi (real or simulated). </p>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_ae786f8044734bf7283b0df88675335c5_cgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_ae786f8044734bf7283b0df88675335c5_cgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_ae786f8044734bf7283b0df88675335c5_cgraph" id="ad1/d16/Lab1_8ino_ae786f8044734bf7283b0df88675335c5_cgraph">
+<area shape="rect" title="Connects to WiFi (real or simulated)." alt="" coords="5,5,120,31"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae084e1bc8ccb35ea289ba0ca4972ea6d" title=" " alt="" coords="168,5,209,31"/>
+<area shape="poly" title=" " alt="" coords="120,15,154,15,154,21,120,21"/>
+</map>
+</div>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_ae786f8044734bf7283b0df88675335c5_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_ae786f8044734bf7283b0df88675335c5_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_ae786f8044734bf7283b0df88675335c5_icgraph" id="ad1/d16/Lab1_8ino_ae786f8044734bf7283b0df88675335c5_icgraph">
+<area shape="rect" title="Connects to WiFi (real or simulated)." alt="" coords="112,31,227,56"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="9,5,60,31"/>
+<area shape="poly" title=" " alt="" coords="98,33,60,25,61,20,99,27"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title="Setup function initializes LCD, WiFi, Firebase and sets the system to input mode." alt="" coords="5,55,64,80"/>
+<area shape="poly" title=" " alt="" coords="99,59,65,65,64,60,98,53"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a98442a31625045560a6fd3e84d4e4d5e" name="a98442a31625045560a6fd3e84d4e4d5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98442a31625045560a6fd3e84d4e4d5e">&#9670;&#160;</a></span>displayPatientInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void displayPatientInfo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d78/structPatientInfo.html">PatientInfo</a>&#160;</td>
+          <td class="paramname"><em>patient</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Displays patient info on the LCD screen. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">patient</td><td>The patient info to display. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_a98442a31625045560a6fd3e84d4e4d5e_cgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a98442a31625045560a6fd3e84d4e4d5e_cgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_a98442a31625045560a6fd3e84d4e4d5e_cgraph" id="ad1/d16/Lab1_8ino_a98442a31625045560a6fd3e84d4e4d5e_cgraph">
+<area shape="rect" title="Displays patient info on the LCD screen." alt="" coords="5,31,144,56"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae084e1bc8ccb35ea289ba0ca4972ea6d" title=" " alt="" coords="229,5,270,31"/>
+<area shape="poly" title=" " alt="" coords="144,31,215,20,216,25,145,36"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a211f792f3c0783031102e8c8ccc1a861" title="Truncates string to fit LCD line." alt="" coords="192,55,307,80"/>
+<area shape="poly" title=" " alt="" coords="145,50,179,55,178,60,144,56"/>
+</map>
+</div>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_a98442a31625045560a6fd3e84d4e4d5e_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a98442a31625045560a6fd3e84d4e4d5e_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_a98442a31625045560a6fd3e84d4e4d5e_icgraph" id="ad1/d16/Lab1_8ino_a98442a31625045560a6fd3e84d4e4d5e_icgraph">
+<area shape="rect" title="Displays patient info on the LCD screen." alt="" coords="307,5,445,31"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ac14fcfce1e57d782584ccc183c008a2e" title="Processes card number and fetches patient info." alt="" coords="104,5,259,31"/>
+<area shape="poly" title=" " alt="" coords="293,21,259,21,259,15,293,15"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,5,56,31"/>
+<area shape="poly" title=" " alt="" coords="90,21,56,21,56,15,90,15"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2da36c055d23bb1f20f20bfabbb40661" name="a2da36c055d23bb1f20f20bfabbb40661"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2da36c055d23bb1f20f20bfabbb40661">&#9670;&#160;</a></span>getKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char getKey </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets pressed key from keypad. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pressed key character or 0 if none. </dd></dl>
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_a2da36c055d23bb1f20f20bfabbb40661_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a2da36c055d23bb1f20f20bfabbb40661_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_a2da36c055d23bb1f20f20bfabbb40661_icgraph" id="ad1/d16/Lab1_8ino_a2da36c055d23bb1f20f20bfabbb40661_icgraph">
+<area shape="rect" title="Gets pressed key from keypad." alt="" coords="281,31,348,56"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a423dcbfd8fa6cceb0dd8f3a0d9dbccc6" title="Handles numeric input from keypad." alt="" coords="104,5,233,31"/>
+<area shape="poly" title=" " alt="" coords="268,38,233,32,234,27,268,33"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,31,56,56"/>
+<area shape="poly" title=" " alt="" coords="267,46,56,46,56,41,267,41"/>
+<area shape="poly" title=" " alt="" coords="91,35,57,41,56,36,90,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab249427f7b02b085c108ba7ff5bd8fa2" name="ab249427f7b02b085c108ba7ff5bd8fa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab249427f7b02b085c108ba7ff5bd8fa2">&#9670;&#160;</a></span>getPatientData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d7/d78/structPatientInfo.html">PatientInfo</a> getPatientData </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>cardNumber</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets patient data from Firebase or local database. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cardNumber</td><td>The card number to look up. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d7/d78/structPatientInfo.html" title="Structure to hold patient information.">PatientInfo</a> structure with patient details. </dd></dl>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_ab249427f7b02b085c108ba7ff5bd8fa2_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_ab249427f7b02b085c108ba7ff5bd8fa2_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_ab249427f7b02b085c108ba7ff5bd8fa2_icgraph" id="ad1/d16/Lab1_8ino_ab249427f7b02b085c108ba7ff5bd8fa2_icgraph">
+<area shape="rect" title="Gets patient data from Firebase or local database." alt="" coords="307,5,425,31"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ac14fcfce1e57d782584ccc183c008a2e" title="Processes card number and fetches patient info." alt="" coords="104,5,259,31"/>
+<area shape="poly" title=" " alt="" coords="293,21,259,21,259,15,293,15"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,5,56,31"/>
+<area shape="poly" title=" " alt="" coords="90,21,56,21,56,15,90,15"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a423dcbfd8fa6cceb0dd8f3a0d9dbccc6" name="a423dcbfd8fa6cceb0dd8f3a0d9dbccc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a423dcbfd8fa6cceb0dd8f3a0d9dbccc6">&#9670;&#160;</a></span>handleCardInput()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void handleCardInput </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handles numeric input from keypad. </p>
+<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_a423dcbfd8fa6cceb0dd8f3a0d9dbccc6_cgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a423dcbfd8fa6cceb0dd8f3a0d9dbccc6_cgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_a423dcbfd8fa6cceb0dd8f3a0d9dbccc6_cgraph" id="ad1/d16/Lab1_8ino_a423dcbfd8fa6cceb0dd8f3a0d9dbccc6_cgraph">
+<area shape="rect" title="Handles numeric input from keypad." alt="" coords="5,31,135,56"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a2da36c055d23bb1f20f20bfabbb40661" title="Gets pressed key from keypad." alt="" coords="183,5,249,31"/>
+<area shape="poly" title=" " alt="" coords="135,29,169,23,170,29,136,35"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae084e1bc8ccb35ea289ba0ca4972ea6d" title=" " alt="" coords="195,55,237,80"/>
+<area shape="poly" title=" " alt="" coords="135,51,182,59,181,64,135,57"/>
+</map>
+</div>
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_a423dcbfd8fa6cceb0dd8f3a0d9dbccc6_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a423dcbfd8fa6cceb0dd8f3a0d9dbccc6_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_a423dcbfd8fa6cceb0dd8f3a0d9dbccc6_icgraph" id="ad1/d16/Lab1_8ino_a423dcbfd8fa6cceb0dd8f3a0d9dbccc6_icgraph">
+<area shape="rect" title="Handles numeric input from keypad." alt="" coords="104,5,233,31"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,5,56,31"/>
+<area shape="poly" title=" " alt="" coords="90,21,57,21,57,15,90,15"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae084e1bc8ccb35ea289ba0ca4972ea6d" name="ae084e1bc8ccb35ea289ba0ca4972ea6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae084e1bc8ccb35ea289ba0ca4972ea6d">&#9670;&#160;</a></span>lcd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LiquidCrystal_I2C lcd </td>
+          <td>(</td>
+          <td class="paramtype">0x27&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">11&#160;</td>
+          <td class="paramtype">16&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">10&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">A5&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">A4&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">A3&#160;</td>
+          <td class="paramtype">2&#160;</td>
           <td class="paramname">&#160;</td>
         </tr>
         <tr>
@@ -270,60 +642,34 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>&lt; Biblioteka za upravljanje servo motorom. </p>
-<p>&lt; Biblioteka za upravljanje matricom tipki. &lt; Biblioteka za upravljanje LCD zaslonom. </p>
-<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-10-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="../../d1/d16/Lab1_8ino_a084782a3a670d7ab4af03145643a364a_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a084782a3a670d7ab4af03145643a364a_icgraph" alt=""/></div>
-<map name="ad1/d16/Lab1_8ino_a084782a3a670d7ab4af03145643a364a_icgraph" id="ad1/d16/Lab1_8ino_a084782a3a670d7ab4af03145643a364a_icgraph">
-<area shape="rect" title="&lt; Biblioteka za upravljanje servo motorom." alt="" coords="349,50,391,75"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a242897a6bb8e137b7e92b6aa057fb9b9" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="104,24,184,50"/>
-<area shape="poly" title=" " alt="" coords="345,42,324,26,300,14,268,8,234,11,175,27,173,22,233,5,268,3,302,9,327,22,348,38"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos." alt="" coords="5,50,56,75"/>
-<area shape="poly" title=" " alt="" coords="336,65,56,65,56,60,336,60"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a7c15648e475464382693a42a0c733ad7" title="Omogućuje korisniku postavljanje novog PIN&#45;a. Unos mora biti različit od reset koda." alt="" coords="232,24,301,50"/>
-<area shape="poly" title=" " alt="" coords="336,57,301,48,302,43,337,51"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title="Inicijalna funkcija postavljanja. Inicijalizira servo motor, LCD zaslon i prikazuje početnu poruku." alt="" coords="237,126,296,151"/>
-<area shape="poly" title=" " alt="" coords="342,86,286,128,283,123,339,81"/>
-<area shape="poly" title=" " alt="" coords="92,51,57,59,55,54,90,46"/>
-<area shape="poly" title=" " alt="" coords="218,40,184,40,184,34,218,34"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="aa81aed607133209dade63a226818224d" name="aa81aed607133209dade63a226818224d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa81aed607133209dade63a226818224d">&#9670;&#160;</a></span>lock()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lock </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Zaključava sef (pomakne servo motor). </p>
-<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-3-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="../../d1/d16/Lab1_8ino_aa81aed607133209dade63a226818224d_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_aa81aed607133209dade63a226818224d_icgraph" alt=""/></div>
-<map name="ad1/d16/Lab1_8ino_aa81aed607133209dade63a226818224d_icgraph" id="ad1/d16/Lab1_8ino_aa81aed607133209dade63a226818224d_icgraph">
-<area shape="rect" title="Zaključava sef (pomakne servo motor)." alt="" coords="232,5,281,31"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a242897a6bb8e137b7e92b6aa057fb9b9" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="104,5,184,31"/>
-<area shape="poly" title=" " alt="" coords="218,21,184,21,184,15,218,15"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos." alt="" coords="5,5,56,31"/>
-<area shape="poly" title=" " alt="" coords="91,21,56,21,56,15,91,15"/>
+<div id="dynsection-10-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_ae084e1bc8ccb35ea289ba0ca4972ea6d_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_ae084e1bc8ccb35ea289ba0ca4972ea6d_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_ae084e1bc8ccb35ea289ba0ca4972ea6d_icgraph" id="ad1/d16/Lab1_8ino_ae084e1bc8ccb35ea289ba0ca4972ea6d_icgraph">
+<area shape="rect" title=" " alt="" coords="493,132,535,157"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae786f8044734bf7283b0df88675335c5" title="Connects to WiFi (real or simulated)." alt="" coords="319,107,433,132"/>
+<area shape="poly" title=" " alt="" coords="479,141,433,132,434,127,480,136"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title="Setup function initializes LCD, WiFi, Firebase and sets the system to input mode." alt="" coords="152,56,211,81"/>
+<area shape="poly" title=" " alt="" coords="488,125,467,110,444,98,381,80,316,71,257,69,211,69,211,64,257,63,317,66,382,75,446,93,470,105,491,121"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a98442a31625045560a6fd3e84d4e4d5e" title="Displays patient info on the LCD screen." alt="" coords="307,208,445,233"/>
+<area shape="poly" title=" " alt="" coords="484,168,447,191,408,210,405,206,444,186,482,163"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ac14fcfce1e57d782584ccc183c008a2e" title="Processes card number and fetches patient info." alt="" coords="104,157,259,183"/>
+<area shape="poly" title=" " alt="" coords="480,150,259,167,259,161,479,145"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a423dcbfd8fa6cceb0dd8f3a0d9dbccc6" title="Handles numeric input from keypad." alt="" coords="117,232,246,257"/>
+<area shape="poly" title=" " alt="" coords="506,171,484,213,467,233,447,248,420,260,391,268,332,273,276,269,228,260,229,255,276,263,332,268,390,262,418,255,444,244,464,229,480,210,501,169"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae4b79fd67844175694542864c20abd28" title="Resets system to input state and clears indicators." alt="" coords="307,5,445,31"/>
+<area shape="poly" title=" " alt="" coords="497,121,475,86,444,52,412,33,415,28,447,48,479,83,502,118"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,132,56,157"/>
+<area shape="poly" title=" " alt="" coords="305,127,56,146,56,140,305,122"/>
+<area shape="poly" title=" " alt="" coords="312,106,210,79,212,74,314,100"/>
+<area shape="poly" title=" " alt="" coords="312,207,230,185,231,180,314,202"/>
+<area shape="poly" title=" " alt="" coords="92,158,56,151,57,146,93,152"/>
+<area shape="poly" title=" " alt="" coords="147,227,103,198,48,160,51,155,105,193,150,222"/>
+<area shape="poly" title=" " alt="" coords="293,11,248,11,199,15,150,26,105,46,82,64,63,88,39,133,35,130,58,85,78,61,103,41,149,21,198,10,247,6,293,6"/>
+<area shape="poly" title=" " alt="" coords="314,37,212,64,210,59,312,32"/>
 </map>
 </div>
 
@@ -344,42 +690,55 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos. </p>
-<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-4-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+<p>Main loop handles state machine and key input. </p>
+<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-11-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div id="dynsection-11-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../d1/d16/Lab1_8ino_afe461d27b9c48d5921c00d521181f12f_cgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_afe461d27b9c48d5921c00d521181f12f_cgraph" alt=""/></div>
 <map name="ad1/d16/Lab1_8ino_afe461d27b9c48d5921c00d521181f12f_cgraph" id="ad1/d16/Lab1_8ino_afe461d27b9c48d5921c00d521181f12f_cgraph">
-<area shape="rect" title="Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos." alt="" coords="5,186,56,211"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a242897a6bb8e137b7e92b6aa057fb9b9" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="104,111,184,136"/>
-<area shape="poly" title=" " alt="" coords="50,183,111,142,114,146,53,187"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a084782a3a670d7ab4af03145643a364a" title="&lt; Biblioteka za upravljanje servo motorom." alt="" coords="413,86,455,111"/>
-<area shape="poly" title=" " alt="" coords="57,206,116,227,195,244,239,248,282,246,325,237,364,220,387,200,404,175,425,123,429,125,409,178,391,204,367,225,326,242,283,251,238,253,194,250,114,232,55,211"/>
-<area shape="poly" title=" " alt="" coords="149,109,179,64,203,40,231,21,267,7,299,3,330,7,367,21,398,44,420,72,416,75,394,48,364,26,329,13,299,8,269,12,233,26,206,44,184,67,154,112"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#aa81aed607133209dade63a226818224d" title="Zaključava sef (pomakne servo motor)." alt="" coords="274,36,323,62"/>
-<area shape="poly" title=" " alt="" coords="165,108,231,72,259,60,261,65,233,77,167,113"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a7c15648e475464382693a42a0c733ad7" title="Omogućuje korisniku postavljanje novog PIN&#45;a. Unos mora biti različit od reset koda." alt="" coords="264,86,333,111"/>
-<area shape="poly" title=" " alt="" coords="184,115,250,103,251,109,185,120"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a1d2c55da2f92071c5032d86632a579da" title="Čita temperaturu s NTC senzora i pretvara je u stupnjeve Celzijusa." alt="" coords="232,135,365,160"/>
-<area shape="poly" title=" " alt="" coords="184,127,219,132,218,138,184,132"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a9278be8203e1c42e2619179882ae4403" title="Otključava sef (pomakne servo motor)." alt="" coords="266,184,331,210"/>
-<area shape="poly" title=" " alt="" coords="167,134,233,171,254,179,252,184,231,175,164,139"/>
-<area shape="poly" title=" " alt="" coords="333,96,400,96,400,101,333,101"/>
+<area shape="rect" title="Main loop handles state machine and key input." alt="" coords="5,107,56,132"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae786f8044734bf7283b0df88675335c5" title="Connects to WiFi (real or simulated)." alt="" coords="124,156,239,181"/>
+<area shape="poly" title=" " alt="" coords="57,125,130,149,128,154,56,130"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a2da36c055d23bb1f20f20bfabbb40661" title="Gets pressed key from keypad." alt="" coords="343,56,409,81"/>
+<area shape="poly" title=" " alt="" coords="55,107,103,91,164,81,225,73,329,67,329,72,226,79,165,86,105,97,57,112"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a423dcbfd8fa6cceb0dd8f3a0d9dbccc6" title="Handles numeric input from keypad." alt="" coords="117,107,246,132"/>
+<area shape="poly" title=" " alt="" coords="56,117,103,117,103,122,56,122"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ac14fcfce1e57d782584ccc183c008a2e" title="Processes card number and fetches patient info." alt="" coords="104,281,259,307"/>
+<area shape="poly" title=" " alt="" coords="45,131,162,269,158,273,41,134"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae4b79fd67844175694542864c20abd28" title="Resets system to input state and clears indicators." alt="" coords="112,5,251,31"/>
+<area shape="poly" title=" " alt="" coords="41,105,67,77,103,48,128,34,131,38,105,52,71,81,45,108"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae084e1bc8ccb35ea289ba0ca4972ea6d" title=" " alt="" coords="530,157,571,183"/>
+<area shape="poly" title=" " alt="" coords="239,166,516,167,516,173,239,172"/>
+<area shape="poly" title=" " alt="" coords="247,123,446,149,517,161,516,166,445,154,246,129"/>
+<area shape="poly" title=" " alt="" coords="230,104,329,78,330,83,232,109"/>
+<area shape="poly" title=" " alt="" coords="205,304,250,328,312,351,346,357,380,359,413,355,444,342,464,329,481,312,509,272,528,231,540,195,545,197,533,233,513,275,485,315,467,333,447,347,414,360,380,365,345,363,311,356,248,333,202,309"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#aa2d5ad8f8daaed55a5b97fb55aa89170" title="Plays error beep pattern (lower pitch, double beep)" alt="" coords="333,208,419,233"/>
+<area shape="poly" title=" " alt="" coords="214,279,306,244,327,236,329,241,308,248,216,284"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a907ace78eeae758c69822122d16a5598" title="Plays success beep pattern (higher pitch, single beep)" alt="" coords="323,257,429,283"/>
+<area shape="poly" title=" " alt="" coords="259,282,308,276,309,281,259,287"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a98442a31625045560a6fd3e84d4e4d5e" title="Displays patient info on the LCD screen." alt="" coords="307,408,445,433"/>
+<area shape="poly" title=" " alt="" coords="199,305,246,343,308,386,333,400,331,405,305,391,243,347,196,309"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ab249427f7b02b085c108ba7ff5bd8fa2" title="Gets patient data from Firebase or local database." alt="" coords="317,307,435,332"/>
+<area shape="poly" title=" " alt="" coords="259,301,303,307,302,312,259,307"/>
+<area shape="poly" title=" " alt="" coords="415,406,444,387,480,340,508,287,528,237,540,196,546,197,533,238,513,290,485,343,447,391,418,410"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a211f792f3c0783031102e8c8ccc1a861" title="Truncates string to fit LCD line." alt="" coords="493,408,608,433"/>
+<area shape="poly" title=" " alt="" coords="446,418,480,418,480,423,446,423"/>
+<area shape="poly" title=" " alt="" coords="251,8,296,7,347,11,398,22,447,41,477,63,503,90,539,144,535,147,499,93,474,67,444,46,397,27,346,17,296,13,251,13"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a7c15648e475464382693a42a0c733ad7" name="a7c15648e475464382693a42a0c733ad7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c15648e475464382693a42a0c733ad7">&#9670;&#160;</a></span>newPin()</h2>
+<a id="ac14fcfce1e57d782584ccc183c008a2e" name="ac14fcfce1e57d782584ccc183c008a2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac14fcfce1e57d782584ccc183c008a2e">&#9670;&#160;</a></span>processCardNumber()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void newPin </td>
+          <td class="memname">void processCardNumber </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -387,44 +746,53 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Omogućuje korisniku postavljanje novog PIN-a. Unos mora biti različit od reset koda. </p>
-<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+<p>Processes card number and fetches patient info. </p>
+<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-12-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="../../d1/d16/Lab1_8ino_a7c15648e475464382693a42a0c733ad7_cgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a7c15648e475464382693a42a0c733ad7_cgraph" alt=""/></div>
-<map name="ad1/d16/Lab1_8ino_a7c15648e475464382693a42a0c733ad7_cgraph" id="ad1/d16/Lab1_8ino_a7c15648e475464382693a42a0c733ad7_cgraph">
-<area shape="rect" title="Omogućuje korisniku postavljanje novog PIN&#45;a. Unos mora biti različit od reset koda." alt="" coords="5,5,75,31"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a084782a3a670d7ab4af03145643a364a" title="&lt; Biblioteka za upravljanje servo motorom." alt="" coords="123,5,164,31"/>
-<area shape="poly" title=" " alt="" coords="75,15,109,15,109,21,75,21"/>
+<div id="dynsection-12-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_ac14fcfce1e57d782584ccc183c008a2e_cgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_ac14fcfce1e57d782584ccc183c008a2e_cgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_ac14fcfce1e57d782584ccc183c008a2e_cgraph" id="ad1/d16/Lab1_8ino_ac14fcfce1e57d782584ccc183c008a2e_cgraph">
+<area shape="rect" title="Processes card number and fetches patient info." alt="" coords="5,105,160,131"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#aa2d5ad8f8daaed55a5b97fb55aa89170" title="Plays error beep pattern (lower pitch, double beep)" alt="" coords="235,5,320,31"/>
+<area shape="poly" title=" " alt="" coords="101,103,148,72,207,40,222,33,224,38,209,44,151,77,104,107"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a907ace78eeae758c69822122d16a5598" title="Plays success beep pattern (higher pitch, single beep)" alt="" coords="224,55,331,80"/>
+<area shape="poly" title=" " alt="" coords="132,103,214,81,215,86,133,108"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a98442a31625045560a6fd3e84d4e4d5e" title="Displays patient info on the LCD screen." alt="" coords="208,156,347,181"/>
+<area shape="poly" title=" " alt="" coords="133,128,215,150,214,155,132,133"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae084e1bc8ccb35ea289ba0ca4972ea6d" title=" " alt="" coords="431,107,473,132"/>
+<area shape="poly" title=" " alt="" coords="160,116,418,117,418,122,160,121"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ab249427f7b02b085c108ba7ff5bd8fa2" title="Gets patient data from Firebase or local database." alt="" coords="218,205,337,231"/>
+<area shape="poly" title=" " alt="" coords="104,129,151,159,209,192,224,198,222,203,207,196,148,164,101,133"/>
+<area shape="poly" title=" " alt="" coords="322,153,418,126,419,131,324,159"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a211f792f3c0783031102e8c8ccc1a861" title="Truncates string to fit LCD line." alt="" coords="395,156,509,181"/>
+<area shape="poly" title=" " alt="" coords="347,166,381,166,381,171,347,171"/>
 </map>
 </div>
-<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-6-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-13-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-6-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="../../d1/d16/Lab1_8ino_a7c15648e475464382693a42a0c733ad7_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a7c15648e475464382693a42a0c733ad7_icgraph" alt=""/></div>
-<map name="ad1/d16/Lab1_8ino_a7c15648e475464382693a42a0c733ad7_icgraph" id="ad1/d16/Lab1_8ino_a7c15648e475464382693a42a0c733ad7_icgraph">
-<area shape="rect" title="Omogućuje korisniku postavljanje novog PIN&#45;a. Unos mora biti različit od reset koda." alt="" coords="232,5,301,31"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a242897a6bb8e137b7e92b6aa057fb9b9" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="104,5,184,31"/>
-<area shape="poly" title=" " alt="" coords="218,21,184,21,184,15,218,15"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos." alt="" coords="5,5,56,31"/>
-<area shape="poly" title=" " alt="" coords="91,21,56,21,56,15,91,15"/>
+<div id="dynsection-13-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_ac14fcfce1e57d782584ccc183c008a2e_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_ac14fcfce1e57d782584ccc183c008a2e_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_ac14fcfce1e57d782584ccc183c008a2e_icgraph" id="ad1/d16/Lab1_8ino_ac14fcfce1e57d782584ccc183c008a2e_icgraph">
+<area shape="rect" title="Processes card number and fetches patient info." alt="" coords="104,5,259,31"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,5,56,31"/>
+<area shape="poly" title=" " alt="" coords="90,21,56,21,56,15,90,15"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a1d2c55da2f92071c5032d86632a579da" name="a1d2c55da2f92071c5032d86632a579da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d2c55da2f92071c5032d86632a579da">&#9670;&#160;</a></span>readTemperature()</h2>
+<a id="ae4b79fd67844175694542864c20abd28" name="ae4b79fd67844175694542864c20abd28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4b79fd67844175694542864c20abd28">&#9670;&#160;</a></span>resetToInputMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float readTemperature </td>
+          <td class="memname">void resetToInputMode </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -432,20 +800,31 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Čita temperaturu s NTC senzora i pretvara je u stupnjeve Celzijusa. </p>
-<dl class="section return"><dt>Returns</dt><dd>Temperatura u °C. </dd></dl>
-<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-7-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+<p>Resets system to input state and clears indicators. </p>
+<div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-14-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-14-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-7-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="../../d1/d16/Lab1_8ino_a1d2c55da2f92071c5032d86632a579da_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a1d2c55da2f92071c5032d86632a579da_icgraph" alt=""/></div>
-<map name="ad1/d16/Lab1_8ino_a1d2c55da2f92071c5032d86632a579da_icgraph" id="ad1/d16/Lab1_8ino_a1d2c55da2f92071c5032d86632a579da_icgraph">
-<area shape="rect" title="Čita temperaturu s NTC senzora i pretvara je u stupnjeve Celzijusa." alt="" coords="232,5,365,31"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a242897a6bb8e137b7e92b6aa057fb9b9" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="104,5,184,31"/>
-<area shape="poly" title=" " alt="" coords="219,21,184,21,184,15,219,15"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos." alt="" coords="5,5,56,31"/>
-<area shape="poly" title=" " alt="" coords="91,21,56,21,56,15,91,15"/>
+<div id="dynsection-14-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_ae4b79fd67844175694542864c20abd28_cgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_ae4b79fd67844175694542864c20abd28_cgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_ae4b79fd67844175694542864c20abd28_cgraph" id="ad1/d16/Lab1_8ino_ae4b79fd67844175694542864c20abd28_cgraph">
+<area shape="rect" title="Resets system to input state and clears indicators." alt="" coords="5,5,144,31"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae084e1bc8ccb35ea289ba0ca4972ea6d" title=" " alt="" coords="192,5,233,31"/>
+<area shape="poly" title=" " alt="" coords="144,15,178,15,178,21,144,21"/>
+</map>
+</div>
+<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-15-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-15-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_ae4b79fd67844175694542864c20abd28_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_ae4b79fd67844175694542864c20abd28_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_ae4b79fd67844175694542864c20abd28_icgraph" id="ad1/d16/Lab1_8ino_ae4b79fd67844175694542864c20abd28_icgraph">
+<area shape="rect" title="Resets system to input state and clears indicators." alt="" coords="112,31,251,56"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="9,5,60,31"/>
+<area shape="poly" title=" " alt="" coords="98,32,60,25,61,20,99,26"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title="Setup function initializes LCD, WiFi, Firebase and sets the system to input mode." alt="" coords="5,55,64,80"/>
+<area shape="poly" title=" " alt="" coords="99,60,65,65,64,60,98,54"/>
 </map>
 </div>
 
@@ -466,173 +845,203 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Inicijalna funkcija postavljanja. Inicijalizira servo motor, LCD zaslon i prikazuje početnu poruku. </p>
-<p>&lt; Zaključaj sef.</p>
-<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-8-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
+<p>Setup function initializes LCD, WiFi, Firebase and sets the system to input mode. </p>
+<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-16-trigger" src="../../closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div id="dynsection-16-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../d1/d16/Lab1_8ino_a4fc01d736fe50cf5b977f755b675f11d_cgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a4fc01d736fe50cf5b977f755b675f11d_cgraph" alt=""/></div>
 <map name="ad1/d16/Lab1_8ino_a4fc01d736fe50cf5b977f755b675f11d_cgraph" id="ad1/d16/Lab1_8ino_a4fc01d736fe50cf5b977f755b675f11d_cgraph">
-<area shape="rect" title="Inicijalna funkcija postavljanja. Inicijalizira servo motor, LCD zaslon i prikazuje početnu poruku." alt="" coords="5,5,64,31"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a084782a3a670d7ab4af03145643a364a" title="&lt; Biblioteka za upravljanje servo motorom." alt="" coords="112,5,153,31"/>
-<area shape="poly" title=" " alt="" coords="64,15,99,15,99,21,64,21"/>
+<area shape="rect" title="Setup function initializes LCD, WiFi, Firebase and sets the system to input mode." alt="" coords="5,56,64,81"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae786f8044734bf7283b0df88675335c5" title="Connects to WiFi (real or simulated)." alt="" coords="124,5,239,31"/>
+<area shape="poly" title=" " alt="" coords="63,56,130,33,132,38,65,61"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae084e1bc8ccb35ea289ba0ca4972ea6d" title=" " alt="" coords="299,56,340,81"/>
+<area shape="poly" title=" " alt="" coords="64,66,285,66,285,71,64,71"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ae4b79fd67844175694542864c20abd28" title="Resets system to input state and clears indicators." alt="" coords="112,107,251,132"/>
+<area shape="poly" title=" " alt="" coords="65,76,132,100,130,105,63,81"/>
+<area shape="poly" title=" " alt="" coords="218,28,287,54,285,59,216,33"/>
+<area shape="poly" title=" " alt="" coords="216,104,285,78,287,83,218,109"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a9278be8203e1c42e2619179882ae4403" name="a9278be8203e1c42e2619179882ae4403"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9278be8203e1c42e2619179882ae4403">&#9670;&#160;</a></span>unlock()</h2>
+<a id="a211f792f3c0783031102e8c8ccc1a861" name="a211f792f3c0783031102e8c8ccc1a861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a211f792f3c0783031102e8c8ccc1a861">&#9670;&#160;</a></span>truncateString()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void unlock </td>
+          <td class="memname">String truncateString </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxLength</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Otključava sef (pomakne servo motor). </p>
-<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-9-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+<p>Truncates string to fit LCD line. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>String to truncate. </td></tr>
+    <tr><td class="paramname">maxLength</td><td>Max characters. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Truncated string. </dd></dl>
+<div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-17-trigger" src="../../closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-17-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-9-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="../../d1/d16/Lab1_8ino_a9278be8203e1c42e2619179882ae4403_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a9278be8203e1c42e2619179882ae4403_icgraph" alt=""/></div>
-<map name="ad1/d16/Lab1_8ino_a9278be8203e1c42e2619179882ae4403_icgraph" id="ad1/d16/Lab1_8ino_a9278be8203e1c42e2619179882ae4403_icgraph">
-<area shape="rect" title="Otključava sef (pomakne servo motor)." alt="" coords="232,5,297,31"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a242897a6bb8e137b7e92b6aa057fb9b9" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="104,5,184,31"/>
-<area shape="poly" title=" " alt="" coords="218,21,184,21,184,15,218,15"/>
-<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos." alt="" coords="5,5,56,31"/>
-<area shape="poly" title=" " alt="" coords="91,21,56,21,56,15,91,15"/>
+<div id="dynsection-17-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d1/d16/Lab1_8ino_a211f792f3c0783031102e8c8ccc1a861_icgraph.png" border="0" usemap="#ad1/d16/Lab1_8ino_a211f792f3c0783031102e8c8ccc1a861_icgraph" alt=""/></div>
+<map name="ad1/d16/Lab1_8ino_a211f792f3c0783031102e8c8ccc1a861_icgraph" id="ad1/d16/Lab1_8ino_a211f792f3c0783031102e8c8ccc1a861_icgraph">
+<area shape="rect" title="Truncates string to fit LCD line." alt="" coords="493,5,608,31"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#a98442a31625045560a6fd3e84d4e4d5e" title="Displays patient info on the LCD screen." alt="" coords="307,5,445,31"/>
+<area shape="poly" title=" " alt="" coords="480,21,446,21,446,15,480,15"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#ac14fcfce1e57d782584ccc183c008a2e" title="Processes card number and fetches patient info." alt="" coords="104,5,259,31"/>
+<area shape="poly" title=" " alt="" coords="293,21,259,21,259,15,293,15"/>
+<area shape="rect" href="../../d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="5,5,56,31"/>
+<area shape="poly" title=" " alt="" coords="90,21,56,21,56,15,90,15"/>
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a7941412bdecdb863a16f8e6cfd2e6db5" name="a7941412bdecdb863a16f8e6cfd2e6db5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7941412bdecdb863a16f8e6cfd2e6db5">&#9670;&#160;</a></span>colPins</h2>
+<a id="a988a608b186de34e793324aee3ec73ee" name="a988a608b186de34e793324aee3ec73ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a988a608b186de34e793324aee3ec73ee">&#9670;&#160;</a></span>buzzerPin</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t colPins[<a class="el" href="../../d1/d16/Lab1_8ino.html#a9ae1f1dbd6618fe52b870f67b04b2b58">COLS</a>] = {5, 4, 3, 2}</td>
+          <td class="memname">const int buzzerPin = 25</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a9ae1f1dbd6618fe52b870f67b04b2b58" name="a9ae1f1dbd6618fe52b870f67b04b2b58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ae1f1dbd6618fe52b870f67b04b2b58">&#9670;&#160;</a></span>COLS</h2>
+<a id="aa9fece7b062124080e4b2976f9a8b675" name="aa9fece7b062124080e4b2976f9a8b675"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9fece7b062124080e4b2976f9a8b675">&#9670;&#160;</a></span>colPins</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t COLS = 4</td>
+          <td class="memname">byte colPins[<a class="el" href="../../d1/d16/Lab1_8ino.html#aefd90f1160eaa105bc910d4d7c46b815">COLS</a>] = {5, 18, 19, 23}</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a85771ca267982ca6036aff23caf987a1" name="a85771ca267982ca6036aff23caf987a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85771ca267982ca6036aff23caf987a1">&#9670;&#160;</a></span>correctPin</h2>
+<a id="aefd90f1160eaa105bc910d4d7c46b815" name="aefd90f1160eaa105bc910d4d7c46b815"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefd90f1160eaa105bc910d4d7c46b815">&#9670;&#160;</a></span>COLS</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">String correctPin = &quot;1234&quot;</td>
+          <td class="memname">const byte COLS = 4</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Ispravni PIN za otključavanje sefa. </p>
-
 </div>
 </div>
-<a id="a47479c762c4f7c5d5c65657fa06f9255" name="a47479c762c4f7c5d5c65657fa06f9255"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47479c762c4f7c5d5c65657fa06f9255">&#9670;&#160;</a></span>enteredPin</h2>
+<a id="a7e2bcf8de2c1eced051a3a4d69ec7cee" name="a7e2bcf8de2c1eced051a3a4d69ec7cee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e2bcf8de2c1eced051a3a4d69ec7cee">&#9670;&#160;</a></span>currentState</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">String enteredPin = &quot;&quot;</td>
+          <td class="memname"><a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75">SystemState</a> currentState = <a class="el" href="../../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75afda0dff1ce83745a9ad37e8ec3f03e94">WAITING_FOR_INPUT</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Trenutno uneseni PIN. </p>
-
 </div>
 </div>
-<a id="a8161ef9375e97d2b9e9926b40fc30253" name="a8161ef9375e97d2b9e9926b40fc30253"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8161ef9375e97d2b9e9926b40fc30253">&#9670;&#160;</a></span>hasEntered</h2>
+<a id="a31581cf7bb135a8d6d44310b24e06a38" name="a31581cf7bb135a8d6d44310b24e06a38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31581cf7bb135a8d6d44310b24e06a38">&#9670;&#160;</a></span>firebaseAuth</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">volatile bool hasEntered = false</td>
+          <td class="memname">FirebaseAuth firebaseAuth</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Status pristupa (otključano/zatvoreno). </p>
-
 </div>
 </div>
-<a id="af6986285946633af897cba3b775c8d4b" name="af6986285946633af897cba3b775c8d4b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6986285946633af897cba3b775c8d4b">&#9670;&#160;</a></span>inputPassword</h2>
+<a id="a48345e899174b69437171a7c85de6de2" name="a48345e899174b69437171a7c85de6de2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48345e899174b69437171a7c85de6de2">&#9670;&#160;</a></span>firebaseConfig</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">String inputPassword = &quot;&quot;</td>
+          <td class="memname">FirebaseConfig firebaseConfig</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Novi uneseni PIN. </p>
-
 </div>
 </div>
-<a id="aa3e65f257d6e2ae335bb0b0061992b89" name="aa3e65f257d6e2ae335bb0b0061992b89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3e65f257d6e2ae335bb0b0061992b89">&#9670;&#160;</a></span>isResetPasswordMode</h2>
+<a id="a1b37470b9914566c41427050ff31e2d1" name="a1b37470b9914566c41427050ff31e2d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b37470b9914566c41427050ff31e2d1">&#9670;&#160;</a></span>firebaseData</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">volatile bool isResetPasswordMode = false</td>
+          <td class="memname">FirebaseData firebaseData</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Status načina za postavljanje novog PIN-a. </p>
-
 </div>
 </div>
-<a id="a0e6c3cc7e8c762ab0ca1fa2296d7bbfe" name="a0e6c3cc7e8c762ab0ca1fa2296d7bbfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e6c3cc7e8c762ab0ca1fa2296d7bbfe">&#9670;&#160;</a></span>keypad</h2>
+<a id="a4be7012087927efdb769dc93d4bac589" name="a4be7012087927efdb769dc93d4bac589"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4be7012087927efdb769dc93d4bac589">&#9670;&#160;</a></span>hasInternet</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Keypad keypad = Keypad(makeKeymap(<a class="el" href="../../d1/d16/Lab1_8ino.html#a856e873a1d14012d57ddb813c4a1e40a">keys</a>), <a class="el" href="../../d1/d16/Lab1_8ino.html#a60eddd2725d354859cbda19a0e1718bd">rowPins</a>, <a class="el" href="../../d1/d16/Lab1_8ino.html#a7941412bdecdb863a16f8e6cfd2e6db5">colPins</a>, <a class="el" href="../../d1/d16/Lab1_8ino.html#a4b323b4ce043aae9bd5021d1db3cce7e">ROWS</a>, <a class="el" href="../../d1/d16/Lab1_8ino.html#a9ae1f1dbd6618fe52b870f67b04b2b58">COLS</a>)</td>
+          <td class="memname">bool hasInternet = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acdf4a026a65cd49e428c574f80e4f3c9" name="acdf4a026a65cd49e428c574f80e4f3c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdf4a026a65cd49e428c574f80e4f3c9">&#9670;&#160;</a></span>inputBuffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String inputBuffer = &quot;&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -646,106 +1055,135 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char keys[<a class="el" href="../../d1/d16/Lab1_8ino.html#a4b323b4ce043aae9bd5021d1db3cce7e">ROWS</a>][<a class="el" href="../../d1/d16/Lab1_8ino.html#a9ae1f1dbd6618fe52b870f67b04b2b58">COLS</a>]</td>
+          <td class="memname">char keys[<a class="el" href="../../d1/d16/Lab1_8ino.html#a829655a147df70dd4cc94eae40a2204e">ROWS</a>][<a class="el" href="../../d1/d16/Lab1_8ino.html#aefd90f1160eaa105bc910d4d7c46b815">COLS</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    {<span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;A&#39;</span>},</div>
-<div class="line">    {<span class="charliteral">&#39;4&#39;</span>, <span class="charliteral">&#39;5&#39;</span>, <span class="charliteral">&#39;6&#39;</span>, <span class="charliteral">&#39;B&#39;</span>},</div>
-<div class="line">    {<span class="charliteral">&#39;7&#39;</span>, <span class="charliteral">&#39;8&#39;</span>, <span class="charliteral">&#39;9&#39;</span>, <span class="charliteral">&#39;C&#39;</span>},</div>
-<div class="line">    {<span class="charliteral">&#39;*&#39;</span>, <span class="charliteral">&#39;0&#39;</span>, <span class="charliteral">&#39;#&#39;</span>, <span class="charliteral">&#39;D&#39;</span>}</div>
-<div class="line">}</div>
+<div class="line">   {<span class="charliteral">&#39;1&#39;</span>,<span class="charliteral">&#39;2&#39;</span>,<span class="charliteral">&#39;3&#39;</span>,<span class="charliteral">&#39;A&#39;</span>},</div>
+<div class="line">   {<span class="charliteral">&#39;4&#39;</span>,<span class="charliteral">&#39;5&#39;</span>,<span class="charliteral">&#39;6&#39;</span>,<span class="charliteral">&#39;B&#39;</span>},</div>
+<div class="line">   {<span class="charliteral">&#39;7&#39;</span>,<span class="charliteral">&#39;8&#39;</span>,<span class="charliteral">&#39;9&#39;</span>,<span class="charliteral">&#39;C&#39;</span>},</div>
+<div class="line">   {<span class="charliteral">&#39;*&#39;</span>,<span class="charliteral">&#39;0&#39;</span>,<span class="charliteral">&#39;#&#39;</span>,<span class="charliteral">&#39;D&#39;</span>}</div>
+<div class="line"> }</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a6292d9c80912550082f1dde5c53e7e0d" name="a6292d9c80912550082f1dde5c53e7e0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6292d9c80912550082f1dde5c53e7e0d">&#9670;&#160;</a></span>ntcPin</h2>
+<a id="a42689e07c5bc087458acc8b891eafad8" name="a42689e07c5bc087458acc8b891eafad8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42689e07c5bc087458acc8b891eafad8">&#9670;&#160;</a></span>lastActionTime</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const int ntcPin = A0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Analogni pin za NTC temperaturni senzor. </p>
-
-</div>
-</div>
-<a id="a34e38fe3ecfecb253240966c839fb908" name="a34e38fe3ecfecb253240966c839fb908"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34e38fe3ecfecb253240966c839fb908">&#9670;&#160;</a></span>resetPasswordPattern</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String resetPasswordPattern = &quot;*201*&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Kod za resetiranje PIN-a. </p>
-
-</div>
-</div>
-<a id="a60eddd2725d354859cbda19a0e1718bd" name="a60eddd2725d354859cbda19a0e1718bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60eddd2725d354859cbda19a0e1718bd">&#9670;&#160;</a></span>rowPins</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t rowPins[<a class="el" href="../../d1/d16/Lab1_8ino.html#a4b323b4ce043aae9bd5021d1db3cce7e">ROWS</a>] = {9, 8, 7, 6}</td>
+          <td class="memname">unsigned long lastActionTime = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a4b323b4ce043aae9bd5021d1db3cce7e" name="a4b323b4ce043aae9bd5021d1db3cce7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b323b4ce043aae9bd5021d1db3cce7e">&#9670;&#160;</a></span>ROWS</h2>
+<a id="ae2798b9aaf993d50c7cea2e69b19ebdd" name="ae2798b9aaf993d50c7cea2e69b19ebdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2798b9aaf993d50c7cea2e69b19ebdd">&#9670;&#160;</a></span>ledErrorPin</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t ROWS = 4</td>
+          <td class="memname">const int ledErrorPin = 4</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a79efceea669fb85a732c30f47cf7e59c" name="a79efceea669fb85a732c30f47cf7e59c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79efceea669fb85a732c30f47cf7e59c">&#9670;&#160;</a></span>servo</h2>
+<a id="a275827bff685d924333de479d882690e" name="a275827bff685d924333de479d882690e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a275827bff685d924333de479d882690e">&#9670;&#160;</a></span>ledSuccessPin</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Servo servo</td>
+          <td class="memname">const int ledSuccessPin = 2</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ab6a80d0d11018361daa0566b1e844bd9" name="ab6a80d0d11018361daa0566b1e844bd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6a80d0d11018361daa0566b1e844bd9">&#9670;&#160;</a></span>servoPin</h2>
+<a id="a4d5f62ce3dacd59608623716f3542037" name="a4d5f62ce3dacd59608623716f3542037"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d5f62ce3dacd59608623716f3542037">&#9670;&#160;</a></span>localPatients</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const int servoPin = 13</td>
+          <td class="memname"><a class="el" href="../../d7/ddc/structLocalPatient.html">LocalPatient</a> localPatients[]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">   {<span class="stringliteral">&quot;12345&quot;</span>, <span class="stringliteral">&quot;Ivan Horvat&quot;</span>, <span class="stringliteral">&quot;101&quot;</span>, <span class="stringliteral">&quot;09:30&quot;</span>, <span class="stringliteral">&quot;Dr. Perić&quot;</span>},</div>
+<div class="line">   {<span class="stringliteral">&quot;67891&quot;</span>, <span class="stringliteral">&quot;Ana Kovač&quot;</span>, <span class="stringliteral">&quot;102&quot;</span>, <span class="stringliteral">&quot;10:15&quot;</span>, <span class="stringliteral">&quot;Dr. Marić&quot;</span>},</div>
+<div class="line">   {<span class="stringliteral">&quot;54321&quot;</span>, <span class="stringliteral">&quot;Marko Novak&quot;</span>, <span class="stringliteral">&quot;103&quot;</span>, <span class="stringliteral">&quot;11:00&quot;</span>, <span class="stringliteral">&quot;Dr. Jurić&quot;</span>},</div>
+<div class="line">   {<span class="stringliteral">&quot;11111&quot;</span>, <span class="stringliteral">&quot;Petra Kralj&quot;</span>, <span class="stringliteral">&quot;104&quot;</span>, <span class="stringliteral">&quot;13:45&quot;</span>, <span class="stringliteral">&quot;Dr. Kovačić&quot;</span>},</div>
+<div class="line">   {<span class="stringliteral">&quot;22222&quot;</span>, <span class="stringliteral">&quot;Josip Tomić&quot;</span>, <span class="stringliteral">&quot;105&quot;</span>, <span class="stringliteral">&quot;14:30&quot;</span>, <span class="stringliteral">&quot;Dr. Babić&quot;</span>}</div>
+<div class="line"> }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a6d6753e0ae098b31e2f84d4024e361cf" name="a6d6753e0ae098b31e2f84d4024e361cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d6753e0ae098b31e2f84d4024e361cf">&#9670;&#160;</a></span>rowPins</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte rowPins[<a class="el" href="../../d1/d16/Lab1_8ino.html#a829655a147df70dd4cc94eae40a2204e">ROWS</a>] = {12, 13, 14, 15}</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Digitalni pin za servo motor. </p>
+</div>
+</div>
+<a id="a829655a147df70dd4cc94eae40a2204e" name="a829655a147df70dd4cc94eae40a2204e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a829655a147df70dd4cc94eae40a2204e">&#9670;&#160;</a></span>ROWS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const byte ROWS = 4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab7a297218fb22d38a00b6305308206b1" name="ab7a297218fb22d38a00b6305308206b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7a297218fb22d38a00b6305308206b1">&#9670;&#160;</a></span>simulatedWiFiMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool simulatedWiFiMode = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac45eb8ac3eb188fc0d9728907d3a0362" name="ac45eb8ac3eb188fc0d9728907d3a0362"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac45eb8ac3eb188fc0d9728907d3a0362">&#9670;&#160;</a></span>TIMEOUT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const unsigned long TIMEOUT = 30000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

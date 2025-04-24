@@ -1,7 +1,0 @@
-<map id="readTemperature" name="readTemperature">
-<area shape="rect" id="Node000001" title="Čita temperaturu s NTC senzora i pretvara je u stupnjeve Celzijusa." alt="" coords="232,5,365,31"/>
-<area shape="rect" id="Node000002" href="$d1/d16/Lab1_8ino.html#a242897a6bb8e137b7e92b6aa057fb9b9" title="Provjerava uneseni PIN. Ako je PIN ispravan i temperatura unutar granica, sef se otključava...." alt="" coords="104,5,184,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,21,184,21,184,15,219,15"/>
-<area shape="rect" id="Node000003" href="$d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Glavna petlja programa. Čita unos s tipkovnice i prikazuje maskirani PIN unos." alt="" coords="5,5,56,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="91,21,56,21,56,15,91,15"/>
-</map>

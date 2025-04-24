@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['readtemperature_0',['readTemperature',['../d1/d16/Lab1_8ino.html#a1d2c55da2f92071c5032d86632a579da',1,'Lab1.ino']]],
-  ['resetiranjem_20pin_20a_20i_20temperaturnim_20ograničenjem_1',['Pametni Sef s PIN Zaštitom, Resetiranjem PIN-a i Temperaturnim Ograničenjem',['../index.html',1,'']]],
-  ['resetpasswordpattern_2',['resetPasswordPattern',['../d1/d16/Lab1_8ino.html#a34e38fe3ecfecb253240966c839fb908',1,'Lab1.ino']]],
-  ['rowpins_3',['rowPins',['../d1/d16/Lab1_8ino.html#a60eddd2725d354859cbda19a0e1718bd',1,'Lab1.ino']]],
-  ['rows_4',['ROWS',['../d1/d16/Lab1_8ino.html#a4b323b4ce043aae9bd5021d1db3cce7e',1,'Lab1.ino']]]
+  ['resettoinputmode_0',['resetToInputMode',['../d1/d16/Lab1_8ino.html#ae4b79fd67844175694542864c20abd28',1,'Lab1.ino']]],
+  ['roomnumber_1',['roomnumber',['../d7/d78/structPatientInfo.html#ab0eddc6e5ab992323023b7e04b01daa6',1,'PatientInfo::roomNumber'],['../d7/ddc/structLocalPatient.html#aa52aa09c91cfab5ade2d4fff39f4d4cd',1,'LocalPatient::roomNumber']]],
+  ['rowpins_2',['rowPins',['../d1/d16/Lab1_8ino.html#a6d6753e0ae098b31e2f84d4024e361cf',1,'Lab1.ino']]],
+  ['rows_3',['ROWS',['../d1/d16/Lab1_8ino.html#a829655a147df70dd4cc94eae40a2204e',1,'Lab1.ino']]]
 ];

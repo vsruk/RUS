@@ -1,5 +1,0 @@
-<map id="newPin" name="newPin">
-<area shape="rect" id="Node000001" title="Omogućuje korisniku postavljanje novog PIN&#45;a. Unos mora biti različit od reset koda." alt="" coords="5,5,75,31"/>
-<area shape="rect" id="Node000002" href="$d1/d16/Lab1_8ino.html#a084782a3a670d7ab4af03145643a364a" title="&lt; Biblioteka za upravljanje servo motorom." alt="" coords="123,5,164,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,15,109,15,109,21,75,21"/>
-</map>

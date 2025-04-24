@@ -1,0 +1,7 @@
+<map id="connectToWiFi" name="connectToWiFi">
+<area shape="rect" id="Node000001" title="Connects to WiFi (real or simulated)." alt="" coords="112,31,227,56"/>
+<area shape="rect" id="Node000002" href="$d1/d16/Lab1_8ino.html#afe461d27b9c48d5921c00d521181f12f" title="Main loop handles state machine and key input." alt="" coords="9,5,60,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,33,60,25,61,20,99,27"/>
+<area shape="rect" id="Node000003" href="$d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title="Setup function initializes LCD, WiFi, Firebase and sets the system to input mode." alt="" coords="5,55,64,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="99,59,65,65,64,60,98,53"/>
+</map>
