@@ -1,7 +1,7 @@
 # .github/workflows/cppcheck.yml
 
 # Naziv workflowa
-name: Cppcheck Analysis and Deploy Report
+name: Cppcheck Analysis and Deploy Report for ESP
 
 # Kada se workflow pokreće
 on:
