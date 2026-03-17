@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['connecttowifi_0',['connectToWiFi',['../d1/d16/Lab1_8ino.html#ae786f8044734bf7283b0df88675335c5',1,'Lab1.ino']]]
+  ['handleinterrupt_0',['handleInterrupt',['../d1/d16/Lab1_8ino.html#a4c96831ab3c332483a603f129028f35c',1,'Lab1.ino']]],
+  ['handleinterrupts_1',['handleInterrupts',['../d1/d16/Lab1_8ino.html#ac5c5aa6ac9677fce5ac2020e921bd47b',1,'Lab1.ino']]],
+  ['handletimerinterrupt_2',['handleTimerInterrupt',['../d1/d16/Lab1_8ino.html#a1fe6e42f17e1c3a667d8642dd2df1ed7',1,'Lab1.ino']]]
 ];

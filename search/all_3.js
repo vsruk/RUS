@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['display_5ferror_0',['DISPLAY_ERROR',['../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75a1b8dfe61ee52c868df2689df2540828f',1,'Lab1.ino']]],
-  ['display_5fpatient_5finfo_1',['DISPLAY_PATIENT_INFO',['../d1/d16/Lab1_8ino.html#aa51313be2faacb739a18fdeecefbac75a0cf113b3a00cbca93902aadd850d3c52',1,'Lab1.ino']]],
-  ['displaypatientinfo_2',['displayPatientInfo',['../d1/d16/Lab1_8ino.html#a98442a31625045560a6fd3e84d4e4d5e',1,'Lab1.ino']]],
-  ['doctor_3',['doctor',['../d7/d78/structPatientInfo.html#af96ad5815b185527a28ea8808e7b0efa',1,'PatientInfo::doctor'],['../d7/ddc/structLocalPatient.html#a2f092b2f85e280cd0704e585dde13aa4',1,'LocalPatient::doctor']]]
+  ['debounce_5fdelay_0',['DEBOUNCE_DELAY',['../d1/d16/Lab1_8ino.html#afab009ca7fd4cf805d5f2d5fc1af8a17',1,'Lab1.ino']]],
+  ['dijagram_20prioriteta_20prekida_1',['Dijagram prioriteta prekida',['../d1/d16/Lab1_8ino.html#priority_diagram',1,'']]],
+  ['dijagram_20toka_20obrade_20prekida_2',['Dijagram toka obrade prekida',['../d1/d16/Lab1_8ino.html#function_flow',1,'']]],
+  ['dijagram_20toka_20programa_3',['Dijagram toka programa',['../d1/d16/Lab1_8ino.html#cfg_tok',1,'']]],
+  ['distancealert_4',['distanceAlert',['../d1/d16/Lab1_8ino.html#aacc1f505ad35a55d6f1a56f6283ee6b7',1,'Lab1.ino']]]
 ];

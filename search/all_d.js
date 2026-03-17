@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['timeout_0',['TIMEOUT',['../d1/d16/Lab1_8ino.html#ac45eb8ac3eb188fc0d9728907d3a0362',1,'Lab1.ino']]],
-  ['truncatestring_1',['truncateString',['../d1/d16/Lab1_8ino.html#a211f792f3c0783031102e8c8ccc1a861',1,'Lab1.ino']]]
+  ['s_20ugradbenim_20sustavima_20primjer_209_20travnja_0',['RUS - Rad s Ugradbenim Sustavima Primjer 9.travnja',['../index.html',1,'']]],
+  ['senzor_1',['HC-SR04 Ultrazvučni senzor',['../index.html#hcsr04',1,'']]],
+  ['setup_2',['setup',['../d1/d16/Lab1_8ino.html#a4fc01d736fe50cf5b977f755b675f11d',1,'Lab1.ino']]],
+  ['simulacija_3',['Projekt i simulacija',['../index.html#links',1,'']]],
+  ['sr04_20ultrazvučni_20senzor_4',['HC-SR04 Ultrazvučni senzor',['../index.html#hcsr04',1,'']]],
+  ['sustavima_20primjer_209_20travnja_5',['RUS - Rad s Ugradbenim Sustavima Primjer 9.travnja',['../index.html',1,'']]]
 ];
