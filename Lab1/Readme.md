@@ -1,4 +1,4 @@
-# Lab1: Prekidi u Ugradbenim Sustavima
+# Lab1: Prekidi u ugradbenim sustavima
 
 ## Opis zadatka
 
@@ -42,6 +42,7 @@ Ovaj zadatak uključuje korištenje mikrokontrolera za demonstraciju rada s viš
    - Razvoj i ispitivanje sustava u Wokwi simulatoru.
    - Dokumentacija projekta kroz GitHub Wiki. Za dokumentaciju ovih vježbi možete iskoristiti Readme.md
    - Jasno dokumentirati način rada programa, uključujući opis svakog prekida i njegovog prioriteta.
+   - Izraditi i priložiti Control Flow Graph (CFG) koji jasno prikazuje tijek izvršavanja glavnog programa i skokove u prekidne rutine (ISR).
 
 ### 4. Korištenje logičkog analizatora  
    - Snimanje i analiza rada prekida pomoću logičkog analizatora.
@@ -77,37 +78,37 @@ Ovaj zadatak uključuje korištenje mikrokontrolera za demonstraciju rada s viš
    - **Važno**: Kako bi ova akcija radila, potrebno je omogućiti **GitHub Pages** u postavkama repozitorija i osigurati da se generirani HTML dokumenti nalaze u `docs/html` direktoriju.
    - **Napomena**: OPcionalno, u slučaju privatnog repozitorija, potrebno je kreirati **Personal Access Token (PAT)** i dodati ga u `secrets` pod imenom `GH_PAT` umjesto `GITHUB_TOKEN`.
    - **Modifikacija Doxygen konfiguracije**: U `Doxyfile` postaviti `OUTPUT_DIRECTORY = ./docs` kako bi se osigurala kompatibilnost s GitHub Actions.
-
+### Završna napomena
+>Sve gore navedene stavke su obvezne.
+>ne postoji obvezni i dodatni dio zadatka
+>ne postoji izbor između pojedinih elemenata
+>zadatak se smatra cjelovito izvršenim isključivo ako su implementirani, ispitani i dokumentirani svi navedeni zahtjevi
 ---
-Reference:
-1. Resursi za odabir mikrokontrolera
+### Reference: Suvremeni resursi za razvoj ugradbenih sustava
 
-	Za odabir odgovarajućeg mikrokontrolera i pristup relevantnoj dokumentaciji, **Mouser Electronics** pruža sljedeće resurse:
+1. **Razvojna okruženja i simulacija**
+   * **PlatformIO**: Moderni ekosustav i alat za profesionalni razvoj ugradbenih sustava (C/C++), integriran u VS Code. [Dostupno na: platformio.org](https://platformio.org/)
+   * **Wokwi Simulator**: Napredni online simulator mikrokontrolera (ESP32, Pi Pico, Arduino) i periferije, idealan za testiranje prekida bez hardvera. [Dostupno na: wokwi.com](https://wokwi.com/)
 
-	## Katalog mikrokontrolera
+2. **Odabir mikrokontrolera i arhitekture**
+   * **Mouser MCU Vodič**: Referentni vodič za vizualizaciju ključnih građevnih blokova modernih mikrokontrolera. [Dostupno na: Mouser MCU Guide](https://emea.info.mouser.com/microcontroller-guide/)
+   * Za specifične implementacije složenih prekida (Nested Interrupts) preporuča se proučavanje arhitektura poput **ARM Cortex-M (NVIC)** ili **ESP32**.
 
-    **Opis**: Mouser nudi širok izbor mikrokontrolera i omogućuje filtriranje prema različitim parametrima kao što su arhitektura, brzina takta, kapacitet memorije i dostupni periferni uređaji.
+3. **Dokumentacija kao kod (Docs-as-Code) i CI/CD**
+   * **Doxygen**: Standardni alat za generiranje dokumentacije iz izvornog koda. [Dostupno na: doxygen.nl](https://www.doxygen.nl/index.html)
+   * **Doxygen Awesome Theme**: Suvremena CSS tema koja Doxygen HTML izlaz čini modernim, responzivnim i prilagođenim za tamni način rada (Dark Mode). [Dostupno na: GitHub - jothepro/doxygen-awesome-css](https://github.com/jothepro/doxygen-awesome-css)
+   * **GitHub Actions za Doxygen**: Automatizacija generiranja dokumentacije i objava na GitHub Pages. [Dostupno na: Doxygen Action (Marketplace)](https://github.com/marketplace/actions/doxygen-and-github-pages)
 
-    Dostupno na:: [Mikrokontroleri - MCU na Mouseru](https://www.mouser.com/c/semiconductors/processors/microcontrollers-mcu/)
+4. **Analiza signala i debagiranje**
+   * **Sigrok & PulseView**: Industrijski standard za open-source analizu logičkih signala. Koristi se za vizualnu potvrdu prioriteta i vremenskog izvršavanja prekidnih rutina (ISR). [Dostupno na: sigrok.org](https://sigrok.org/wiki/PulseView)
 
-    ## Vodič za mikrokontrolere
+5. **Vizualizacija arhitekture i logike programa**
+   * **Mermaid.js**: Alat za generiranje dijagrama (uključujući Control Flow Graph) pomoću teksta. Nativno podržan unutar GitHub Markdown datoteka. [Dostupno na: mermaid.js.org](https://mermaid.js.org/)
+   * **PlantUML**: Otvoreni alat za crtanje UML dijagrama (razred, sekvenca, stanja). [Dostupno na: plantuml.com](https://plantuml.com/)
+     
+  Primjer integracije u .md"http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/vsruk/RUS/main/Lab1/docs/Primjer_RUS_prekidi.puml":
+  ![Primjer_prekida](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/vsruk/RUS/main/Lab1/docs/Primjer_RUS_prekidi.puml)
 
-   **Opis**: Referentni vodič koji sadrži osnovne informacije o najčešćim arhitekturama mikrokontrolera. Ovaj vodič pomaže vizualizirati ključne građevne blokove modernih mikrokontrolera i njihove međusobne veze, što je korisno za inženjere, hobiste i studente.
-
-   Dostupno na:*: [Vaš esencijalni vodič za MCU](https://emea.info.mouser.com/microcontroller-guide/)
-   
-2. Wokwi. *Wokwi -  Napredni online simulator mikrokontrolera  i perifereije**. [Online]. Dostupno na: https://wokwi.com/
-
-3. Automatizacija dokumentacije, van Heesch, D. (1997). *Doxygen*. [Online]. Dostupno na: https://www.doxygen.nl/index.html
-   Primjer: Atomatsko generiranje i implementaciju Doxygen dokumentacije na GitHub Pages 
-        [1] AgarwalSaurav. (n.d.). *Doxygen and GitHub Pages*. GitHub Marketplace. Dostupno na: https://github.c
-		[2] Tehničko veleučilište u Zagrebu. *RUS - Repozitorij za razvoj ugradbenih sustava*. GitHub. Dostupno na: https://github.com/vsruk/RUS
-	
-4. Analiza i vizualizacija podataka snimljenih pomoću Wokwi logičkog analizatora Dostupno na: https://docs.wokwi.com/guides/logic-analyzer#viewing-the-data-in-pulseview	
-
-5. Vizualizacija CFG dijagrama Graphviz diagrama Dostupno [Graphviz Online Editor](https://www.devtoolsdaily.com/graphviz/). 
-
-6. PlantUML, “PlantUML: Open-source tool to draw UML diagrams.”,  Dostupno: https://plantuml
 
 
 
