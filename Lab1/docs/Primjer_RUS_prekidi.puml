@@ -1,0 +1,45 @@
+@startuml
+skinparam defaultTextAlignment center
+skinparam roundcorner 10
+skinparam maxmessagesize 90
+
+title Dijagram tijeka upravljanja: Ugradbeni sustav s prioritetima prekida
+
+start
+:Inicijalizacija sustava;
+:Konfiguracija periferije i tajmera;
+:Postavljanje prioriteta prekida (NVIC);
+:Omogućavanje globalnih prekida;
+
+partition "Glavna petlja" {
+    repeat
+        :Izvršavanje pozadinskih zadataka;
+        :Provjera zastavica događaja (Flags);
+        
+        if (Podaci spremni?) then (Da)
+            :Obrada podataka sa senzora;
+        else (Ne)
+            :Ulazak u način niske potrošnje / Čekanje;
+        endif
+        
+    repeat while (Sustav uključen)
+}
+
+partition "ISR visokog prioriteta (npr. Vanjsko tipkalo/Greška)" #LightPink {
+    note right: Prekida glavnu petlju\ni ISR niskog prioriteta
+    :Sklopovski okidač (Vanjski pin);
+    :Izvršavanje kritičnog koda / Postavljanje semafora;
+    :Brisanje zastavice prekida;
+    :Povratak iz prekida;
+    detach
+}
+
+partition "ISR niskog prioriteta (npr. Otkucaj tajmera)" #LightBlue {
+    note right: Prekida samo glavnu petlju
+    :Sklopovski okidač (Preljev tajmera);
+    :Inkrementiranje brojača / Postavljanje zastavice;
+    :Brisanje zastavice prekida;
+    :Povratak iz prekida;
+    detach
+}
+@enduml
